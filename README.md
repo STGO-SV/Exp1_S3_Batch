@@ -70,6 +70,12 @@ Los listeners registran campos `clave=valor` para facilitar evidencia:
 - item, etapa y motivo de cada skip;
 - intento y excepción de cada retry.
 
+El resumen final agrega exclusivamente los worker steps (no suma nuevamente el manager) y expone
+`inputCount`, `readCount`, `filterCount`, los skips separados por etapa, `writeCount`,
+`totalSkipCount`, `retryCount` y particiones fallidas. Así se pueden comprobar explícitamente
+`inputCount = readCount + readSkipCount` e
+`inputCount = writeCount + totalSkipCount + filterCount`.
+
 Los tests simulan errores transitorios sólo mediante writers de prueba: verifican recuperación en el segundo intento y fallo después de agotar tres intentos.
 
 ## Resultado funcional de Semana 3
@@ -129,6 +135,16 @@ Cada inicio utiliza parámetros nuevos y vuelve a insertar resultados. Para una 
 ```powershell
 .\mvnw.cmd clean test
 ```
+
+Por defecto, los tests buscan los datasets en `../bank_legacy_data/data`, relativo al proyecto.
+En otra ubicación se puede indicar la raíz común sin modificar código:
+
+```powershell
+.\mvnw.cmd clean test "-Dbatch.test-data-root=C:/ruta/al/data"
+```
+
+También se puede sobrescribir sólo Semana 3 con `-Dbatch.test-input-directory=C:/ruta/semana_3`.
+Las variables equivalentes son `BATCH_TEST_DATA_ROOT` y `BATCH_TEST_INPUT_DIR`.
 
 La suite verifica:
 

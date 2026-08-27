@@ -50,7 +50,7 @@ class PartitionBenchmarkTests {
                         "--spring.batch.jdbc.initialize-schema=always",
                         "--spring.sql.init.mode=always",
                         "--batch.run-on-startup=false",
-                        "--batch.input-directory=C:/Dev/Duoc/DBE3/bank_legacy_data/data/semana_3",
+                        "--batch.input-directory=" + TestDatasetPaths.week3(),
                         "--batch.partition.grid-size=" + size,
                         "--batch.partition.thread-count=" + size,
                         "--batch.chunk-size=" + CHUNK_SIZE,

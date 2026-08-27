@@ -10,6 +10,8 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 
 import java.util.List;
@@ -19,7 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(properties = {
         "spring.datasource.url=jdbc:h2:mem:banco_batch_week3;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
-        "batch.input-directory=C:/Dev/Duoc/DBE3/bank_legacy_data/data/semana_3",
         "batch.partition.grid-size=4",
         "batch.partition.thread-count=4",
         "batch.chunk-size=100",
@@ -27,6 +28,11 @@ import static org.assertj.core.api.Assertions.assertThat;
         "logging.level.com.duoc.banco_legacy_batch.listener.BatchSkipLoggingListener=ERROR"
 })
 class Week3PartitionedJobsIntegrationTests {
+
+    @DynamicPropertySource
+    static void configureDataset(DynamicPropertyRegistry registry) {
+        registry.add("batch.input-directory", TestDatasetPaths::week3);
+    }
 
     @Autowired private JobLauncher jobLauncher;
     @Autowired private JdbcClient jdbcClient;
