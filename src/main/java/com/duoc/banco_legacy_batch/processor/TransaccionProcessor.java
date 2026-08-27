@@ -18,6 +18,10 @@ public class TransaccionProcessor implements ItemProcessor<Transaccion, Transacc
 
     @Override
     public TransaccionProcesada process(Transaccion item) {
+        if (item.id() == null || item.fecha() == null || item.monto() == null
+                || item.tipo() == null || item.tipo().isBlank()) {
+            throw new InvalidBatchDataException("La transacción contiene campos obligatorios vacíos");
+        }
         String tipo = item.tipo().trim().toLowerCase(Locale.ROOT);
         if (item.monto().compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidBatchDataException("El monto de la transacción debe ser mayor que cero");

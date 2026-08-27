@@ -17,8 +17,10 @@ public class BatchStepMetricsListener implements StepExecutionListener {
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        LOGGER.info("event=step_start step={} executionId={} status={}",
-                stepExecution.getStepName(), stepExecution.getId(), stepExecution.getStatus());
+        stepExecution.getExecutionContext().putString("batch.thread.name", Thread.currentThread().getName());
+        LOGGER.info("event=step_start step={} executionId={} thread={} status={}",
+                stepExecution.getStepName(), stepExecution.getId(), Thread.currentThread().getName(),
+                stepExecution.getStatus());
     }
 
     @Override
@@ -28,10 +30,11 @@ public class BatchStepMetricsListener implements StepExecutionListener {
                 : Duration.between(stepExecution.getStartTime(),
                         stepExecution.getEndTime() == null ? LocalDateTime.now() : stepExecution.getEndTime()).toMillis();
         long retryCount = stepExecution.getExecutionContext().getLong(RetryMetricsListener.RETRY_COUNT_KEY, 0L);
-        LOGGER.info("event=step_end step={} executionId={} status={} readCount={} writeCount={} "
+        LOGGER.info("event=step_end step={} executionId={} thread={} status={} readCount={} writeCount={} "
                         + "filterCount={} readSkipCount={} processSkipCount={} writeSkipCount={} "
                         + "retryCount={} failures={} durationMs={}",
-                stepExecution.getStepName(), stepExecution.getId(), stepExecution.getStatus(),
+                stepExecution.getStepName(), stepExecution.getId(), Thread.currentThread().getName(),
+                stepExecution.getStatus(),
                 stepExecution.getReadCount(), stepExecution.getWriteCount(), stepExecution.getFilterCount(),
                 stepExecution.getReadSkipCount(), stepExecution.getProcessSkipCount(),
                 stepExecution.getWriteSkipCount(), retryCount, stepExecution.getFailureExceptions().size(), durationMs);

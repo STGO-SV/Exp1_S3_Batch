@@ -17,6 +17,11 @@ public class MovimientoAnualProcessor implements ItemProcessor<MovimientoAnual, 
 
     @Override
     public MovimientoAnualProcesado process(MovimientoAnual item) {
+        if (item.cuentaId() == null || item.fecha() == null || item.transaccion() == null
+                || item.transaccion().isBlank() || item.monto() == null || item.descripcion() == null
+                || item.descripcion().isBlank()) {
+            throw new InvalidBatchDataException("El movimiento anual contiene campos obligatorios vacíos");
+        }
         String tipo = item.transaccion().trim().toLowerCase(Locale.ROOT);
         if (item.monto().compareTo(BigDecimal.ZERO) == 0) {
             throw new InvalidBatchDataException("El monto del movimiento anual no puede ser cero");

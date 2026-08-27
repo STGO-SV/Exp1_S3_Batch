@@ -21,6 +21,10 @@ public class InteresProcessor implements ItemProcessor<CuentaInteres, InteresPro
 
     @Override
     public InteresProcesado process(CuentaInteres item) {
+        if (item.cuentaId() == null || item.nombre() == null || item.nombre().isBlank()
+                || item.saldo() == null || item.edad() == null || item.tipo() == null || item.tipo().isBlank()) {
+            throw new InvalidBatchDataException("La cuenta contiene campos obligatorios vacíos");
+        }
         String tipo = item.tipo().trim().toLowerCase(Locale.ROOT);
         BigDecimal tasa = TASAS.get(tipo);
         if (item.saldo().compareTo(BigDecimal.ZERO) < 0) {

@@ -54,10 +54,12 @@ class BatchJobsIntegrationTests {
                 .query(String.class).single();
         assertThat(new BigDecimal(saldo)).isEqualByComparingTo("5050.00");
 
-        assertThat(unicoStep(transacciones).getProcessSkipCount()).isEqualTo(2);
-        assertThat(unicoStep(intereses).getProcessSkipCount()).isEqualTo(1);
-        assertThat(unicoStep(movimientos).getProcessSkipCount()).isEqualTo(1);
-        assertThat(unicoStep(transacciones).getExecutionContext().getLong("batch.retry.count", 0L)).isZero();
+        assertThat(managerStep(transacciones).getProcessSkipCount()).isEqualTo(2);
+        assertThat(managerStep(intereses).getProcessSkipCount()).isEqualTo(1);
+        assertThat(managerStep(movimientos).getProcessSkipCount()).isEqualTo(1);
+        assertThat(workerSteps(transacciones)).hasSize(4).allMatch(step -> step.getStatus() == BatchStatus.COMPLETED);
+        assertThat(workerSteps(transacciones)).allMatch(step ->
+                step.getExecutionContext().getLong("batch.retry.count", 0L) == 0L);
     }
 
     private JobExecution ejecutar(Job job, long id) throws Exception {
@@ -67,9 +69,16 @@ class BatchJobsIntegrationTests {
         return execution;
     }
 
-    private org.springframework.batch.core.StepExecution unicoStep(JobExecution execution) {
-        assertThat(execution.getStepExecutions()).hasSize(1);
-        return execution.getStepExecutions().iterator().next();
+    private org.springframework.batch.core.StepExecution managerStep(JobExecution execution) {
+        return execution.getStepExecutions().stream()
+                .filter(step -> !step.getStepName().contains(":"))
+                .findFirst().orElseThrow();
+    }
+
+    private java.util.List<org.springframework.batch.core.StepExecution> workerSteps(JobExecution execution) {
+        return execution.getStepExecutions().stream()
+                .filter(step -> step.getStepName().contains(":"))
+                .toList();
     }
 
     private Integer contar(String tabla) {
