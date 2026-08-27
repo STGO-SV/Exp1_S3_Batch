@@ -1,5 +1,6 @@
 package com.duoc.banco_legacy_batch.processor;
 
+import com.duoc.banco_legacy_batch.exception.InvalidBatchDataException;
 import com.duoc.banco_legacy_batch.model.CuentaInteres;
 import com.duoc.banco_legacy_batch.model.InteresProcesado;
 import org.springframework.batch.item.ItemProcessor;
@@ -22,8 +23,11 @@ public class InteresProcessor implements ItemProcessor<CuentaInteres, InteresPro
     public InteresProcesado process(CuentaInteres item) {
         String tipo = item.tipo().trim().toLowerCase(Locale.ROOT);
         BigDecimal tasa = TASAS.get(tipo);
-        if (item.saldo().compareTo(BigDecimal.ZERO) < 0 || tasa == null) {
-            return null;
+        if (item.saldo().compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidBatchDataException("El saldo no puede ser negativo");
+        }
+        if (tasa == null) {
+            throw new InvalidBatchDataException("Tipo de cuenta no reconocido: " + tipo);
         }
         BigDecimal saldoProcesado = item.saldo()
                 .multiply(BigDecimal.ONE.add(tasa))

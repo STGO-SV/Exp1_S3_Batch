@@ -38,9 +38,9 @@ class BatchJobsIntegrationTests {
 
     @Test
     void ejecutaLosTresJobsYPersisteResultadosEsperados() throws Exception {
-        ejecutar(transaccionesJob, 1L);
-        ejecutar(interesesJob, 2L);
-        ejecutar(estadosAnualesJob, 3L);
+        JobExecution transacciones = ejecutar(transaccionesJob, 1L);
+        JobExecution intereses = ejecutar(interesesJob, 2L);
+        JobExecution movimientos = ejecutar(estadosAnualesJob, 3L);
 
         assertThat(contar("transaccion_procesada")).isEqualTo(8);
         assertThat(contar("interes_procesado")).isEqualTo(7);
@@ -53,12 +53,23 @@ class BatchJobsIntegrationTests {
         String saldo = jdbcClient.sql("SELECT CAST(saldo_procesado AS VARCHAR) FROM interes_procesado WHERE cuenta_id = 101")
                 .query(String.class).single();
         assertThat(new BigDecimal(saldo)).isEqualByComparingTo("5050.00");
+
+        assertThat(unicoStep(transacciones).getProcessSkipCount()).isEqualTo(2);
+        assertThat(unicoStep(intereses).getProcessSkipCount()).isEqualTo(1);
+        assertThat(unicoStep(movimientos).getProcessSkipCount()).isEqualTo(1);
+        assertThat(unicoStep(transacciones).getExecutionContext().getLong("batch.retry.count", 0L)).isZero();
     }
 
-    private void ejecutar(Job job, long id) throws Exception {
+    private JobExecution ejecutar(Job job, long id) throws Exception {
         JobExecution execution = jobLauncher.run(job,
                 new JobParametersBuilder().addLong("testId", id).toJobParameters());
         assertThat(execution.getStatus()).isEqualTo(BatchStatus.COMPLETED);
+        return execution;
+    }
+
+    private org.springframework.batch.core.StepExecution unicoStep(JobExecution execution) {
+        assertThat(execution.getStepExecutions()).hasSize(1);
+        return execution.getStepExecutions().iterator().next();
     }
 
     private Integer contar(String tabla) {

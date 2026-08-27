@@ -1,5 +1,6 @@
 package com.duoc.banco_legacy_batch.processor;
 
+import com.duoc.banco_legacy_batch.exception.InvalidBatchDataException;
 import com.duoc.banco_legacy_batch.model.Transaccion;
 import com.duoc.banco_legacy_batch.model.TransaccionProcesada;
 import org.springframework.batch.item.ItemProcessor;
@@ -18,8 +19,11 @@ public class TransaccionProcessor implements ItemProcessor<Transaccion, Transacc
     @Override
     public TransaccionProcesada process(Transaccion item) {
         String tipo = item.tipo().trim().toLowerCase(Locale.ROOT);
-        if (item.monto().compareTo(BigDecimal.ZERO) <= 0 || !TIPOS_VALIDOS.contains(tipo)) {
-            return null;
+        if (item.monto().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidBatchDataException("El monto de la transacción debe ser mayor que cero");
+        }
+        if (!TIPOS_VALIDOS.contains(tipo)) {
+            throw new InvalidBatchDataException("Tipo de transacción no reconocido: " + tipo);
         }
         boolean anomalia = item.monto().compareTo(UMBRAL_ANOMALIA) > 0;
         return new TransaccionProcesada(item.id(), item.fecha(), item.monto(), tipo, anomalia);

@@ -8,7 +8,24 @@ Línea base secuencial de Spring Batch para procesar los CSV académicos de la S
 - `interesesMensualesJob`: acepta `ahorro` y `prestamo`. Aplica respectivamente tasas convencionales de 1% y 2% al saldo; no representa una regla financiera real.
 - `estadosCuentaAnualesJob`: normaliza tipo y descripción, acepta `deposito`, `retiro` y `compra`, y descarta movimientos de monto cero.
 
-Los procesadores devuelven `null` para registros que no cumplen las reglas. Cada Step permite omitir hasta 10 líneas que no puedan parsearse; los errores de escritura en base de datos no se ocultan.
+Los procesadores lanzan una excepción de validación para registros que no cumplen las reglas. Cada Step permite omitir hasta 10 errores de datos o líneas que no puedan parsearse; los errores fatales de escritura en base de datos no se ocultan.
+
+## Resiliencia y observabilidad
+
+Los tres Steps conservan la ejecución secuencial y aplican estas políticas explícitas:
+
+- errores deterministas de validación (`InvalidBatchDataException`) o parsing (`FlatFileParseException`): `skip`, límite 10;
+- errores transitorios de acceso a datos (`TransientDataAccessException`): `retry`, máximo 3 intentos;
+- cualquier error no clasificado: el Step y el Job fallan.
+
+Los rechazos de negocio se registran como `processSkipCount`; no se reintentan. Los listeners generan logs estructurados mediante pares `clave=valor`:
+
+- `BatchJobMetricsListener`: inicio, fin, estado, duración y fallos del Job;
+- `BatchStepMetricsListener`: lecturas, escrituras, filtros, skips por etapa, retries, fallos y duración;
+- `BatchSkipLoggingListener`: item, etapa, excepción y motivo de cada skip;
+- `RetryMetricsListener`: intento, Step, excepción y motivo de cada retry transitorio.
+
+El retry se demuestra mediante writers simulados exclusivamente en tests: uno se recupera en el segundo intento y otro falla después de agotar tres intentos. La lógica productiva no contiene fallos artificiales.
 
 ## PostgreSQL
 
@@ -48,6 +65,10 @@ Las pruebas usan H2 en memoria, ejecutan los tres Jobs con los CSV reales y veri
 - 8 movimientos anuales procesados;
 - 1 transacción marcada como anomalía;
 - saldo procesado `5050.00` para la cuenta 101.
+- skips de validación y sus contadores;
+- ausencia de retry para errores permanentes de datos;
+- recuperación tras una excepción transitoria;
+- fallo correcto al superar el límite de retry.
 
 ## Consultas de comprobación
 
