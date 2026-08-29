@@ -1,10 +1,12 @@
 # Banco Legacy Batch — Semana 3
 
-Proyecto académico de Spring Batch para modernizar tres procesos legacy ficticios del Banco XYZ. La solución conserva una lógica bancaria deliberadamente simple y concentra la complejidad en particionamiento, paralelismo, resiliencia y observabilidad.
+Proyecto académico de **Spring Batch** desarrollado para la actividad sumativa de la Semana 3 de la asignatura Desarrollo Backend III.
 
-## Arquitectura
+El objetivo de esta entrega es optimizar la ejecución de tres procesos batch mediante particionamiento, procesamiento paralelo, tolerancia a fallos, métricas y comparación de configuraciones, utilizando los archivos de `bank_legacy_data` como fuente y PostgreSQL como base de datos de persistencia.
 
-Cada Job sigue este flujo:
+## Propuesta técnica
+
+La solución utiliza una arquitectura **manager/worker con particiones**:
 
 ```text
 Job
@@ -13,74 +15,105 @@ Job
      ├─ ExecutionContext(minValue, maxValue)
      └─ Worker Steps paralelos
          └─ Reader @StepScope independiente
-             → Processor
-             → Writer JDBC
+             → ItemProcessor
+             → JdbcBatchItemWriter
              → PostgreSQL
 ```
 
-No se comparte `FlatFileItemReader` entre threads. Cada worker crea su propio reader y filtra exclusivamente el rango lógico asignado. Los Jobs se lanzan secuencialmente, pero las particiones de cada Job se ejecutan en paralelo mediante un `ThreadPoolTaskExecutor` explícito.
+Cada worker crea su propio reader. No se comparte un `FlatFileItemReader` entre threads.
 
-## Jobs y particionamiento
+Los tres Jobs se ejecutan secuencialmente, mientras que las particiones internas de cada Job se procesan en paralelo mediante un `ThreadPoolTaskExecutor`.
 
-- `transaccionesDiariasJob`: particiona `transacciones.csv` por rango de `id`; acepta montos positivos y tipos `debito`/`credito`, y marca como anomalía académica un monto superior a 2000.
-- `interesesMensualesJob`: particiona `intereses.csv` por `cuenta_id`, por lo que todos los registros de una cuenta quedan en el mismo worker; aplica tasas académicas de 1% para `ahorro` y 2% para `prestamo`.
-- `estadosCuentaAnualesJob`: particiona `cuentas_anuales.csv` por `cuenta_id`; normaliza tipo y descripción y acepta `deposito`, `retiro` y `compra`.
+## Jobs implementados
 
-El `CsvColumnRangePartitioner` obtiene los límites reales desde cada CSV y crea rangos contiguos, completos y sin solapamientos. Los readers aceptan fechas estrictas en formatos `yyyy-MM-dd`, `dd-MM-yyyy`, `dd/MM/yyyy` y `yyyy/MM/dd`.
+### `transaccionesDiariasJob`
+
+- Fuente: `transacciones.csv`.
+- Particionamiento: rango de `id`.
+- Valida y procesa cada transacción.
+- Rechaza registros con datos obligatorios ausentes o inválidos.
+- Persiste resultados en `transaccion_procesada`.
+
+### `interesesMensualesJob`
+
+- Fuente: `intereses.csv`.
+- Particionamiento: rango de `cuenta_id`.
+- Mantiene los registros de una misma cuenta dentro del mismo rango lógico.
+- Valida los datos y aplica la transformación definida para ahorro y préstamo.
+- Persiste resultados en `interes_procesado`.
+
+### `estadosCuentaAnualesJob`
+
+- Fuente: `cuentas_anuales.csv`.
+- Particionamiento: rango de `cuenta_id`.
+- Normaliza y valida los movimientos anuales.
+- Persiste resultados en `movimiento_anual_procesado`.
 
 ## Estructura principal
 
 ```text
 src/main/java/com/duoc/banco_legacy_batch/
-├── config/       # executor y partitioners
-├── exception/    # errores deterministas de datos
+├── config/       # executor y configuración de particionamiento
+├── exception/    # excepciones de datos inválidos
 ├── job/          # Jobs, manager Steps y worker Steps
-├── listener/     # métricas, skip y retry
-├── model/        # entradas y resultados procesados
-├── partition/    # particionamiento por rangos CSV
+├── listener/     # métricas, skips y retries
+├── model/        # modelos de entrada y salida
+├── partition/    # particionamiento por rangos
 ├── processor/    # validaciones y transformaciones
 ├── reader/       # readers @StepScope por partición
 └── writer/       # writers JDBC
 ```
 
-## Configuración de escalado
+## Particionamiento y paralelismo
 
-| Variable | Propiedad | Predeterminado |
-|---|---|---:|
-| `BATCH_GRID_SIZE` | `batch.partition.grid-size` | 4 |
-| `BATCH_THREAD_COUNT` | `batch.partition.thread-count` | 4 |
-| `BATCH_CHUNK_SIZE` | `batch.chunk-size` | 100 |
-| `BATCH_SKIP_LIMIT` | `batch.skip-limit` | 1000 |
-| `BATCH_INPUT_DIR` | `batch.input-directory` | `C:/Dev/Duoc/DBE3/bank_legacy_data/data/semana_3` |
+`CsvColumnRangePartitioner` obtiene los valores mínimo y máximo desde cada CSV y construye rangos contiguos sin solapamiento.
 
-El límite de skip es parametrizable porque los CSV de Semana 3 contienen cientos de casos inválidos intencionales. Semana 1 continúa probándose con límite 10.
+Cada partición recibe sus límites mediante `ExecutionContext`.
 
-## Resiliencia y observabilidad
+Los readers de los workers son `@StepScope`, por lo que cada worker trabaja con una instancia independiente y segura para ejecución paralela.
 
-- `InvalidBatchDataException` y `FlatFileParseException`: skip determinista, sin retry.
-- `TransientDataAccessException`: máximo 3 intentos.
-- Cualquier error no clasificado: fallo del worker, manager y Job.
+La cantidad de worker steps depende de `gridSize`; cada worker registra de manera independiente su thread, timestamps, métricas y estado de ejecución.
 
-Los listeners registran campos `clave=valor` para facilitar evidencia:
+## Resiliencia y tolerancia a fallos
 
-- inicio, fin, estado y duración del Job;
-- configuración grid/threads/chunk;
-- cantidad de particiones y particiones fallidas;
-- thread, duración, read/write/filter/skip/retry por worker;
-- item, etapa y motivo de cada skip;
-- intento y excepción de cada retry.
+La política distingue errores permanentes de errores transitorios:
 
-El resumen final agrega exclusivamente los worker steps (no suma nuevamente el manager) y expone
-`inputCount`, `readCount`, `filterCount`, los skips separados por etapa, `writeCount`,
-`totalSkipCount`, `retryCount` y particiones fallidas. Así se pueden comprobar explícitamente
-`inputCount = readCount + readSkipCount` e
-`inputCount = writeCount + totalSkipCount + filterCount`.
+- `InvalidBatchDataException`: skip, sin retry.
+- `FlatFileParseException`: skip, sin retry.
+- `TransientDataAccessException`: hasta 3 intentos.
+- Errores no clasificados: provocan el fallo del worker y del Job.
 
-Los tests simulan errores transitorios sólo mediante writers de prueba: verifican recuperación en el segundo intento y fallo después de agotar tres intentos.
+Los listeners registran, entre otros datos:
+
+- inicio, fin, estado y duración;
+- configuración de grid, threads y chunk;
+- particiones creadas y fallidas;
+- thread utilizado por cada worker;
+- `readCount`, `writeCount` y `filterCount`;
+- skips separados por etapa;
+- `retryCount`.
+
+Las métricas finales se agregan desde los worker steps, evitando sumar nuevamente los conteos del manager step.
+
+Las principales relaciones de reconciliación son:
+
+```text
+inputCount = readCount + readSkipCount
+
+totalSkipCount =
+    readSkipCount
+  + processSkipCount
+  + writeSkipCount
+
+inputCount =
+    writeCount
+  + totalSkipCount
+  + filterCount
+```
 
 ## Resultado funcional de Semana 3
 
-Los tres archivos contienen 1000 filas. La reconciliación verificada es:
+Cada archivo de Semana 3 contiene 1000 filas.
 
 | Job | Input | Written | Skipped | Estado |
 |---|---:|---:|---:|---|
@@ -89,87 +122,221 @@ Los tres archivos contienen 1000 filas. La reconciliación verificada es:
 | Estado anual | 1000 | 642 | 358 | COMPLETED |
 | **Total** | **3000** | **1325** | **1675** | **COMPLETED** |
 
-Se verifica también que los 401 `transaccion_id` persistidos sean distintos, evitando duplicados causados por particionamiento.
+También se verificó que los **401 `transaccion_id` persistidos son distintos**, evitando duplicados producidos por el procesamiento paralelo.
 
-## Benchmark
+## Configuración de escalado
 
-`PartitionBenchmarkTests` ejecuta los tres Jobs en H2 aislado, realiza tres iteraciones por configuración y registra la mediana en `target/benchmark-results.csv`. La evidencia consolidada está en [`docs/benchmark-results.csv`](docs/benchmark-results.csv).
+La aplicación permite parametrizar el escalamiento mediante variables de entorno:
 
-Resultados medidos en este equipo, con chunk 100:
-
-| Grid | Threads | Mediana total | Resultado |
-|---:|---:|---:|---|
-| 1 | 1 | 389 ms | COMPLETED |
-| 2 | 2 | 200 ms | COMPLETED |
-| 4 | 4 | 126 ms | COMPLETED |
-| 8 | 8 | 130 ms | COMPLETED |
-
-La configuración elegida es **grid 4, threads 4, chunk 100**. Fue la más rápida de la medición final y evita duplicar recursos para una configuración 8×8 que no mejoró el tiempo. Los tiempos dependen del hardware; se deben regenerar como evidencia en el equipo evaluador.
-
-## PostgreSQL
-
-| Variable | Valor predeterminado |
+| Variable | Uso |
 |---|---|
-| `DB_URL` | `jdbc:postgresql://localhost:5432/banco_legacy_batch` |
-| `DB_USER` | `postgres` |
-| `DB_PASSWORD` | `postgres` |
+| `BATCH_GRID_SIZE` | cantidad de particiones |
+| `BATCH_THREAD_COUNT` | cantidad máxima de threads |
+| `BATCH_CHUNK_SIZE` | tamaño de chunk |
+| `BATCH_SKIP_LIMIT` | límite de skips |
+| `BATCH_INPUT_DIR` | directorio de entrada |
 
-La base y las credenciales deben existir antes del inicio. No se almacenan credenciales reales. Spring crea las tablas Batch y las tablas de resultados mediante `schema.sql`.
+Para comparar el efecto del paralelismo se mantuvo:
+
+```text
+chunkSize = 100
+```
+
+y se evaluaron las configuraciones:
+
+```text
+1×1
+2×2
+4×4
+8×8
+```
+
+## Benchmark de configuraciones
+
+`PartitionBenchmarkTests` ejecuta los tres Jobs sobre H2 aislado para mantener un entorno reproducible.
+
+Cada ejecución del benchmark realiza tres iteraciones internas por configuración y reporta la mediana de esas tres iteraciones.
+
+Para reducir la variabilidad del entorno, el benchmark completo se ejecutó cinco veces de forma independiente. Por tanto, cada valor T1–T5 de la tabla corresponde a la mediana de tres iteraciones.
+
+En total, cada configuración fue observada en 15 mediciones internas.
+
+| Grid | Threads | T1 | T2 | T3 | T4 | T5 | Promedio | Mediana |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 1 | 449 | 502 | 430 | 426 | 449 | 451,2 ms | 449 ms |
+| 2 | 2 | 209 | 216 | 215 | 297 | 286 | 244,6 ms | 216 ms |
+| 4 | 4 | 131 | 149 | 147 | 132 | 193 | 150,4 ms | 147 ms |
+| 8 | 8 | 118 | 131 | 194 | 147 | 144 | **146,8 ms** | **144 ms** |
+
+La configuración seleccionada para esta entrega es:
+
+```text
+gridSize = 8
+threads = 8
+chunkSize = 100
+```
+
+La configuración **8×8** obtuvo el menor tiempo promedio y la menor mediana entre las alternativas evaluadas.
+
+Los tiempos dependen del hardware y de la carga del sistema, por lo que esta conclusión corresponde al entorno de prueba utilizado y no pretende establecer un óptimo universal.
+
+## Requisitos
+
+- Java 21
+- Maven 3.x o Maven Wrapper incluido
+- PostgreSQL
+- Base de datos `banco_legacy_batch`
+- Dataset `bank_legacy_data`
+
+## Configuración de PostgreSQL
+
+Las credenciales se definieron mediante variables de entorno:
 
 ```powershell
 $env:DB_URL = 'jdbc:postgresql://localhost:5432/banco_legacy_batch'
 $env:DB_USER = 'tu_usuario'
 $env:DB_PASSWORD = 'tu_clave'
-$env:BATCH_INPUT_DIR = 'C:/Dev/Duoc/DBE3/bank_legacy_data/data/semana_3'
-$env:BATCH_GRID_SIZE = '4'
-$env:BATCH_THREAD_COUNT = '4'
+```
+
+No se almacenan credenciales reales en el repositorio.
+
+## Configuración recomendada
+
+```powershell
+$env:BATCH_INPUT_DIR = 'C:/ruta/bank_legacy_data/data/semana_3'
+$env:BATCH_GRID_SIZE = '8'
+$env:BATCH_THREAD_COUNT = '8'
 $env:BATCH_CHUNK_SIZE = '100'
 $env:BATCH_SKIP_LIMIT = '1000'
+```
+
+## Ejecución
+
+Con Maven Wrapper:
+
+```powershell
 .\mvnw.cmd spring-boot:run
 ```
 
-Cada inicio utiliza parámetros nuevos y vuelve a insertar resultados. Para una evidencia con conteos exactos debe utilizarse una base vacía o comparar los conteos antes y después; no se eliminan datos automáticamente.
-
-## Tests y benchmark reproducible
+Con Maven instalado globalmente:
 
 ```powershell
-.\mvnw.cmd clean test
+mvn spring-boot:run
 ```
 
-Por defecto, los tests buscan los datasets en `../bank_legacy_data/data`, relativo al proyecto.
-En otra ubicación se puede indicar la raíz común sin modificar código:
+La ejecución debe finalizar los tres Jobs con estado `COMPLETED`.
+
+## Tests
+
+Suite completa:
 
 ```powershell
-.\mvnw.cmd clean test "-Dbatch.test-data-root=C:/ruta/al/data"
+mvn clean test
 ```
 
-También se puede sobrescribir sólo Semana 3 con `-Dbatch.test-input-directory=C:/ruta/semana_3`.
-Las variables equivalentes son `BATCH_TEST_DATA_ROOT` y `BATCH_TEST_INPUT_DIR`.
+Resultado verificado:
+
+```text
+Tests run: 11
+Failures: 0
+Errors: 0
+Skipped: 0
+BUILD SUCCESS
+```
 
 La suite verifica:
 
-- regresión completa de Semana 1;
-- límites contiguos de partición;
-- reader limitado a su rango;
+- ejecución funcional de los tres Jobs;
+- particiones contiguas y sin solapamiento;
+- readers limitados a su rango;
 - workers en threads `batch-partition-*`;
-- cobertura y reconciliación de 3000 entradas;
+- reconciliación de las 3000 entradas;
 - ausencia de duplicados por paralelismo;
 - skips y estados finales;
 - retry recuperable y retry agotado;
-- parametrización y benchmark 1×1, 2×2, 4×4 y 8×8.
+- comparación 1×1, 2×2, 4×4 y 8×8.
 
-## Consultas de evidencia
+## Ejecución aislada del benchmark
+
+```powershell
+mvn "-Dtest=PartitionBenchmarkTests" test
+```
+
+El benchmark genera:
+
+```text
+target/benchmark-results.csv
+```
+
+## Dataset de tests
+
+La ubicación de los datasets puede configurarse sin modificar código.
+
+Raíz común:
+
+```powershell
+mvn clean test "-Dbatch.test-data-root=C:/ruta/bank_legacy_data/data"
+```
+
+Sólo Semana 3:
+
+```powershell
+mvn clean test "-Dbatch.test-input-directory=C:/ruta/bank_legacy_data/data/semana_3"
+```
+
+También pueden utilizarse:
+
+```text
+BATCH_TEST_DATA_ROOT
+BATCH_TEST_INPUT_DIR
+```
+
+## Evidencia de ejecución
+
+La entrega incorpora evidencias de:
+
+1. los tres Jobs con estado `COMPLETED`;
+2. manager steps y worker partitions;
+3. ejecución concurrente;
+4. reconciliación de los 3000 registros;
+5. persistencia en PostgreSQL;
+6. ausencia de duplicados;
+7. suite de 11 tests con `BUILD SUCCESS`;
+8. retry recuperable y retry agotado;
+9. comparación de configuraciones de escalamiento.
+
+## Verificaciones SQL principales
+
+Conteos esperados sobre tablas limpias tras una única ejecución:
 
 ```sql
-SELECT COUNT(*), COUNT(DISTINCT transaccion_id) FROM transaccion_procesada;
-SELECT COUNT(*) FROM interes_procesado;
-SELECT COUNT(*) FROM movimiento_anual_procesado;
-
-SELECT job_execution_id, status, start_time, end_time
-FROM batch_job_execution ORDER BY job_execution_id DESC;
-
-SELECT step_name, status, read_count, write_count,
-       read_skip_count, process_skip_count, write_skip_count
-FROM batch_step_execution
-ORDER BY step_execution_id DESC;
+SELECT COUNT(*) FROM transaccion_procesada;       -- 401
+SELECT COUNT(*) FROM interes_procesado;           -- 282
+SELECT COUNT(*) FROM movimiento_anual_procesado;  -- 642
 ```
+
+Ausencia de duplicados de transacciones:
+
+```sql
+SELECT
+    COUNT(*) AS total_registros,
+    COUNT(DISTINCT transaccion_id) AS ids_distintos
+FROM transaccion_procesada;
+```
+
+Resultado esperado:
+
+```text
+total_registros = 401
+ids_distintos   = 401
+```
+
+La metadata de Spring Batch queda disponible en `batch_job_execution` y `batch_step_execution` para comprobar estados, tiempos, métricas y particiones.
+
+## Nota sobre reejecución
+
+Cada ejecución utiliza nuevos parámetros de Job y vuelve a insertar los resultados procesados.
+
+Para obtener conteos exactos de una ejecución, use tablas de salida limpias o compare los conteos antes y después.
+
+No se eliminan datos automáticamente.
