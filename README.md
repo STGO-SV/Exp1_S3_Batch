@@ -1,196 +1,73 @@
-# Banco Legacy Batch — Semana 3
+# Banco Legacy — Batch y Backend for Frontend
 
-Proyecto académico de **Spring Batch** desarrollado para la actividad sumativa de la Semana 3 de la asignatura Desarrollo Backend III.
+Proyecto académico de Desarrollo Backend III que moderniza procesos legacy del Banco XYZ. Las entregas anteriores incorporaron procesamiento Spring Batch sobre CSV; Semana 4 añade tres Backend for Frontend (BFF) independientes para Web, Móvil y Cajeros Automáticos.
 
-El objetivo de esta entrega es optimizar la ejecución de tres procesos batch mediante particionamiento, procesamiento paralelo, tolerancia a fallos, métricas y comparación de configuraciones, utilizando los archivos de `bank_legacy_data` como fuente y PostgreSQL como base de datos de persistencia.
+## Arquitectura
 
-## Propuesta técnica
-
-La solución utiliza una arquitectura **manager/worker con particiones**:
+El repositorio es un reactor Maven multi-módulo:
 
 ```text
-Job
- └─ Manager Step
-     ├─ Partitioner por rango
-     ├─ ExecutionContext(minValue, maxValue)
-     └─ Worker Steps paralelos
-         └─ Reader @StepScope independiente
-             → ItemProcessor
-             → JdbcBatchItemWriter
-             → PostgreSQL
+banco-legacy/
+├── banco-legacy-batch       # ETL legacy; único módulo que ejecuta jobs
+├── banco-legacy-core        # lectura JDBC y servicios comunes de consulta
+├── banco-legacy-web-bff     # API rica para interfaces Web
+├── banco-legacy-mobile-bff  # API compacta para dispositivos móviles
+└── banco-legacy-atm-bff     # API mínima y operaciones académicas de ATM
 ```
 
-Cada worker crea su propio reader. No se comparte un `FlatFileItemReader` entre threads.
-
-Los tres Jobs se ejecutan secuencialmente, mientras que las particiones internas de cada Job se procesan en paralelo mediante un `ThreadPoolTaskExecutor`.
-
-## Jobs implementados
-
-### `transaccionesDiariasJob`
-
-- Fuente: `transacciones.csv`.
-- Particionamiento: rango de `id`.
-- Valida y procesa cada transacción.
-- Rechaza registros con datos obligatorios ausentes o inválidos.
-- Persiste resultados en `transaccion_procesada`.
-
-### `interesesMensualesJob`
-
-- Fuente: `intereses.csv`.
-- Particionamiento: rango de `cuenta_id`.
-- Mantiene los registros de una misma cuenta dentro del mismo rango lógico.
-- Valida los datos y aplica la transformación definida para ahorro y préstamo.
-- Persiste resultados en `interes_procesado`.
-
-### `estadosCuentaAnualesJob`
-
-- Fuente: `cuentas_anuales.csv`.
-- Particionamiento: rango de `cuenta_id`.
-- Normaliza y valida los movimientos anuales.
-- Persiste resultados en `movimiento_anual_procesado`.
-
-## Estructura principal
+Cada BFF es una aplicación Spring Boot desplegable y protegida por separado. Los BFF dependen de `banco-legacy-core`; el core no depende de ellos. El módulo batch permanece aislado y no está en el classpath de ningún BFF, por lo que `BatchJobRunner` no puede ejecutarse al iniciar una API.
 
 ```text
-src/main/java/com/duoc/banco_legacy_batch/
-├── config/       # executor y configuración de particionamiento
-├── exception/    # excepciones de datos inválidos
-├── job/          # Jobs, manager Steps y worker Steps
-├── listener/     # métricas, skips y retries
-├── model/        # modelos de entrada y salida
-├── partition/    # particionamiento por rangos
-├── processor/    # validaciones y transformaciones
-├── reader/       # readers @StepScope por partición
-└── writer/       # writers JDBC
+CSV legacy -> Batch -> PostgreSQL <- Core JDBC <- Web BFF
+                                             <- Mobile BFF
+                                             <- ATM BFF
 ```
 
-## Particionamiento y paralelismo
+Se eligieron aplicaciones separadas porque el patrón BFF crea un backend ajustado a cada experiencia, con contratos y seguridad que pueden evolucionar independientemente. No se exponen tablas desde controllers: cada petición atraviesa controller, DTO del canal, servicio de aplicación y repositorio JDBC.
 
-`CsvColumnRangePartitioner` obtiene los valores mínimo y máximo desde cada CSV y construye rangos contiguos sin solapamiento.
+## Diferenciación por canal
 
-Cada partición recibe sus límites mediante `ExecutionContext`.
+| Canal | Puerto | Propósito | Respuesta |
+|---|---:|---|---|
+| Web | 8081 | Interfaz compleja y análisis | Titular, tipo, saldo original/procesado, tasa, 20 movimientos detallados y 10 anomalías |
+| Móvil | 8082 | Consulta rápida | Resumen de tres campos y hasta 5 movimientos sin descripción |
+| ATM | 8083 | Operación crítica mínima | Saldo, hasta 3 movimientos esenciales y simulación de retiro |
 
-Los readers de los workers son `@StepScope`, por lo que cada worker trabaja con una instancia independiente y segura para ejecución paralela.
+Los contratos no son copias con rutas diferentes. Web usa `WebAccountDashboard`; Móvil usa `MobileAccountSummary` y `MobileMovement`; ATM usa `AtmBalance`, `AtmMovement`, `WithdrawalRequest` y `WithdrawalResponse`.
 
-La cantidad de worker steps depende de `gridSize`; cada worker registra de manera independiente su thread, timestamps, métricas y estado de ejecución.
+## Datos legacy
 
-## Resiliencia y tolerancia a fallos
+El batch procesa:
 
-La política distingue errores permanentes de errores transitorios:
+- `transacciones.csv` hacia `transaccion_procesada`;
+- `intereses.csv` hacia `interes_procesado`;
+- `cuentas_anuales.csv` hacia `movimiento_anual_procesado`.
 
-- `InvalidBatchDataException`: skip, sin retry.
-- `FlatFileParseException`: skip, sin retry.
-- `TransientDataAccessException`: hasta 3 intentos.
-- Errores no clasificados: provocan el fallo del worker y del Job.
+`banco-legacy-core` consulta el último saldo procesado por cuenta, movimientos recientes y anomalías. Se mantiene Spring JDBC; JPA no aporta una ventaja para estas consultas de tablas existentes.
 
-Los listeners registran, entre otros datos:
+## Seguridad académica
 
-- inicio, fin, estado y duración;
-- configuración de grid, threads y chunk;
-- particiones creadas y fallidas;
-- thread utilizado por cada worker;
-- `readCount`, `writeCount` y `filterCount`;
-- skips separados por etapa;
-- `retryCount`.
+Se usa HTTP Basic con usuarios en memoria para demostrar autenticación y autorización por canal:
 
-Las métricas finales se agregan desde los worker steps, evitando sumar nuevamente los conteos del manager step.
+| Usuario | Contraseña | Rol | Canal autorizado |
+|---|---|---|---|
+| `web-user` | `web-pass` | `WEB` | Web |
+| `mobile-user` | `mobile-pass` | `MOBILE` | Móvil |
+| `atm-user` | `atm-pass` | `ATM` | ATM |
 
-Las principales relaciones de reconciliación son:
+Cada BFF conoce los tres usuarios pero sólo acepta el rol de su canal. Sin credenciales responde `401`; credenciales válidas de otro canal responden `403`.
 
-```text
-inputCount = readCount + readSkipCount
+Los despachos internos de error están permitidos en la cadena de seguridad para que un fallo de infraestructura conserve su código `500` en lugar de quedar enmascarado como `403`. Esta excepción no permite acceder a endpoints de otro canal.
 
-totalSkipCount =
-    readSkipCount
-  + processSkipCount
-  + writeSkipCount
+Esta configuración es deliberadamente académica. Las contraseñas están en memoria y sin cifrado persistente; no reemplaza IAM, MFA, rotación de secretos ni políticas bancarias reales.
 
-inputCount =
-    writeCount
-  + totalSkipCount
-  + filterCount
-```
-
-## Resultado funcional de Semana 3
-
-Cada archivo de Semana 3 contiene 1000 filas.
-
-| Job | Input | Written | Skipped | Estado |
-|---|---:|---:|---:|---|
-| Transacciones | 1000 | 401 | 599 | COMPLETED |
-| Intereses | 1000 | 282 | 718 | COMPLETED |
-| Estado anual | 1000 | 642 | 358 | COMPLETED |
-| **Total** | **3000** | **1325** | **1675** | **COMPLETED** |
-
-También se verificó que los **401 `transaccion_id` persistidos son distintos**, evitando duplicados producidos por el procesamiento paralelo.
-
-## Configuración de escalado
-
-La aplicación permite parametrizar el escalamiento mediante variables de entorno:
-
-| Variable | Uso |
-|---|---|
-| `BATCH_GRID_SIZE` | cantidad de particiones |
-| `BATCH_THREAD_COUNT` | cantidad máxima de threads |
-| `BATCH_CHUNK_SIZE` | tamaño de chunk |
-| `BATCH_SKIP_LIMIT` | límite de skips |
-| `BATCH_INPUT_DIR` | directorio de entrada |
-
-Para comparar el efecto del paralelismo se mantuvo:
-
-```text
-chunkSize = 100
-```
-
-y se evaluaron las configuraciones:
-
-```text
-1×1
-2×2
-4×4
-8×8
-```
-
-## Benchmark de configuraciones
-
-`PartitionBenchmarkTests` ejecuta los tres Jobs sobre H2 aislado para mantener un entorno reproducible.
-
-Cada ejecución del benchmark realiza tres iteraciones internas por configuración y reporta la mediana de esas tres iteraciones.
-
-Para reducir la variabilidad del entorno, el benchmark completo se ejecutó cinco veces de forma independiente. Por tanto, cada valor T1–T5 de la tabla corresponde a la mediana de tres iteraciones.
-
-En total, cada configuración fue observada en 15 mediciones internas.
-
-| Grid | Threads | T1 | T2 | T3 | T4 | T5 | Promedio | Mediana |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 1 | 449 | 502 | 430 | 426 | 449 | 451,2 ms | 449 ms |
-| 2 | 2 | 209 | 216 | 215 | 297 | 286 | 244,6 ms | 216 ms |
-| 4 | 4 | 131 | 149 | 147 | 132 | 193 | 150,4 ms | 147 ms |
-| 8 | 8 | 118 | 131 | 194 | 147 | 144 | **146,8 ms** | **144 ms** |
-
-La configuración seleccionada para esta entrega es:
-
-```text
-gridSize = 8
-threads = 8
-chunkSize = 100
-```
-
-La configuración **8×8** obtuvo el menor tiempo promedio y la menor mediana entre las alternativas evaluadas.
-
-Los tiempos dependen del hardware y de la carga del sistema, por lo que esta conclusión corresponde al entorno de prueba utilizado y no pretende establecer un óptimo universal.
-
-## Requisitos
+## Requisitos y base de datos
 
 - Java 21
-- Maven 3.x o Maven Wrapper incluido
+- Maven 3.x
 - PostgreSQL
-- Base de datos `banco_legacy_batch`
-- Dataset `bank_legacy_data`
-
-## Configuración de PostgreSQL
-
-Las credenciales se definieron mediante variables de entorno:
+- base `banco_legacy_batch`
+- datasets `bank_legacy_data`
 
 ```powershell
 $env:DB_URL = 'jdbc:postgresql://localhost:5432/banco_legacy_batch'
@@ -198,145 +75,121 @@ $env:DB_USER = 'tu_usuario'
 $env:DB_PASSWORD = 'tu_clave'
 ```
 
-No se almacenan credenciales reales en el repositorio.
+El batch crea las tablas mediante su `schema.sql`. Los BFF usan `spring.sql.init.mode=never`: sólo leen estructuras previamente creadas.
 
-## Configuración recomendada
+## Ejecutar el batch
+
+Desde la raíz:
 
 ```powershell
 $env:BATCH_INPUT_DIR = 'C:/ruta/bank_legacy_data/data/semana_3'
-$env:BATCH_GRID_SIZE = '8'
-$env:BATCH_THREAD_COUNT = '8'
-$env:BATCH_CHUNK_SIZE = '100'
-$env:BATCH_SKIP_LIMIT = '1000'
+mvn -pl banco-legacy-batch spring-boot:run
 ```
 
-## Ejecución
+Los jobs `transaccionesDiariasJob`, `interesesMensualesJob` y `estadosCuentaAnualesJob` se ejecutan secuencialmente; sus particiones trabajan en paralelo. Las variables `BATCH_GRID_SIZE`, `BATCH_THREAD_COUNT`, `BATCH_CHUNK_SIZE` y `BATCH_SKIP_LIMIT` controlan el escalado.
 
-Con Maven Wrapper:
+## Ejecutar los BFF
+
+Primero genere los ejecutables desde la raíz:
 
 ```powershell
-.\mvnw.cmd spring-boot:run
+mvn clean package
 ```
 
-Con Maven instalado globalmente:
+Después abra una terminal para cada aplicación:
 
 ```powershell
-mvn spring-boot:run
+java -jar banco-legacy-web-bff/target/banco-legacy-web-bff-0.0.1-SNAPSHOT.jar
+java -jar banco-legacy-mobile-bff/target/banco-legacy-mobile-bff-0.0.1-SNAPSHOT.jar
+java -jar banco-legacy-atm-bff/target/banco-legacy-atm-bff-0.0.1-SNAPSHOT.jar
 ```
 
-La ejecución debe finalizar los tres Jobs con estado `COMPLETED`.
+Los puertos se pueden cambiar con `WEB_BFF_PORT`, `MOBILE_BFF_PORT` y `ATM_BFF_PORT`.
 
-## Tests
+## Endpoints y ejemplos
+
+### Web
+
+```http
+GET /api/web/accounts/{accountId}/dashboard
+```
+
+```powershell
+curl.exe -u web-user:web-pass http://localhost:8081/api/web/accounts/101/dashboard
+```
+
+### Móvil
+
+```http
+GET /api/mobile/accounts/{accountId}/summary
+GET /api/mobile/accounts/{accountId}/movements
+```
+
+```powershell
+curl.exe -u mobile-user:mobile-pass http://localhost:8082/api/mobile/accounts/101/summary
+curl.exe -u mobile-user:mobile-pass http://localhost:8082/api/mobile/accounts/101/movements
+```
+
+### ATM
+
+```http
+GET  /api/atm/accounts/{accountId}/balance
+GET  /api/atm/accounts/{accountId}/movements
+POST /api/atm/accounts/{accountId}/withdrawals
+```
+
+```powershell
+curl.exe -u atm-user:atm-pass http://localhost:8083/api/atm/accounts/101/balance
+curl.exe -u atm-user:atm-pass http://localhost:8083/api/atm/accounts/101/movements
+curl.exe -u atm-user:atm-pass -H "Content-Type: application/json" -d '{"amount":100}' http://localhost:8083/api/atm/accounts/101/withdrawals
+```
+
+Evidencia de autorización denegada:
+
+```powershell
+curl.exe -i http://localhost:8081/api/web/accounts/101/dashboard
+curl.exe -i -u mobile-user:mobile-pass http://localhost:8081/api/web/accounts/101/dashboard
+```
+
+## Limitación del retiro
+
+El dataset no contiene una cuenta transaccional con bloqueo, libro mayor, disponibilidad en tiempo real ni control de concurrencia. Por ello el endpoint ATM valida monto positivo y fondos contra el último `saldo_procesado`, pero devuelve estado `SIMULATED` y un saldo proyectado. No modifica PostgreSQL ni afirma ejecutar un retiro bancario real.
+
+Tampoco existe en los datos legacy una relación entre `transaccion_procesada` y `cuenta_id`; las anomalías se presentan como información global sólo en el dashboard Web académico.
+
+## Tests y build
 
 Suite completa:
 
 ```powershell
-mvn clean test
+.\mvnw.cmd clean verify
 ```
 
-Resultado verificado:
-
-```text
-Tests run: 11
-Failures: 0
-Errors: 0
-Skipped: 0
-BUILD SUCCESS
-```
-
-La suite verifica:
-
-- ejecución funcional de los tres Jobs;
-- particiones contiguas y sin solapamiento;
-- readers limitados a su rango;
-- workers en threads `batch-partition-*`;
-- reconciliación de las 3000 entradas;
-- ausencia de duplicados por paralelismo;
-- skips y estados finales;
-- retry recuperable y retry agotado;
-- comparación 1×1, 2×2, 4×4 y 8×8.
-
-## Ejecución aislada del benchmark
+Por módulo:
 
 ```powershell
-mvn "-Dtest=PartitionBenchmarkTests" test
+mvn -pl banco-legacy-batch test
+mvn -pl banco-legacy-core test
+mvn -pl banco-legacy-web-bff -am test
+mvn -pl banco-legacy-mobile-bff -am test
+mvn -pl banco-legacy-atm-bff -am test
 ```
 
-El benchmark genera:
-
-```text
-target/benchmark-results.csv
-```
-
-## Dataset de tests
-
-La ubicación de los datasets puede configurarse sin modificar código.
-
-Raíz común:
+Build completo:
 
 ```powershell
-mvn clean test "-Dbatch.test-data-root=C:/ruta/bank_legacy_data/data"
+mvn clean verify
 ```
 
-Sólo Semana 3:
+Las pruebas cubren la regresión batch, repositorio JDBC, carga de contexto de cada BFF, DTOs diferenciados, endpoints autorizados, peticiones sin autenticar, roles cruzados, validación y simulación de retiro.
 
-```powershell
-mvn clean test "-Dbatch.test-input-directory=C:/ruta/bank_legacy_data/data/semana_3"
-```
+## Relación con la pauta
 
-También pueden utilizarse:
+1. **Comprensión BFF:** tres backends desplegables se sitúan entre cada frontend y el acceso común a datos; no se confunden con el batch.
+2. **Estrategia implementada:** monorepo multi-módulo con core mínimo y aplicaciones Web, Móvil y ATM independientes.
+3. **Personalización:** cada canal tiene endpoints, límites y DTOs propios; Web es rico, Móvil compacto y ATM restringido a operación esencial.
+4. **Organización:** persistencia y servicios comunes viven en core; controllers, DTOs y seguridad permanecen dentro del canal correspondiente.
 
-```text
-BATCH_TEST_DATA_ROOT
-BATCH_TEST_INPUT_DIR
-```
+## Continuidad y precauciones
 
-## Evidencia de ejecución
-
-La entrega incorpora evidencias de:
-
-1. los tres Jobs con estado `COMPLETED`;
-2. manager steps y worker partitions;
-3. ejecución concurrente;
-4. reconciliación de los 3000 registros;
-5. persistencia en PostgreSQL;
-6. ausencia de duplicados;
-7. suite de 11 tests con `BUILD SUCCESS`;
-8. retry recuperable y retry agotado;
-9. comparación de configuraciones de escalamiento.
-
-## Verificaciones SQL principales
-
-Conteos esperados sobre tablas limpias tras una única ejecución:
-
-```sql
-SELECT COUNT(*) FROM transaccion_procesada;       -- 401
-SELECT COUNT(*) FROM interes_procesado;           -- 282
-SELECT COUNT(*) FROM movimiento_anual_procesado;  -- 642
-```
-
-Ausencia de duplicados de transacciones:
-
-```sql
-SELECT
-    COUNT(*) AS total_registros,
-    COUNT(DISTINCT transaccion_id) AS ids_distintos
-FROM transaccion_procesada;
-```
-
-Resultado esperado:
-
-```text
-total_registros = 401
-ids_distintos   = 401
-```
-
-La metadata de Spring Batch queda disponible en `batch_job_execution` y `batch_step_execution` para comprobar estados, tiempos, métricas y particiones.
-
-## Nota sobre reejecución
-
-Cada ejecución utiliza nuevos parámetros de Job y vuelve a insertar los resultados procesados.
-
-Para obtener conteos exactos de una ejecución, use tablas de salida limpias o compare los conteos antes y después.
-
-No se eliminan datos automáticamente.
+El batch conserva sus 11 pruebas y resultados de Semana 3: 3000 entradas, 1325 escrituras y 1675 skips. Reejecutarlo inserta nuevamente resultados; para evidencia exacta use tablas limpias o compare conteos antes y después. No se clonan ni reemplazan datasets desde este proyecto.
