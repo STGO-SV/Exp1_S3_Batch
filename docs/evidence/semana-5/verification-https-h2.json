@@ -1,0 +1,312 @@
+{
+  "note": "No tokens or account payloads persisted. API balance comparison is not a database write audit.",
+  "results": [
+    {
+      "case": "WEB -> WEB",
+      "endpoint": "https://localhost:8081/api/web/accounts/101/dashboard",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 2702
+    },
+    {
+      "case": "MOBILE -> WEB",
+      "endpoint": "https://localhost:8081/api/web/accounts/101/dashboard",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "ATM -> WEB",
+      "endpoint": "https://localhost:8081/api/web/accounts/101/dashboard",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "https://localhost:8081/api/web/accounts/101/dashboard",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "https://localhost:8081/api/web/accounts/101/dashboard",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "https://localhost:8081/api/web/accounts/101/dashboard",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "https://localhost:8081/api/web/accounts/9223372036854775807/dashboard",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "WEB -> MOBILE",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "MOBILE -> MOBILE",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 58
+    },
+    {
+      "case": "ATM -> MOBILE",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/9223372036854775807/summary",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "WEB -> MOBILE",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/movements",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "MOBILE -> MOBILE",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/movements",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 276
+    },
+    {
+      "case": "ATM -> MOBILE",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/movements",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "https://localhost:8082/api/mobile/accounts/9223372036854775807/movements",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "WEB -> ATM",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/balance",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "MOBILE -> ATM",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/balance",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "ATM -> ATM",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/balance",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 44
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/balance",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/balance",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/balance",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "https://localhost:8083/api/atm/accounts/9223372036854775807/balance",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "WEB -> ATM",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/movements",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "MOBILE -> ATM",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/movements",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "ATM -> ATM",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/movements",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 106
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "https://localhost:8083/api/atm/accounts/9223372036854775807/movements",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "simulated-withdrawal",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/withdrawals",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 182
+    },
+    {
+      "case": "withdrawal-is-simulated",
+      "passed": true
+    },
+    {
+      "case": "insufficient-funds",
+      "endpoint": "https://localhost:8083/api/atm/accounts/101/withdrawals",
+      "expected": 400,
+      "actual": 400,
+      "passed": true,
+      "bytes": 87
+    },
+    {
+      "case": "balance-unchanged-via-api",
+      "passed": true
+    }
+  ],
+  "transport": "https-custom-trust-verified",
+  "allPassed": true,
+  "timestampUtc": "2026-09-10T17:19:49.0005807Z"
+}

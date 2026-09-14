@@ -29,12 +29,12 @@ public class AtmAccountController {
 
     @GetMapping("/{accountId}/balance")
     public AtmBalance balance(@PathVariable long accountId) {
-        return new AtmBalance(accountId, accountService.getBalance(accountId).processedBalance());
+        return new AtmBalance(accountId, accountService.getAvailableBalance(accountId));
     }
 
     @GetMapping("/{accountId}/movements")
     public List<AtmMovement> movements(@PathVariable long accountId) {
-        return accountService.getRecentMovements(accountId, 3).stream()
+        return accountService.getEssentialMovements(accountId, 3).stream()
                 .map(item -> new AtmMovement(item.type(), item.amount()))
                 .toList();
     }

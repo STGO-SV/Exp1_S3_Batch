@@ -1,0 +1,98 @@
+EXPLAIN ANALYZE — PostgreSQL real — operaciones READ ONLY
+Cuenta: 101
+Generado UTC: 2026-09-14T18:56:34.5541549Z
+
+PLAN 1
+Limit  (cost=0.15..5.80 rows=1 width=50) (actual time=0.012..0.012 rows=1.00 loops=1)
+  Buffers: shared hit=2
+  ->  Index Scan Backward using interes_procesado_pkey on interes_procesado  (cost=0.15..28.41 rows=5 width=50) (actual time=0.011..0.011 rows=1.00 loops=1)
+        Filter: (cuenta_id = '101'::bigint)
+        Rows Removed by Filter: 1
+        Index Searches: 1
+        Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=83
+Planning Time: 1.575 ms
+Execution Time: 0.040 ms
+
+PLAN 2
+Limit  (cost=0.15..5.80 rows=1 width=21) (actual time=0.022..0.022 rows=1.00 loops=1)
+  Buffers: shared hit=2
+  ->  Index Scan Backward using interes_procesado_pkey on interes_procesado  (cost=0.15..28.41 rows=5 width=21) (actual time=0.021..0.021 rows=1.00 loops=1)
+        Filter: (cuenta_id = '101'::bigint)
+        Rows Removed by Filter: 1
+        Index Searches: 1
+        Buffers: shared hit=2
+Planning Time: 0.113 ms
+Execution Time: 0.041 ms
+
+PLAN 3
+Limit  (cost=0.15..5.80 rows=1 width=13) (actual time=0.015..0.015 rows=1.00 loops=1)
+  Buffers: shared hit=2
+  ->  Index Scan Backward using interes_procesado_pkey on interes_procesado  (cost=0.15..28.41 rows=5 width=13) (actual time=0.014..0.014 rows=1.00 loops=1)
+        Filter: (cuenta_id = '101'::bigint)
+        Rows Removed by Filter: 1
+        Index Searches: 1
+        Buffers: shared hit=2
+Planning Time: 0.075 ms
+Execution Time: 0.026 ms
+
+PLAN 4
+Limit  (cost=17.64..17.69 rows=20 width=48) (actual time=0.129..0.131 rows=20.00 loops=1)
+  Buffers: shared hit=15
+  ->  Sort  (cost=17.64..17.70 rows=26 width=48) (actual time=0.128..0.129 rows=20.00 loops=1)
+        Sort Key: fecha DESC, id DESC
+        Sort Method: quicksort  Memory: 27kB
+        Buffers: shared hit=15
+        ->  Seq Scan on movimiento_anual_procesado  (cost=0.00..17.02 rows=26 width=48) (actual time=0.034..0.093 rows=26.00 loops=1)
+              Filter: (cuenta_id = '101'::bigint)
+              Rows Removed by Filter: 616
+              Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=47
+Planning Time: 1.609 ms
+Execution Time: 0.157 ms
+
+PLAN 5
+Limit  (cost=17.46..17.47 rows=5 width=24) (actual time=0.064..0.064 rows=5.00 loops=1)
+  Buffers: shared hit=9
+  ->  Sort  (cost=17.46..17.52 rows=26 width=24) (actual time=0.063..0.063 rows=5.00 loops=1)
+        Sort Key: fecha DESC, id DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=9
+        ->  Seq Scan on movimiento_anual_procesado  (cost=0.00..17.02 rows=26 width=24) (actual time=0.015..0.053 rows=26.00 loops=1)
+              Filter: (cuenta_id = '101'::bigint)
+              Rows Removed by Filter: 616
+              Buffers: shared hit=9
+Planning Time: 0.085 ms
+Execution Time: 0.078 ms
+
+PLAN 6
+Limit  (cost=17.36..17.37 rows=3 width=24) (actual time=0.064..0.065 rows=3.00 loops=1)
+  Buffers: shared hit=9
+  ->  Sort  (cost=17.36..17.43 rows=26 width=24) (actual time=0.064..0.064 rows=3.00 loops=1)
+        Sort Key: fecha DESC, id DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=9
+        ->  Seq Scan on movimiento_anual_procesado  (cost=0.00..17.02 rows=26 width=24) (actual time=0.015..0.054 rows=26.00 loops=1)
+              Filter: (cuenta_id = '101'::bigint)
+              Rows Removed by Filter: 616
+              Buffers: shared hit=9
+Planning Time: 0.083 ms
+Execution Time: 0.077 ms
+
+PLAN 7
+Limit  (cost=10.37..10.40 rows=10 width=33) (actual time=0.073..0.074 rows=10.00 loops=1)
+  Buffers: shared hit=5
+  ->  Sort  (cost=10.37..10.53 rows=63 width=33) (actual time=0.072..0.073 rows=10.00 loops=1)
+        Sort Key: fecha DESC, id DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=5
+        ->  Seq Scan on transaccion_procesada  (cost=0.00..9.01 rows=63 width=33) (actual time=0.018..0.056 rows=63.00 loops=1)
+              Filter: anomalia
+              Rows Removed by Filter: 338
+              Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=34
+Planning Time: 1.670 ms
+Execution Time: 0.092 ms

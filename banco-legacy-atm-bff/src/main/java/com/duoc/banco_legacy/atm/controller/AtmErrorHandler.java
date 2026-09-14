@@ -19,7 +19,7 @@ public class AtmErrorHandler {
     @ExceptionHandler({WithdrawalRejectedException.class, MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ErrorResponse invalidWithdrawal(Exception exception) {
-        return new ErrorResponse("WITHDRAWAL_REJECTED", exception.getMessage());
+        return new ErrorResponse("WITHDRAWAL_REJECTED", exception instanceof WithdrawalRejectedException ? exception.getMessage() : "Monto inválido: use un valor positivo con hasta dos decimales");
     }
 
     record ErrorResponse(String code, String message) {

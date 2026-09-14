@@ -1,0 +1,55 @@
+# Inventario del árbol de trabajo — Semana 5
+# Generado 2026-09-10 después de integrar HTTPS directo.
+# Formato: salida de git status --short; no implica staging ni commit.
+ M .gitignore
+ M README.md
+ M banco-legacy-atm-bff/pom.xml
+ M banco-legacy-atm-bff/src/main/java/com/duoc/banco_legacy/atm/AtmBffApplication.java
+ M banco-legacy-atm-bff/src/main/java/com/duoc/banco_legacy/atm/controller/AtmAccountController.java
+ M banco-legacy-atm-bff/src/main/java/com/duoc/banco_legacy/atm/controller/AtmErrorHandler.java
+ M banco-legacy-atm-bff/src/main/java/com/duoc/banco_legacy/atm/dto/WithdrawalRequest.java
+ M banco-legacy-atm-bff/src/main/java/com/duoc/banco_legacy/atm/security/AtmSecurityConfig.java
+ M banco-legacy-atm-bff/src/main/java/com/duoc/banco_legacy/atm/service/AtmWithdrawalService.java
+ M banco-legacy-atm-bff/src/main/resources/application.properties
+ M banco-legacy-atm-bff/src/test/java/com/duoc/banco_legacy/atm/AtmBffApplicationTests.java
+ M banco-legacy-atm-bff/src/test/resources/application.properties
+ M banco-legacy-batch/src/main/resources/application.properties
+ M banco-legacy-core/src/main/java/com/duoc/banco_legacy/core/repository/LegacyAccountReadRepository.java
+ M banco-legacy-core/src/main/java/com/duoc/banco_legacy/core/service/LegacyAccountQueryService.java
+ M banco-legacy-core/src/test/java/com/duoc/banco_legacy/core/repository/LegacyAccountReadRepositoryTests.java
+ M banco-legacy-mobile-bff/pom.xml
+ M banco-legacy-mobile-bff/src/main/java/com/duoc/banco_legacy/mobile/MobileBffApplication.java
+ M banco-legacy-mobile-bff/src/main/java/com/duoc/banco_legacy/mobile/controller/MobileAccountController.java
+ M banco-legacy-mobile-bff/src/main/java/com/duoc/banco_legacy/mobile/security/MobileSecurityConfig.java
+ M banco-legacy-mobile-bff/src/main/resources/application.properties
+ M banco-legacy-mobile-bff/src/test/java/com/duoc/banco_legacy/mobile/MobileBffApplicationTests.java
+ M banco-legacy-mobile-bff/src/test/resources/application.properties
+ M banco-legacy-web-bff/pom.xml
+ M banco-legacy-web-bff/src/main/java/com/duoc/banco_legacy/web/WebBffApplication.java
+ M banco-legacy-web-bff/src/main/java/com/duoc/banco_legacy/web/controller/WebAccountController.java
+ M banco-legacy-web-bff/src/main/java/com/duoc/banco_legacy/web/security/WebSecurityConfig.java
+ M banco-legacy-web-bff/src/main/resources/application.properties
+ M banco-legacy-web-bff/src/test/java/com/duoc/banco_legacy/web/WebBffApplicationTests.java
+ M banco-legacy-web-bff/src/test/resources/application.properties
+ M pom.xml
+?? banco-legacy-atm-bff/src/test/java/com/duoc/banco_legacy/atm/AtmDataIntegrationTests.java
+?? banco-legacy-atm-bff/src/test/java/com/duoc/banco_legacy/atm/AtmJwtSecurityTests.java
+?? banco-legacy-atm-bff/src/test/java/com/duoc/banco_legacy/atm/JwtTestSupport.java
+?? banco-legacy-atm-bff/src/test/java/com/duoc/banco_legacy/atm/service/
+?? banco-legacy-auth/
+?? banco-legacy-core/src/main/java/com/duoc/banco_legacy/core/model/AccountSummary.java
+?? banco-legacy-core/src/main/java/com/duoc/banco_legacy/core/model/CompactMovement.java
+?? banco-legacy-core/src/main/java/com/duoc/banco_legacy/core/model/EssentialMovement.java
+?? banco-legacy-core/src/test/java/com/duoc/banco_legacy/core/service/
+?? banco-legacy-mobile-bff/src/test/java/com/duoc/banco_legacy/mobile/JwtTestSupport.java
+?? banco-legacy-mobile-bff/src/test/java/com/duoc/banco_legacy/mobile/MobileDataIntegrationTests.java
+?? banco-legacy-mobile-bff/src/test/java/com/duoc/banco_legacy/mobile/MobileJwtSecurityTests.java
+?? banco-legacy-web-bff/src/test/java/com/duoc/banco_legacy/web/JwtTestSupport.java
+?? banco-legacy-web-bff/src/test/java/com/duoc/banco_legacy/web/WebDataIntegrationTests.java
+?? banco-legacy-web-bff/src/test/java/com/duoc/banco_legacy/web/WebJwtSecurityTests.java
+?? docs/evidence/
+?? docs/postman/
+?? docs/semana-5.md
+?? docs/sql/
+?? infra/
+?? scripts/

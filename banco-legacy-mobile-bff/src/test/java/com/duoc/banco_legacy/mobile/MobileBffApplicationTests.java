@@ -17,29 +17,28 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class MobileBffApplicationTests {
+class MobileBffApplicationTests extends JwtTestSupport {
     @Autowired MockMvc mvc;
     @Autowired TestRestTemplate rest;
     @MockBean LegacyAccountQueryService service;
 
     @BeforeEach
     void data() {
-        when(service.getBalance(101)).thenReturn(new AccountBalance(101L, "Ana", new BigDecimal("1000"),
-                new BigDecimal("0.01"), new BigDecimal("1010"), "ahorro"));
-        when(service.getRecentMovements(101, 5)).thenReturn(List.of(
-                new AccountMovement(101L, LocalDate.of(2026, 1, 1), "deposito", new BigDecimal("100"), "Detalle privado")));
+        when(service.getSummary(101)).thenReturn(new com.duoc.banco_legacy.core.model.AccountSummary(new BigDecimal("1010"), "ahorro"));
+        when(service.getCompactMovements(101, 5)).thenReturn(List.of(
+                new com.duoc.banco_legacy.core.model.CompactMovement(LocalDate.of(2026, 1, 1), "deposito", new BigDecimal("100"))));
     }
 
     @Test
     void entregaResumenLigeroSinDatosWeb() throws Exception {
-        mvc.perform(get("/api/mobile/accounts/101/summary").with(httpBasic("mobile-user", "mobile-pass")))
+        mvc.perform(get("/api/mobile/accounts/101/summary").with(bearer("MOBILE")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.balance").value(1010))
                 .andExpect(jsonPath("$.holderName").doesNotExist())
                 .andExpect(jsonPath("$.originalBalance").doesNotExist());
@@ -47,13 +46,13 @@ class MobileBffApplicationTests {
 
     @Test
     void movimientosNoExponenDescripcion() throws Exception {
-        mvc.perform(get("/api/mobile/accounts/101/movements").with(httpBasic("mobile-user", "mobile-pass")))
+        mvc.perform(get("/api/mobile/accounts/101/movements").with(bearer("MOBILE")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$[0].amount").value(100))
                 .andExpect(jsonPath("$[0].description").doesNotExist());
     }
 
     @Test void impideQueUsuarioWebUseMovil() throws Exception {
-        mvc.perform(get("/api/mobile/accounts/101/summary").with(httpBasic("web-user", "web-pass")))
+        mvc.perform(get("/api/mobile/accounts/101/summary").with(bearer("WEB")))
                 .andExpect(status().isForbidden());
     }
 
@@ -62,10 +61,9 @@ class MobileBffApplicationTests {
     }
 
     @Test void falloInternoNoSeEnmascaraComoProhibido() {
-        when(service.getBalance(101)).thenThrow(new IllegalStateException("Fallo de infraestructura simulado"));
+        when(service.getSummary(101)).thenThrow(new IllegalStateException("Fallo de infraestructura simulado"));
 
-        var response = rest.withBasicAuth("mobile-user", "mobile-pass")
-                .getForEntity("/api/mobile/accounts/101/summary", String.class);
+        var response = rest.exchange("/api/mobile/accounts/101/summary", org.springframework.http.HttpMethod.GET, entity("MOBILE"), String.class);
 
         org.junit.jupiter.api.Assertions.assertEquals(500, response.getStatusCode().value());
     }

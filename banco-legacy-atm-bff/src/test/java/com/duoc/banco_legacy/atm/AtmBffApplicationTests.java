@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -23,20 +23,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class AtmBffApplicationTests {
+class AtmBffApplicationTests extends JwtTestSupport {
     @Autowired MockMvc mvc;
     @Autowired TestRestTemplate rest;
     @MockBean LegacyAccountQueryService service;
 
     @BeforeEach
     void data() {
-        when(service.getBalance(101)).thenReturn(new AccountBalance(101L, "Ana", new BigDecimal("1000"),
-                new BigDecimal("0.01"), new BigDecimal("1010"), "ahorro"));
+        when(service.getAvailableBalance(101)).thenReturn(new BigDecimal("1010"));
     }
 
     @Test
     void entregaSoloSaldoNecesarioParaAtm() throws Exception {
-        mvc.perform(get("/api/atm/accounts/101/balance").with(httpBasic("atm-user", "atm-pass")))
+        mvc.perform(get("/api/atm/accounts/101/balance").with(bearer("ATM")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.availableBalance").value(1010))
                 .andExpect(jsonPath("$.holderName").doesNotExist());
     }
@@ -44,7 +43,7 @@ class AtmBffApplicationTests {
     @Test
     void simulaRetiroSinAfirmarPersistencia() throws Exception {
         mvc.perform(post("/api/atm/accounts/101/withdrawals")
-                        .with(httpBasic("atm-user", "atm-pass"))
+                        .with(bearer("ATM"))
                         .contentType(MediaType.APPLICATION_JSON).content("{\"amount\":100}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("SIMULATED"))
                 .andExpect(jsonPath("$.projectedBalance").value(910));
@@ -52,13 +51,13 @@ class AtmBffApplicationTests {
 
     @Test void rechazaRetiroSobreElSaldo() throws Exception {
         mvc.perform(post("/api/atm/accounts/101/withdrawals")
-                        .with(httpBasic("atm-user", "atm-pass"))
+                        .with(bearer("ATM"))
                         .contentType(MediaType.APPLICATION_JSON).content("{\"amount\":2000}"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test void impideQueUsuarioMovilUseAtm() throws Exception {
-        mvc.perform(get("/api/atm/accounts/101/balance").with(httpBasic("mobile-user", "mobile-pass")))
+        mvc.perform(get("/api/atm/accounts/101/balance").with(bearer("MOBILE")))
                 .andExpect(status().isForbidden());
     }
 
@@ -67,10 +66,9 @@ class AtmBffApplicationTests {
     }
 
     @Test void falloInternoNoSeEnmascaraComoProhibido() {
-        when(service.getBalance(101)).thenThrow(new IllegalStateException("Fallo de infraestructura simulado"));
+        when(service.getAvailableBalance(101)).thenThrow(new IllegalStateException("Fallo de infraestructura simulado"));
 
-        var response = rest.withBasicAuth("atm-user", "atm-pass")
-                .getForEntity("/api/atm/accounts/101/balance", String.class);
+        var response = rest.exchange("/api/atm/accounts/101/balance", org.springframework.http.HttpMethod.GET, entity("ATM"), String.class);
 
         org.junit.jupiter.api.Assertions.assertEquals(500, response.getStatusCode().value());
     }

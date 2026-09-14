@@ -31,3 +31,28 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Semana 5: runtime state and sensitive material
+.local/
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+**/src/main/resources/keystore.p12
+**/*.p12
+**/*.jks
+*.pfx
+*.jks
+*.keystore
+*.truststore
+*.log
+!docs/evidence/semana-5/build-verify.log
+infra/nginx-proxy-manager/data/
+infra/nginx-proxy-manager/letsencrypt/
+*.sqlite
+*.sqlite-*
+*.db
+*secrets*.json
+*tokens*.json

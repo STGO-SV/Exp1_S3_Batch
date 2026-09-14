@@ -1,0 +1,866 @@
+{
+  "info": {
+    "name": "Banco Legacy — Semana 5",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Demo HTTPS local directa. Añadir contraseñas sólo como valores locales secretos; no exportar el entorno. Modo rápido: SSL verification OFF demuestra TLS pero no confianza. Evidencia estricta: importar/confiar el certificado local y mantener SSL verification ON."
+  },
+  "item": [
+    {
+      "name": "Token WEB",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"web-user\",\n  \"password\": \"{{web_password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{auth_url}}/auth/token",
+          "host": [
+            "{{auth_url}}"
+          ],
+          "path": [
+            "auth",
+            "token"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code === 200) pm.environment.set(\"web_token\", pm.response.json().access_token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Token MOBILE",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"mobile-user\",\n  \"password\": \"{{mobile_password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{auth_url}}/auth/token",
+          "host": [
+            "{{auth_url}}"
+          ],
+          "path": [
+            "auth",
+            "token"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code === 200) pm.environment.set(\"mobile_token\", pm.response.json().access_token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Token ATM",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"atm-user\",\n  \"password\": \"{{atm_password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{auth_url}}/auth/token",
+          "host": [
+            "{{auth_url}}"
+          ],
+          "path": [
+            "auth",
+            "token"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code === 200) pm.environment.set(\"atm_token\", pm.response.json().access_token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "WEB → WEB dashboard",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{web_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{web_url}}/api/web/accounts/{{account_id}}/dashboard",
+          "host": [
+            "{{web_url}}"
+          ],
+          "path": [
+            "api",
+            "web",
+            "accounts",
+            "{{account_id}}",
+            "dashboard"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "MOBILE → WEB dashboard",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{mobile_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{web_url}}/api/web/accounts/{{account_id}}/dashboard",
+          "host": [
+            "{{web_url}}"
+          ],
+          "path": [
+            "api",
+            "web",
+            "accounts",
+            "{{account_id}}",
+            "dashboard"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATM → WEB dashboard",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{atm_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{web_url}}/api/web/accounts/{{account_id}}/dashboard",
+          "host": [
+            "{{web_url}}"
+          ],
+          "path": [
+            "api",
+            "web",
+            "accounts",
+            "{{account_id}}",
+            "dashboard"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sin token → web dashboard",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": "{{web_url}}/api/web/accounts/{{account_id}}/dashboard"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"401\", () => pm.response.to.have.status(401));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "WEB → MOBILE summary",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{web_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{mobile_url}}/api/mobile/accounts/{{account_id}}/summary",
+          "host": [
+            "{{mobile_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "accounts",
+            "{{account_id}}",
+            "summary"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "MOBILE → MOBILE summary",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{mobile_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{mobile_url}}/api/mobile/accounts/{{account_id}}/summary",
+          "host": [
+            "{{mobile_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "accounts",
+            "{{account_id}}",
+            "summary"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATM → MOBILE summary",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{atm_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{mobile_url}}/api/mobile/accounts/{{account_id}}/summary",
+          "host": [
+            "{{mobile_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "accounts",
+            "{{account_id}}",
+            "summary"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sin token → mobile summary",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": "{{mobile_url}}/api/mobile/accounts/{{account_id}}/summary"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"401\", () => pm.response.to.have.status(401));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "WEB → MOBILE movements",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{web_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{mobile_url}}/api/mobile/accounts/{{account_id}}/movements",
+          "host": [
+            "{{mobile_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "accounts",
+            "{{account_id}}",
+            "movements"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "MOBILE → MOBILE movements",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{mobile_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{mobile_url}}/api/mobile/accounts/{{account_id}}/movements",
+          "host": [
+            "{{mobile_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "accounts",
+            "{{account_id}}",
+            "movements"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATM → MOBILE movements",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{atm_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{mobile_url}}/api/mobile/accounts/{{account_id}}/movements",
+          "host": [
+            "{{mobile_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "accounts",
+            "{{account_id}}",
+            "movements"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sin token → mobile movements",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": "{{mobile_url}}/api/mobile/accounts/{{account_id}}/movements"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"401\", () => pm.response.to.have.status(401));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "WEB → ATM balance",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{web_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{atm_url}}/api/atm/accounts/{{account_id}}/balance",
+          "host": [
+            "{{atm_url}}"
+          ],
+          "path": [
+            "api",
+            "atm",
+            "accounts",
+            "{{account_id}}",
+            "balance"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "MOBILE → ATM balance",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{mobile_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{atm_url}}/api/atm/accounts/{{account_id}}/balance",
+          "host": [
+            "{{atm_url}}"
+          ],
+          "path": [
+            "api",
+            "atm",
+            "accounts",
+            "{{account_id}}",
+            "balance"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATM → ATM balance",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{atm_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{atm_url}}/api/atm/accounts/{{account_id}}/balance",
+          "host": [
+            "{{atm_url}}"
+          ],
+          "path": [
+            "api",
+            "atm",
+            "accounts",
+            "{{account_id}}",
+            "balance"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sin token → atm balance",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": "{{atm_url}}/api/atm/accounts/{{account_id}}/balance"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"401\", () => pm.response.to.have.status(401));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "WEB → ATM movements",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{web_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{atm_url}}/api/atm/accounts/{{account_id}}/movements",
+          "host": [
+            "{{atm_url}}"
+          ],
+          "path": [
+            "api",
+            "atm",
+            "accounts",
+            "{{account_id}}",
+            "movements"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "MOBILE → ATM movements",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{mobile_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{atm_url}}/api/atm/accounts/{{account_id}}/movements",
+          "host": [
+            "{{atm_url}}"
+          ],
+          "path": [
+            "api",
+            "atm",
+            "accounts",
+            "{{account_id}}",
+            "movements"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATM → ATM movements",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{atm_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{atm_url}}/api/atm/accounts/{{account_id}}/movements",
+          "host": [
+            "{{atm_url}}"
+          ],
+          "path": [
+            "api",
+            "atm",
+            "accounts",
+            "{{account_id}}",
+            "movements"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sin token → atm movements",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": "{{atm_url}}/api/atm/accounts/{{account_id}}/movements"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"401\", () => pm.response.to.have.status(401));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATM retiro simulado",
+      "request": {
+        "method": "POST",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{atm_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"amount\":0.01}"
+        },
+        "url": "{{atm_url}}/api/atm/accounts/{{account_id}}/withdrawals"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200 SIMULATED\", () => { pm.response.to.have.status(200); pm.expect(pm.response.json().status).to.eql(\"SIMULATED\"); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

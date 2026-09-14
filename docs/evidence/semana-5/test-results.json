@@ -1,0 +1,158 @@
+{
+  "tests": 113.0,
+  "suites": [
+    {
+      "suite": "com.duoc.banco_legacy.atm.AtmBffApplicationTests",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.atm.AtmDataIntegrationTests",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.atm.AtmJwtSecurityTests",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.atm.service.AtmWithdrawalServiceTests",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.auth.AuthApplicationTests",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy_batch.BancoLegacyBatchApplicationTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy_batch.BatchJobsIntegrationTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy_batch.listener.BatchJobMetricsListenerTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy_batch.PartitionBenchmarkTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy_batch.PartitioningUnitTests",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy_batch.processor.ProcessorsTests",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy_batch.RetryPolicyIntegrationTests",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy_batch.Week3PartitionedJobsIntegrationTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.core.repository.LegacyAccountReadRepositoryTests",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.core.service.LegacyAccountQueryServiceTests",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.mobile.MobileBffApplicationTests",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.mobile.MobileDataIntegrationTests",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.mobile.MobileJwtSecurityTests",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.web.WebBffApplicationTests",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.web.WebDataIntegrationTests",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.duoc.banco_legacy.web.WebJwtSecurityTests",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "failures": 0.0,
+  "errors": 0.0,
+  "skipped": 0.0,
+  "uncommittedWorktree": true,
+  "command": "mvn -B clean verify",
+  "head": "b084f902a2f3f655bc168c8a6be349c4ce1fa580"
+}

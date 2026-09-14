@@ -15,7 +15,10 @@ public class AtmWithdrawalService {
     }
 
     public WithdrawalResponse simulate(long accountId, BigDecimal amount) {
-        var balance = accountService.getBalance(accountId).processedBalance();
+        if (amount == null || amount.signum() <= 0 || amount.scale() > 2 || amount.precision() - amount.scale() > 17) {
+            throw new WithdrawalRejectedException("Monto inválido: use un valor positivo con hasta dos decimales");
+        }
+        var balance = accountService.getAvailableBalance(accountId);
         if (amount.compareTo(balance) > 0) {
             throw new WithdrawalRejectedException("Saldo insuficiente para el retiro solicitado");
         }

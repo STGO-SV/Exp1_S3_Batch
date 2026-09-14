@@ -1,0 +1,11 @@
+Inspección: keytool -list -v sobre el keystore local generado
+Fecha de generación local: 2026-09-09 23:58:36 CLST
+Alias: bff-local
+Entrada: PrivateKeyEntry, cadena de certificado de longitud 1
+Sujeto y emisor: CN=localhost, OU=BackendIII, O=DuocUC, L=VinaDelMar, ST=Valparaiso, C=CL
+Vigencia: 2026-09-09 23:58:36 CLST a 2027-09-09 23:58:36 CLST
+Clave pública: RSA, 2048 bits
+Firma: SHA384withRSA
+SAN: DNS localhost; IP 127.0.0.1
+
+Este archivo contiene sólo metadatos públicos. No contiene la clave privada, contraseña ni token.

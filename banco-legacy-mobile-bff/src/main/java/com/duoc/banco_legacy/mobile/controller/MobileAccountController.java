@@ -21,13 +21,13 @@ public class MobileAccountController {
 
     @GetMapping("/{accountId}/summary")
     public MobileAccountSummary summary(@PathVariable long accountId) {
-        var balance = service.getBalance(accountId);
-        return new MobileAccountSummary(accountId, balance.processedBalance(), balance.accountType());
+        var balance = service.getSummary(accountId);
+        return new MobileAccountSummary(accountId, balance.balance(), balance.accountType());
     }
 
     @GetMapping("/{accountId}/movements")
     public List<MobileMovement> movements(@PathVariable long accountId) {
-        return service.getRecentMovements(accountId, 5).stream()
+        return service.getCompactMovements(accountId, 5).stream()
                 .map(item -> new MobileMovement(item.date(), item.type(), item.amount()))
                 .toList();
     }

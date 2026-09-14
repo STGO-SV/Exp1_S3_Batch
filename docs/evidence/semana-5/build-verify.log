@@ -1,0 +1,5 @@
+Comando: .\mvnw.cmd clean verify
+Ejecución UTC: 2026-09-14T18:57:51.4473836Z
+Tests: 113; failures: 0; errors: 0; skipped: 0
+BUILD SUCCESS
+Resumen saneado; no contiene variables de entorno.

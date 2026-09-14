@@ -19,7 +19,7 @@ public class WebAccountController {
     @GetMapping("/{accountId}/dashboard")
     public WebAccountDashboard dashboard(@PathVariable long accountId) {
         var balance = service.getBalance(accountId);
-        var movements = service.getRecentMovements(accountId, 20).stream()
+        var movements = service.getMovementsForKnownAccount(accountId, 20).stream()
                 .map(item -> new WebAccountDashboard.MovementDetail(
                         item.date(), item.type(), item.amount(), item.description()))
                 .toList();

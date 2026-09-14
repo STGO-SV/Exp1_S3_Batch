@@ -1,0 +1,19 @@
+name: banco-week5-proxy
+services:
+  proxy:
+    image: jc21/nginx-proxy-manager:2.15.1
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+      - "127.0.0.1:81:81"
+    environment:
+      TZ: America/Santiago
+      DB_SQLITE_FILE: /data/database.sqlite
+    volumes:
+      - npm-data:/data
+      - npm-certificates:/etc/letsencrypt
+volumes:
+  npm-data:
+  npm-certificates:
+

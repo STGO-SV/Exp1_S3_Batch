@@ -1,0 +1,312 @@
+{
+  "results": [
+    {
+      "case": "WEB -> WEB",
+      "endpoint": "http://127.0.0.1:57581/api/web/accounts/101/dashboard",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 2702
+    },
+    {
+      "case": "MOBILE -> WEB",
+      "endpoint": "http://127.0.0.1:57581/api/web/accounts/101/dashboard",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "ATM -> WEB",
+      "endpoint": "http://127.0.0.1:57581/api/web/accounts/101/dashboard",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "http://127.0.0.1:57581/api/web/accounts/101/dashboard",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "http://127.0.0.1:57581/api/web/accounts/101/dashboard",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "http://127.0.0.1:57581/api/web/accounts/101/dashboard",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "http://127.0.0.1:57581/api/web/accounts/9223372036854775807/dashboard",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "WEB -> MOBILE",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/summary",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "MOBILE -> MOBILE",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/summary",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 58
+    },
+    {
+      "case": "ATM -> MOBILE",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/summary",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/summary",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/summary",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/summary",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/9223372036854775807/summary",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "WEB -> MOBILE",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/movements",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "MOBILE -> MOBILE",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/movements",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 276
+    },
+    {
+      "case": "ATM -> MOBILE",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/movements",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "http://127.0.0.1:57582/api/mobile/accounts/9223372036854775807/movements",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "WEB -> ATM",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/balance",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "MOBILE -> ATM",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/balance",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "ATM -> ATM",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/balance",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 44
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/balance",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/balance",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/balance",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/9223372036854775807/balance",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "WEB -> ATM",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/movements",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "MOBILE -> ATM",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/movements",
+      "expected": 403,
+      "actual": 403,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "ATM -> ATM",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/movements",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 106
+    },
+    {
+      "case": "missing-token",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "malformed-token",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "altered-signature",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/movements",
+      "expected": 401,
+      "actual": 401,
+      "passed": true,
+      "bytes": 0
+    },
+    {
+      "case": "missing-account",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/9223372036854775807/movements",
+      "expected": 404,
+      "actual": 404,
+      "passed": true,
+      "bytes": 108
+    },
+    {
+      "case": "simulated-withdrawal",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/withdrawals",
+      "expected": 200,
+      "actual": 200,
+      "passed": true,
+      "bytes": 182
+    },
+    {
+      "case": "withdrawal-is-simulated",
+      "passed": true
+    },
+    {
+      "case": "insufficient-funds",
+      "endpoint": "http://127.0.0.1:57583/api/atm/accounts/101/withdrawals",
+      "expected": 400,
+      "actual": 400,
+      "passed": true,
+      "bytes": 87
+    },
+    {
+      "case": "balance-unchanged-via-api",
+      "passed": true
+    }
+  ],
+  "timestampUtc": "2026-09-10T00:18:39.4741855Z",
+  "note": "No tokens or account payloads persisted. API balance comparison is not a database write audit.",
+  "allPassed": true,
+  "transport": "explicit-local-http-or-https"
+}

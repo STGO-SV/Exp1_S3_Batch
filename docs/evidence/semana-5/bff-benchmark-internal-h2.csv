@@ -1,0 +1,6 @@
+"timestampUtc","channel","endpoint","accountId","dataset","samples","successes","payloadBytesMedian","medianMs","p95Ms","errors","warmup","concurrency","certificateValidated"
+"2026-09-10T00:18:39.9716346Z","WEB","http://127.0.0.1:57581/api/web/accounts/101/dashboard","101","Synthetic H2: 1 account, 25 movements, 12 anomalies; pool=1; NOT PostgreSQL or TLS","20","20","2702","6,54885","8,2972","0","3","1","False"
+"2026-09-10T00:18:40.4302622Z","MOBILE","http://127.0.0.1:57582/api/mobile/accounts/101/summary","101","Synthetic H2: 1 account, 25 movements, 12 anomalies; pool=1; NOT PostgreSQL or TLS","20","20","58","7,71765","35,3497","0","3","1","False"
+"2026-09-10T00:18:40.8408546Z","MOBILE","http://127.0.0.1:57582/api/mobile/accounts/101/movements","101","Synthetic H2: 1 account, 25 movements, 12 anomalies; pool=1; NOT PostgreSQL or TLS","20","20","276","7,00425","7,6862","0","3","1","False"
+"2026-09-10T00:18:41.1765233Z","ATM","http://127.0.0.1:57583/api/atm/accounts/101/balance","101","Synthetic H2: 1 account, 25 movements, 12 anomalies; pool=1; NOT PostgreSQL or TLS","20","20","44","4,9555","5,6888","0","3","1","False"
+"2026-09-10T00:18:41.5223923Z","ATM","http://127.0.0.1:57583/api/atm/accounts/101/movements","101","Synthetic H2: 1 account, 25 movements, 12 anomalies; pool=1; NOT PostgreSQL or TLS","20","20","106","5,00845","6,41","0","3","1","False"

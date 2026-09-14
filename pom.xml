@@ -16,6 +16,7 @@
 	<modules>
 		<module>banco-legacy-batch</module>
 		<module>banco-legacy-core</module>
+        <module>banco-legacy-auth</module>
 		<module>banco-legacy-web-bff</module>
 		<module>banco-legacy-mobile-bff</module>
 		<module>banco-legacy-atm-bff</module>
