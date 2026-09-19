@@ -26,7 +26,7 @@ CSV legacy ──> Batch ──> PostgreSQL   (no ejecutar para iniciar los BFF)
 | banco-legacy-auth | Infraestructura local de autenticación y emisión JWT; sin datos bancarios |
 | banco-legacy-web-bff | Contrato Web completo |
 | banco-legacy-mobile-bff | Contrato compacto Mobile |
-| banco-legacy-atm-bff | Saldo y movimientos mínimos, retiro simulado |
+| banco-legacy-atm-bff | Saldo y movimientos mínimos, retiro transaccional real |
 
 Los BFF dependen únicamente de Core entre los módulos propios. No dependen de Auth para compilar ni consultan al emisor
 para validar cada petición: usan su clave pública. Cada aplicación conserva su cadena de seguridad, puerto y JAR.
@@ -41,7 +41,7 @@ El escaneo de componentes se limita al canal y Core. No se añadió IdP empresar
 | GET /api/mobile/accounts/{accountId}/movements | Hasta 5: date, type, amount | 2: EXISTS + proyección |
 | GET /api/atm/accounts/{accountId}/balance | accountId, availableBalance | 1, una columna SQL |
 | GET /api/atm/accounts/{accountId}/movements | Hasta 3: type, amount | 2: EXISTS + proyección |
-| POST /api/atm/accounts/{accountId}/withdrawals | accountId, requestedAmount, balanceBefore, projectedBalance, status, message | 1, sin escritura |
+| POST /api/atm/accounts/{accountId}/withdrawals | accountId, requestedAmount, balanceBefore, balanceAfter, status=COMPLETED, message | 1 bloqueo SELECT + 1 UPDATE + 1 INSERT |
 
 Web deja de leer el saldo dos veces en la misma petición. Mobile no trae descripciones y ATM no trae fechas/descripciones
 para movimientos. Los LIMIT se aplican en SQL; orden por fecha DESC, id DESC. Saldo más reciente por id DESC.
@@ -83,8 +83,8 @@ $env:DB_USER = 'postgres'
 $env:DB_PASSWORD = [Net.NetworkCredential]::new('', (Read-Host 'Contraseña PostgreSQL' -AsSecureString)).Password
 ```
 
-Se recomienda un usuario de sólo lectura para los BFF. Hikari se configura read-only y SQL init está deshabilitado;
-esto no reemplaza los permisos PostgreSQL. No se crean usuarios, índices ni tablas reales automáticamente.
+Web y Mobile deben usar usuarios PostgreSQL de sólo lectura. ATM necesita UPDATE sobre `interes_procesado` e INSERT sobre
+`movimiento_anual_procesado`; su pool no se marca read-only. SQL init permanece deshabilitado y no se crean tablas reales automáticamente.
 
 ## Compilar y ejecutar
 
@@ -180,18 +180,25 @@ Importar [colección Postman](docs/postman/semana-5.postman_collection.json) y
 Definir contraseñas como valores locales secretos, ejecutar las tres solicitudes Token y luego la matriz.
 No exportar el entorno con contraseñas/tokens. La colección guarda los tokens obtenidos en el entorno local.
 
-## Retiro académico ATM
+## Corrección posterior del retiro ATM
 
-Se conserva status=SIMULATED y saldo proyectado. No se escribe PostgreSQL.
-Monto requerido, positivo, máximo dos decimales y 17 dígitos enteros; se valida también en el servicio.
-Fondos insuficientes mantienen HTTP 400 con code=WITHDRAWAL_REJECTED y
-message="Saldo insuficiente para el retiro solicitado". No hay ledger, reservas, bloqueo ni retiro bancario real.
+Después de la entrega original de Semana 5, la retroalimentación docente señaló que el retiro sólo proyectaba el saldo.
+La corrección convierte la operación en un retiro persistente: `@Transactional` agrupa el bloqueo de la fila vigente con
+`SELECT ... FOR UPDATE`, la validación de fondos, el `UPDATE` exacto por `id` y el `INSERT` del movimiento `retiro`.
+Si falla cualquiera de las escrituras, la excepción se propaga y la transacción revierte completa. Una respuesta exitosa
+usa `status=COMPLETED`, `balanceBefore`, `balanceAfter` y el mensaje `Retiro completado`.
+
+Monto requerido, positivo, máximo dos decimales y 17 dígitos enteros; fondos insuficientes mantienen HTTP 400 con
+`code=WITHDRAWAL_REJECTED`. El bloqueo pesimista impide que dos retiros concurrentes gasten el mismo saldo.
+
+`interes_procesado` nació como salida Batch y ahora también funciona como estado operacional mutable. Mientras este modelo
+siga vigente, no se debe ejecutar Batch al mismo tiempo que ATM: una nueva fila Batch podría pasar a ser el saldo vigente.
 
 ## Pruebas y evidencia
 
-113 ejecuciones de tests en la suite actual, incluidos los 27 casos históricos adaptados a Bearer.
+La suite incluye los casos históricos adaptados a Bearer y pruebas del retiro persistente.
 Cobertura: emisión, JWT firmado real, seis cruces, ausencia/Basic/alteración/expiración/claims inválidos,
-error interno 500, contratos, repositorio, límites/orden, 404, montos y simulación sin persistencia.
+error interno 500, contratos, repositorio, límites/orden, 404, montos, persistencia, rollback y concurrencia.
 H2 permite probar integración del código; no sustituye PostgreSQL real.
 
 [Índice de evidencias](docs/evidence/semana-5/README.md).
@@ -212,13 +219,14 @@ las variables JWT, demo y DB:
 ./scripts/verify-week5-postgres.ps1
 ```
 
-El script comprueba las variables sin mostrar valores, selecciona la cuenta 101 cuando es apta o busca otra
-mediante una consulta READ ONLY, inicia sólo los servicios ausentes y detiene únicamente los procesos que creó.
+El script comprueba las variables sin mostrar valores, crea dos cuentas de laboratorio con identificadores reservados y
+marcador único, inicia sólo los servicios ausentes y detiene únicamente los procesos que creó.
 No inicia Batch. Emite tokens nuevos por bloque sin cambiar el TTL de 300 segundos y valida el certificado
 mediante .local/tls/localhost.crt.
 
-La misma ejecución genera matriz JWT, perfiles de payload, retiro SIMULATED, comparación del saldo persistido,
-EXPLAIN ANALYZE en transacción READ ONLY, benchmark de 20 muestras por endpoint y clean verify. Finaliza con
+La misma ejecución genera matriz JWT, perfiles de payload, retiro `COMPLETED`, saldo persistido, movimiento y una prueba
+concurrente con dos conexiones PostgreSQL, además de EXPLAIN ANALYZE, benchmark y clean verify. La limpieza sólo elimina
+los dos IDs creados y exige que su marcador de propiedad coincida. Finaliza con
 un resumen de consola pensado para una sola captura. No es necesario levantar los servicios: conviene cerrarlos
 antes para que Windows no bloquee los JAR durante clean verify; el script iniciará y detendrá los suyos.
 El benchmark mide cinco endpoints GET, bytes, mediana, p95 nearest-rank, muestras y errores.
@@ -228,7 +236,7 @@ Para sólo inspección interna, -InternalHttp permite únicamente URLs HTTP de l
 
 La automatización no almacena contraseñas, claves ni JWT completos. Los resultados PostgreSQL sólo deben
 documentarse como aprobados después de ejecutar el comando anterior en la sesión que contiene las variables.
-No se agregan índices ni se modifican datos.
+La validación modifica únicamente sus datos efímeros de laboratorio y los elimina en `finally`.
 
 ## Limitaciones y siguiente bloque
 

@@ -41,7 +41,20 @@ El flujo esperado es:
 4. Obtener el token desde Auth por HTTPS.
 5. Enviar el token al canal correcto por HTTPS.
 
-La matriz de autorización debe producir 200 en el canal propio y 403 en los otros dos. La ausencia de token y un token alterado producen 401. Un error interno autorizado conserva 500 o 503. El retiro ATM sigue siendo SIMULATED y no persiste movimientos.
+La matriz de autorización debe producir 200 en el canal propio y 403 en los otros dos. La ausencia de token y un token alterado producen 401. Un error interno autorizado conserva 500 o 503.
+
+## Corrección posterior basada en retroalimentación docente
+
+La entrega original simulaba el retiro ATM. La corrección posterior bloquea la fila vigente de `interes_procesado` con
+`SELECT ... FOR UPDATE`, valida fondos, actualiza esa fila por `id` e inserta el movimiento `retiro`, todo dentro del método
+público anotado con `@Transactional`. El contrato exitoso ahora informa `COMPLETED` y `balanceAfter`. Un fallo de UPDATE o
+INSERT revierte la operación completa. ATM permite escritura; Web y Mobile permanecen read-only.
+
+La cobertura H2 comprueba saldo actualizado, movimiento visible, rollback al forzar un fallo de INSERT y dos retiros
+concurrentes sobre saldo 150. La validación PostgreSQL usa dos cuentas efímeras con marcador único y elimina sólo esos IDs.
+
+El modelo conserva una limitación: `interes_procesado` es salida Batch y estado mutable de ATM. No se debe ejecutar Batch
+concurrentemente con ATM porque una fila nueva del proceso Batch podría convertirse en el saldo vigente.
 
 Para una comprobación rápida con certificado autofirmado, Postman puede desactivar SSL certificate verification y curl.exe puede usar -k. Estos modos prueban que TLS está activo, pero no validan confianza ni identidad. La comprobación estricta debe importar o confiar explícitamente en .local/tls/localhost.crt y mantener la validación de nombre. Los scripts de verificación admiten TrustedCertificate para ese propósito; LabSkipCertificateValidation queda marcado como modo de laboratorio.
 

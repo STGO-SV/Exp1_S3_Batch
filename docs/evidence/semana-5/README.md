@@ -1,5 +1,9 @@
 # Evidencia real — Semana 5
 
+> Evidencia histórica de la entrega original, anterior a la corrección transaccional ATM realizada después de la
+> retroalimentación docente. Las referencias a `SIMULATED` y saldo sin cambios describen fielmente aquella entrega y no
+> se reescriben. La evidencia nueva vive en `docs/evidence/atm-transactional-fix/`.
+
 Estado del trabajo: rama semana-5 con cambios sin commit sobre b084f902a2f3f655bc168c8a6be349c4ce1fa580.
 Las evidencias describen ese árbol de trabajo, no un nuevo commit publicado.
 

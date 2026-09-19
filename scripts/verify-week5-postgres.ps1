@@ -11,7 +11,7 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$evidence = Join-Path $repo 'docs/evidence/semana-5'
+$evidence = Join-Path $repo 'docs/evidence/atm-transactional-fix'
 $verificationFile = Join-Path $evidence 'verification-https-postgres.json'
 $benchmarkFile = Join-Path $evidence 'bff-benchmark-https-postgres.csv'
 $explainFile = Join-Path $evidence 'explain-analyze-postgres.txt'
@@ -47,6 +47,20 @@ function Invoke-ReadOnlyDatabase([ValidateSet('ping','account','balance','explai
     }
     return $stdout.Trim()
 }
+function Invoke-AtmLab([ValidateSet('setup','balance','movement-count','cleanup','concurrency')][string]$Mode,[long]$AccountId,[string]$Marker) {
+    $info=[Diagnostics.ProcessStartInfo]::new('java')
+    $info.UseShellExecute=$false;$info.CreateNoWindow=$true
+    $info.RedirectStandardOutput=$true;$info.RedirectStandardError=$true
+    foreach($argument in @('--class-path',$script:postgresDriver,(Join-Path $PSScriptRoot 'Week5AtmPostgresLab.java'),$Mode,[string]$AccountId,$Marker)){$info.ArgumentList.Add($argument)}
+    $process=[Diagnostics.Process]::Start($info)
+    $stdoutTask=$process.StandardOutput.ReadToEndAsync();$stderrTask=$process.StandardError.ReadToEndAsync()
+    $process.WaitForExit();$stdout=$stdoutTask.GetAwaiter().GetResult();$stderr=$stderrTask.GetAwaiter().GetResult()
+    if($process.ExitCode -ne 0){
+        $safe=$stderr -replace [regex]::Escape($env:DB_PASSWORD),'[REDACTED]'
+        throw "Operación PostgreSQL de laboratorio falló: $safe"
+    }
+    return $stdout.Trim()
+}
 function Test-LocalPort([int]$Port) {
     $socket = [Net.Sockets.TcpClient]::new()
     try { return $socket.ConnectAsync('127.0.0.1',$Port).Wait(400) } catch { return $false } finally { $socket.Dispose() }
@@ -70,8 +84,9 @@ function Write-FinalSummary([hashtable]$State) {
         ('No token             '+(& $mark $State.NoToken)),('Altered token        '+(& $mark $State.AlteredToken)),
         'Expired token         PASS (test automatizado; sin espera ni cambio de TTL)','',
         ('Web payload          '+(& $mark $State.Payloads.Web.passed)),('Mobile payload       '+(& $mark $State.Payloads.Mobile.passed)),('ATM payload          '+(& $mark $State.Payloads.ATM.passed)),'',
-        ('ATM simulated withdrawal '+(& $mark $State.Withdrawal.Simulated)),('ATM insufficient funds   '+(& $mark $State.Withdrawal.InsufficientFunds)),
-        ('Balance unchanged        '+(& $mark $State.Withdrawal.BalanceUnchanged)),('Balance before/after     '+$State.Withdrawal.BalanceBefore+' / '+$State.Withdrawal.BalanceAfter),'',
+        ('ATM completed withdrawal '+(& $mark $State.Withdrawal.Completed)),('ATM insufficient funds   '+(& $mark $State.Withdrawal.InsufficientFunds)),
+        ('Balance decreased        '+(& $mark $State.Withdrawal.BalanceChanged)),('Movement registered      '+(& $mark $State.Withdrawal.MovementRegistered)),
+        ('PostgreSQL concurrency   '+(& $mark $State.Withdrawal.Concurrency)),('Balance before/after     '+$State.Withdrawal.BalanceBefore+' / '+$State.Withdrawal.BalanceAfter),'',
         ('Benchmark PostgreSQL '+(& $mark $State.Benchmark)),('EXPLAIN ANALYZE      '+(& $mark $State.Explain)),
         ('Maven tests          '+$State.Build.Tests+' PASS'),('BUILD SUCCESS        '+(& $mark $State.Build.Success)),'',
         ('No secrets exposed '+(& $mark $State.Security.NoSecrets)),('Keystores ignored  '+(& $mark $State.Security.KeystoresIgnored)),
@@ -85,10 +100,15 @@ function Write-FinalSummary([hashtable]$State) {
 $started = [Collections.Generic.List[Diagnostics.Process]]::new()
 $client = $null
 $state = @{Https=@{Auth=$false;Web=$false;Mobile=$false;ATM=$false};PostgreSQL=@{Connection=$false;RealData=$false};AccountId=$null;Matrix=@();NoToken=$false;AlteredToken=$false;Payloads=@{};Withdrawal=@{};Benchmark=$false;Explain=$false;Build=@{Tests=0;Success=$false};Security=@{NoSecrets=$false;KeystoresIgnored=$false;NoStaging=$false};Overall=$false}
+$labCreated=$false
+$labMarker='ATM_FIX_LAB_'+[Guid]::NewGuid().ToString('N')
+$labAccountId=9000000000000000L+([DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()%1000000000L)*2L
 try {
     $script:postgresDriver=Get-PostgresDriver
     $state.PostgreSQL.Connection=(Invoke-ReadOnlyDatabase ping) -eq '1'
-    $state.AccountId=[long](Invoke-ReadOnlyDatabase account);$state.PostgreSQL.RealData=$true
+    $null=Invoke-AtmLab setup -AccountId $labAccountId -Marker $labMarker
+    $labCreated=$true
+    $state.AccountId=$labAccountId;$state.PostgreSQL.RealData=$true
 
     $modulePorts=[ordered]@{'auth'=8084;'web-bff'=8081;'mobile-bff'=8082;'atm-bff'=8083}
     $missingServices=@($modulePorts.Keys|Where-Object{!(Test-LocalPort $modulePorts[$_])})
@@ -119,9 +139,10 @@ try {
     $state.Matrix=@($matrixOrder|ForEach-Object{$label=$_;$verification.results|Where-Object case -eq $label|Select-Object -First 1})
     $state.NoToken=@($verification.results|Where-Object case -eq 'missing-token'|Where-Object passed -ne $true).Count -eq 0
     $state.AlteredToken=@($verification.results|Where-Object case -eq 'altered-signature'|Where-Object passed -ne $true).Count -eq 0
-    $state.Withdrawal.Simulated=($verification.results|Where-Object case -eq 'withdrawal-is-simulated').passed
+    $state.Withdrawal.Completed=($verification.results|Where-Object case -eq 'withdrawal-completed').passed
     $state.Withdrawal.InsufficientFunds=($verification.results|Where-Object case -eq 'insufficient-funds').passed
-    $state.Withdrawal.BalanceUnchanged=($verification.results|Where-Object case -eq 'balance-unchanged-via-api').passed
+    $state.Withdrawal.BalanceChanged=($verification.results|Where-Object case -eq 'balance-decreased-by-withdrawal').passed
+    $state.Withdrawal.MovementRegistered=($verification.results|Where-Object case -eq 'withdrawal-movement-registered').passed
 
     $payloadCases=@(
         @{Name='Web';Channel='WEB';Url="https://localhost:8081/api/web/accounts/$($state.AccountId)/dashboard";Expected=@('accountId','holderName','accountType','originalBalance','appliedRate','processedBalance','movements','recentAnomalies')},
@@ -136,11 +157,14 @@ try {
         $fresh=$null
     }
 
-    $balanceAfter=[decimal]::Parse((Invoke-ReadOnlyDatabase balance -AccountId $state.AccountId),[Globalization.CultureInfo]::InvariantCulture);$state.Withdrawal.BalanceAfter=$balanceAfter.ToString([Globalization.CultureInfo]::InvariantCulture)
-    $state.Withdrawal.BalanceUnchanged=$state.Withdrawal.BalanceUnchanged -and $balanceBefore -eq $balanceAfter
+    $balanceAfter=[decimal]::Parse((Invoke-AtmLab balance -AccountId $state.AccountId -Marker $labMarker),[Globalization.CultureInfo]::InvariantCulture);$state.Withdrawal.BalanceAfter=$balanceAfter.ToString([Globalization.CultureInfo]::InvariantCulture)
+    $state.Withdrawal.BalanceChanged=$state.Withdrawal.BalanceChanged -and $balanceAfter -eq ($balanceBefore-[decimal]0.01)
+    $state.Withdrawal.MovementRegistered=$state.Withdrawal.MovementRegistered -and [long](Invoke-AtmLab movement-count -AccountId $state.AccountId -Marker $labMarker) -eq 1
+    $concurrencyResult=Invoke-AtmLab concurrency -AccountId ($state.AccountId+1) -Marker $labMarker
+    $state.Withdrawal.Concurrency=$concurrencyResult -match '^passed=true;'
     $apiBalance=[decimal]::Parse($state.Payloads.ATM.bodyBalance,[Globalization.CultureInfo]::InvariantCulture)
-    $state.PostgreSQL.RealData=$state.PostgreSQL.RealData -and $apiBalance -eq $balanceBefore
-    $verification | Add-Member -NotePropertyName database -NotePropertyValue 'PostgreSQL real; read-only validation' -Force
+    $state.PostgreSQL.RealData=$state.PostgreSQL.RealData -and $apiBalance -eq $balanceAfter
+    $verification | Add-Member -NotePropertyName database -NotePropertyValue 'PostgreSQL real; datos aislados de laboratorio con limpieza' -Force
     $verification | Add-Member -NotePropertyName accountId -NotePropertyValue $state.AccountId -Force
     $verification | Add-Member -NotePropertyName payloadProfiles -NotePropertyValue $state.Payloads -Force
     $verification | Add-Member -NotePropertyName persistedBalanceBefore -NotePropertyValue $state.Withdrawal.BalanceBefore -Force
@@ -201,11 +225,12 @@ try {
     $state.Build.Success=$state.Build.Success -and $state.Build.Tests -ge 113 -and !$failures -and !$errors -and !$skipped
     @('Comando: .\mvnw.cmd clean verify',"Ejecución UTC: $([DateTime]::UtcNow.ToString('o'))","Tests: $($state.Build.Tests); failures: $failures; errors: $errors; skipped: $skipped",$(if($state.Build.Success){'BUILD SUCCESS'}else{'BUILD FAILURE'}),'Resumen saneado; no contiene variables de entorno.')|Set-Content -LiteralPath $buildFile -Encoding utf8
 
-    $state.Overall=$state.Https.Values -notcontains $false -and $state.PostgreSQL.Values -notcontains $false -and @($state.Matrix|Where-Object passed -ne $true).Count -eq 0 -and $state.NoToken -and $state.AlteredToken -and $state.Payloads.Web.passed -and $state.Payloads.Mobile.passed -and $state.Payloads.ATM.passed -and $state.Withdrawal.Simulated -and $state.Withdrawal.InsufficientFunds -and $state.Withdrawal.BalanceUnchanged -and $state.Benchmark -and $state.Explain -and $state.Build.Success -and $state.Security.Values -notcontains $false
+    $state.Overall=$state.Https.Values -notcontains $false -and $state.PostgreSQL.Values -notcontains $false -and @($state.Matrix|Where-Object passed -ne $true).Count -eq 0 -and $state.NoToken -and $state.AlteredToken -and $state.Payloads.Web.passed -and $state.Payloads.Mobile.passed -and $state.Payloads.ATM.passed -and $state.Withdrawal.Completed -and $state.Withdrawal.InsufficientFunds -and $state.Withdrawal.BalanceChanged -and $state.Withdrawal.MovementRegistered -and $state.Withdrawal.Concurrency -and $state.Benchmark -and $state.Explain -and $state.Build.Success -and $state.Security.Values -notcontains $false
     Write-FinalSummary $state
     if(!$state.Overall){throw 'La validación final terminó con uno o más fallos.'}
 } finally {
     if($client){$client.Dispose()}
     if(!$KeepStartedServices){foreach($process in $started){try{if(!$process.HasExited){$process.Kill($true);$process.WaitForExit(10000)|Out-Null}}catch{}}}
+    if($labCreated){try{$null=Invoke-AtmLab cleanup -AccountId $labAccountId -Marker $labMarker}catch{Write-Error "La limpieza de datos de laboratorio falló: $($_.Exception.Message)"}}
     $env:PGPASSWORD=$null;$tokens=$null
 }

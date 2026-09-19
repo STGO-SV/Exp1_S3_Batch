@@ -42,6 +42,6 @@ public class AtmAccountController {
     @PostMapping("/{accountId}/withdrawals")
     public WithdrawalResponse withdraw(@PathVariable long accountId,
                                        @Valid @RequestBody WithdrawalRequest request) {
-        return withdrawalService.simulate(accountId, request.amount());
+        return withdrawalService.withdraw(accountId, request.amount());
     }
 }

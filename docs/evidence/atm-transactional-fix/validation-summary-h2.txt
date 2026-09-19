@@ -1,0 +1,21 @@
+CORRECCIÓN ATM TRANSACCIONAL — VALIDACIÓN H2
+
+Fecha local: 2026-09-18
+Comando focalizado: .\mvnw.cmd test -pl banco-legacy-atm-bff -am
+Resultado focalizado: 46 tests, 0 failures, 0 errors, 0 skipped; BUILD SUCCESS
+
+Persistencia: PASS
+- POST withdrawal devuelve COMPLETED, balanceBefore y balanceAfter.
+- GET balance y la tabla interes_procesado muestran el saldo reducido.
+- Se inserta un movimiento retiro con el monto correcto y GET movements lo expone.
+
+Rollback: PASS
+- Una restricción H2 provoca el fallo del INSERT del movimiento.
+- El UPDATE previo del saldo se revierte y no queda movimiento parcial.
+
+Concurrencia: PASS
+- Dos transacciones/conexiones intentan retirar 100 desde saldo 150.
+- Resultado: un COMPLETED, un rechazo por fondos, saldo final 50 y un movimiento.
+
+Semántica H2: PASS para SELECT ... FOR UPDATE en MODE=PostgreSQL en este escenario.
+Esta evidencia no afirma que PostgreSQL real fue ejecutado.

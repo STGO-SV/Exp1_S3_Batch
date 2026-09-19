@@ -1,0 +1,107 @@
+EXPLAIN ANALYZE — PostgreSQL real — operaciones READ ONLY
+Cuenta: 9000001558168734
+Generado UTC: 2026-09-19T00:51:58.9678578Z
+
+PLAN 1
+Limit  (cost=7.54..7.54 rows=1 width=50) (actual time=0.076..0.076 rows=1.00 loops=1)
+  Buffers: shared hit=7
+  ->  Sort  (cost=7.54..7.54 rows=1 width=50) (actual time=0.075..0.075 rows=1.00 loops=1)
+        Sort Key: id DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=7
+        ->  Seq Scan on interes_procesado  (cost=0.00..7.53 rows=1 width=50) (actual time=0.047..0.047 rows=1.00 loops=1)
+              Filter: (cuenta_id = '9000001558168734'::bigint)
+              Rows Removed by Filter: 283
+              Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=83
+Planning Time: 2.549 ms
+Execution Time: 0.121 ms
+
+PLAN 2
+Limit  (cost=7.54..7.54 rows=1 width=21) (actual time=0.038..0.038 rows=1.00 loops=1)
+  Buffers: shared hit=4
+  ->  Sort  (cost=7.54..7.54 rows=1 width=21) (actual time=0.037..0.037 rows=1.00 loops=1)
+        Sort Key: id DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=4
+        ->  Seq Scan on interes_procesado  (cost=0.00..7.53 rows=1 width=21) (actual time=0.031..0.031 rows=1.00 loops=1)
+              Filter: (cuenta_id = '9000001558168734'::bigint)
+              Rows Removed by Filter: 283
+              Buffers: shared hit=4
+Planning Time: 0.096 ms
+Execution Time: 0.063 ms
+
+PLAN 3
+Limit  (cost=7.54..7.54 rows=1 width=13) (actual time=0.037..0.037 rows=1.00 loops=1)
+  Buffers: shared hit=4
+  ->  Sort  (cost=7.54..7.54 rows=1 width=13) (actual time=0.036..0.036 rows=1.00 loops=1)
+        Sort Key: id DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=4
+        ->  Seq Scan on interes_procesado  (cost=0.00..7.53 rows=1 width=13) (actual time=0.030..0.031 rows=1.00 loops=1)
+              Filter: (cuenta_id = '9000001558168734'::bigint)
+              Rows Removed by Filter: 283
+              Buffers: shared hit=4
+Planning Time: 0.081 ms
+Execution Time: 0.050 ms
+
+PLAN 4
+Limit  (cost=17.04..17.04 rows=1 width=48) (actual time=0.091..0.091 rows=1.00 loops=1)
+  Buffers: shared hit=12
+  ->  Sort  (cost=17.04..17.04 rows=1 width=48) (actual time=0.090..0.090 rows=1.00 loops=1)
+        Sort Key: fecha DESC, id DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=12
+        ->  Seq Scan on movimiento_anual_procesado  (cost=0.00..17.02 rows=1 width=48) (actual time=0.077..0.077 rows=1.00 loops=1)
+              Filter: (cuenta_id = '9000001558168734'::bigint)
+              Rows Removed by Filter: 643
+              Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=47
+Planning Time: 1.743 ms
+Execution Time: 0.111 ms
+
+PLAN 5
+Limit  (cost=17.04..17.04 rows=1 width=24) (actual time=0.062..0.062 rows=1.00 loops=1)
+  Buffers: shared hit=9
+  ->  Sort  (cost=17.04..17.04 rows=1 width=24) (actual time=0.061..0.062 rows=1.00 loops=1)
+        Sort Key: fecha DESC, id DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=9
+        ->  Seq Scan on movimiento_anual_procesado  (cost=0.00..17.02 rows=1 width=24) (actual time=0.055..0.055 rows=1.00 loops=1)
+              Filter: (cuenta_id = '9000001558168734'::bigint)
+              Rows Removed by Filter: 643
+              Buffers: shared hit=9
+Planning Time: 0.081 ms
+Execution Time: 0.075 ms
+
+PLAN 6
+Limit  (cost=17.04..17.04 rows=1 width=24) (actual time=0.060..0.060 rows=1.00 loops=1)
+  Buffers: shared hit=9
+  ->  Sort  (cost=17.04..17.04 rows=1 width=24) (actual time=0.059..0.060 rows=1.00 loops=1)
+        Sort Key: fecha DESC, id DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=9
+        ->  Seq Scan on movimiento_anual_procesado  (cost=0.00..17.02 rows=1 width=24) (actual time=0.053..0.054 rows=1.00 loops=1)
+              Filter: (cuenta_id = '9000001558168734'::bigint)
+              Rows Removed by Filter: 643
+              Buffers: shared hit=9
+Planning Time: 0.083 ms
+Execution Time: 0.075 ms
+
+PLAN 7
+Limit  (cost=10.37..10.40 rows=10 width=33) (actual time=0.072..0.073 rows=10.00 loops=1)
+  Buffers: shared hit=5
+  ->  Sort  (cost=10.37..10.53 rows=63 width=33) (actual time=0.071..0.072 rows=10.00 loops=1)
+        Sort Key: fecha DESC, id DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=5
+        ->  Seq Scan on transaccion_procesada  (cost=0.00..9.01 rows=63 width=33) (actual time=0.018..0.056 rows=63.00 loops=1)
+              Filter: anomalia
+              Rows Removed by Filter: 338
+              Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=34
+Planning Time: 1.725 ms
+Execution Time: 0.091 ms

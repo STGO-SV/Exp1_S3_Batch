@@ -825,7 +825,20 @@
       ]
     },
     {
-      "name": "ATM retiro simulado",
+      "name": "Corrección ATM 1/4 → balance antes (cuenta de laboratorio)",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{atm_token}}", "type": "string" }] },
+        "url": "{{atm_url}}/api/atm/accounts/{{atm_lab_account_id}}/balance",
+        "description": "Use exclusivamente el ID aislado creado por verify-week5-postgres.ps1; nunca la cuenta 101."
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+        "if (pm.response.code === 200) pm.collectionVariables.set(\"atm_balance_before\", pm.response.json().availableBalance);"
+      ] } }]
+    },
+    {
+      "name": "Corrección ATM 2/4 → retiro real",
       "request": {
         "method": "POST",
         "auth": {
@@ -848,7 +861,8 @@
           "mode": "raw",
           "raw": "{\"amount\":0.01}"
         },
-        "url": "{{atm_url}}/api/atm/accounts/{{account_id}}/withdrawals"
+        "url": "{{atm_url}}/api/atm/accounts/{{atm_lab_account_id}}/withdrawals",
+        "description": "Esta solicitud modifica datos. Ejecútela sólo sobre la cuenta aislada creada por el script PostgreSQL."
       },
       "event": [
         {
@@ -856,11 +870,33 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"200 SIMULATED\", () => { pm.response.to.have.status(200); pm.expect(pm.response.json().status).to.eql(\"SIMULATED\"); });"
+              "pm.test(\"200 COMPLETED\", () => { pm.response.to.have.status(200); const body=pm.response.json(); pm.expect(body.status).to.eql(\"COMPLETED\"); pm.expect(body.balanceAfter).to.eql(Number(pm.collectionVariables.get(\"atm_balance_before\"))-0.01); pm.expect(body).not.to.have.property(\"projectedBalance\"); });"
             ]
           }
         }
       ]
+    },
+    {
+      "name": "Corrección ATM 3/4 → balance después",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{atm_token}}", "type": "string" }] },
+        "url": "{{atm_url}}/api/atm/accounts/{{atm_lab_account_id}}/balance"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test(\"saldo disminuyó exactamente 0.01\", () => { pm.response.to.have.status(200); pm.expect(pm.response.json().availableBalance).to.eql(Number(pm.collectionVariables.get(\"atm_balance_before\"))-0.01); });"
+      ] } }]
+    },
+    {
+      "name": "Corrección ATM 4/4 → movimiento registrado",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{atm_token}}", "type": "string" }] },
+        "url": "{{atm_url}}/api/atm/accounts/{{atm_lab_account_id}}/movements"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test(\"retiro visible\", () => { pm.response.to.have.status(200); const first=pm.response.json()[0]; pm.expect(first.type).to.eql(\"retiro\"); pm.expect(first.amount).to.eql(0.01); });"
+      ] } }]
     }
   ]
 }

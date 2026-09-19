@@ -1,0 +1,49 @@
+SEMANA 5 - VALIDACIÓN FINAL
+
+HTTPS:
+Auth        PASS
+Web         PASS
+Mobile      PASS
+ATM         PASS
+
+PostgreSQL:
+Connection  PASS
+Real data   PASS
+Account     9000001558168734
+
+JWT:
+WEB -> WEB            200 PASS
+WEB -> MOBILE         403 PASS
+WEB -> ATM            403 PASS
+MOBILE -> WEB         403 PASS
+MOBILE -> MOBILE      200 PASS
+MOBILE -> ATM         403 PASS
+ATM -> WEB            403 PASS
+ATM -> MOBILE         403 PASS
+ATM -> ATM            200 PASS
+No token             PASS
+Altered token        PASS
+Expired token         PASS (test automatizado; sin espera ni cambio de TTL)
+
+Web payload          PASS
+Mobile payload       PASS
+ATM payload          PASS
+
+ATM completed withdrawal PASS
+ATM insufficient funds   PASS
+Balance decreased        PASS
+Movement registered      PASS
+PostgreSQL concurrency   PASS
+Balance before/after     10.00 / 9.99
+
+Benchmark PostgreSQL PASS
+EXPLAIN ANALYZE      PASS
+Maven tests          122 PASS
+BUILD SUCCESS        PASS
+
+No secrets exposed PASS
+Keystores ignored  PASS
+Git staging empty   PASS
+Batch not executed  PASS
+
+OVERALL: PASS

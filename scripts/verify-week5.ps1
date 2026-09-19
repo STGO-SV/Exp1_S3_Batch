@@ -49,23 +49,38 @@ try {
     }
     $tokens=Get-Week5Tokens -Client $client -AuthUrl $AuthUrl -InternalHttp:$InternalHttp
     $balanceUrl="$AtmUrl/api/atm/accounts/$AccountId/balance"
+    $movementsUrl="$AtmUrl/api/atm/accounts/$AccountId/movements"
+    $withdrawalAmount=[decimal]0.01
+    $after=$null
     $before=Invoke-Week5Http -Client $client -Url $balanceUrl -Token $tokens.ATM
     if($before.Status -eq 200) {
-        $amount=[decimal](($before.Body | ConvertFrom-Json).availableBalance)
-        if($amount -ge 0.01) {
-            $reply=Check 'simulated-withdrawal' "$AtmUrl/api/atm/accounts/$AccountId/withdrawals" $tokens.ATM 200 'POST' '{"amount":0.01}'
-            $simulated=$reply.Status -eq 200 -and ($reply.Body | ConvertFrom-Json).status -eq 'SIMULATED'
-            $results.Add([pscustomobject]@{case='withdrawal-is-simulated';passed=$simulated})
+        $balanceBefore=[decimal](($before.Body | ConvertFrom-Json).availableBalance)
+        if($balanceBefore -ge $withdrawalAmount) {
+            $reply=Check 'completed-withdrawal' "$AtmUrl/api/atm/accounts/$AccountId/withdrawals" $tokens.ATM 200 'POST' '{"amount":0.01}'
+            $withdrawal=if($reply.Status -eq 200){$reply.Body | ConvertFrom-Json}else{$null}
+            $completed=$null -ne $withdrawal -and $withdrawal.status -eq 'COMPLETED' -and
+                [decimal]$withdrawal.balanceBefore -eq $balanceBefore -and
+                [decimal]$withdrawal.balanceAfter -eq ($balanceBefore-$withdrawalAmount)
+            $results.Add([pscustomobject]@{case='withdrawal-completed';passed=$completed})
+
+            $after=Invoke-Week5Http -Client $client -Url $balanceUrl -Token $tokens.ATM
+            $balanceChanged=$after.Status -eq 200 -and
+                [decimal](($after.Body|ConvertFrom-Json).availableBalance) -eq ($balanceBefore-$withdrawalAmount)
+            $results.Add([pscustomobject]@{case='balance-decreased-by-withdrawal';passed=$balanceChanged})
+
+            $movements=Invoke-Week5Http -Client $client -Url $movementsUrl -Token $tokens.ATM
+            $movementList=if($movements.Status -eq 200){@($movements.Body|ConvertFrom-Json)}else{@()}
+            $registered=$movementList.Count -gt 0 -and $movementList[0].type -eq 'retiro' -and
+                [decimal]$movementList[0].amount -eq $withdrawalAmount
+            $results.Add([pscustomobject]@{case='withdrawal-movement-registered';passed=$registered})
         }
-        $excess=(@{amount=($amount+1)} | ConvertTo-Json -Compress)
+        $currentBalance=if($null -ne $after -and $after.Status -eq 200){[decimal](($after.Body|ConvertFrom-Json).availableBalance)}else{$balanceBefore}
+        $excess=(@{amount=($currentBalance+1)} | ConvertTo-Json -Compress)
         $null=Check 'insufficient-funds' "$AtmUrl/api/atm/accounts/$AccountId/withdrawals" $tokens.ATM 400 'POST' $excess
-        $after=Invoke-Week5Http -Client $client -Url $balanceUrl -Token $tokens.ATM
-        $unchanged=$after.Status -eq 200 -and (($after.Body|ConvertFrom-Json).availableBalance -eq $amount)
-        $results.Add([pscustomobject]@{case='balance-unchanged-via-api';passed=$unchanged})
     }
 } finally { $client.Dispose(); $tokens=$null }
 $report=@{ timestampUtc=[DateTime]::UtcNow.ToString('o'); transport=if($InternalHttp){'explicit-local-http-or-https'}elseif($LabSkipCertificateValidation){'https-laboratory-unverified'}elseif($TrustedCertificate){'https-custom-trust-verified'}else{'https-system-trust-verified'}
-    note='No tokens or account payloads persisted. API balance comparison is not a database write audit.'
+    note='No tokens or account payloads persisted in this report. This verification performs one real withdrawal against the explicitly supplied laboratory account.'
     results=$results; allPassed=(@($results|Where-Object passed -EQ $false).Count -eq 0) }
 [IO.Directory]::CreateDirectory((Split-Path ([IO.Path]::GetFullPath($Output)))) | Out-Null
 $report | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $Output -Encoding utf8
