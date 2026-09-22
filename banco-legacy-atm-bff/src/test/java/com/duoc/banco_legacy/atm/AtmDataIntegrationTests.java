@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import com.duoc.banco_legacy.core.repository.LegacyAccountReadRepository;
 import com.duoc.banco_legacy.atm.service.AtmWithdrawalService;
+import com.duoc.banco_legacy.atm.client.AccountServiceClient;
+import com.duoc.banco_legacy.atm.dto.AtmBalance;
+import com.duoc.banco_legacy.atm.dto.AtmMovement;
 import com.duoc.banco_legacy.atm.service.WithdrawalRejectedException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,6 +20,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -28,6 +34,7 @@ class AtmDataIntegrationTests extends JwtTestSupport {
     @Autowired JdbcTemplate jdbc;
     @Autowired AtmWithdrawalService withdrawalService;
     @SpyBean LegacyAccountReadRepository repository;
+    @MockBean AccountServiceClient remoteClient;
     @BeforeEach void seedIsolatedH2() throws Exception {
         try(var connection = jdbc.getDataSource().getConnection()) {
             if (!connection.getMetaData().getURL().startsWith("jdbc:h2:mem:")) throw new IllegalStateException("Tests require isolated H2");
@@ -42,6 +49,14 @@ class AtmDataIntegrationTests extends JwtTestSupport {
         jdbc.update("INSERT INTO interes_procesado (cuenta_id,nombre,saldo_original,tasa,saldo_procesado,tipo) VALUES (101,'Ana',1000,0.01,1010,'ahorro'),(102,'Beto',100,0.01,101,'ahorro')");
         for(int i=1;i<=25;i++) jdbc.update("INSERT INTO movimiento_anual_procesado (cuenta_id,fecha,tipo_transaccion,monto,descripcion) VALUES (101,DATE '2026-01-01','deposito',?,'Detalle')",i);
         for(int i=1;i<=12;i++) jdbc.update("INSERT INTO transaccion_procesada (transaccion_id,fecha,monto,tipo,anomalia) VALUES (?,DATE '2026-01-01',2500,'debito',TRUE)",i);
+        when(remoteClient.getBalance(eq(101L), anyString())).thenReturn(new AtmBalance(101, new BigDecimal("1010")));
+        when(remoteClient.getBalance(eq(999L), anyString())).thenThrow(new com.duoc.banco_legacy.core.exception.AccountNotFoundException(999));
+        when(remoteClient.getMovements(eq(101L), anyString())).thenReturn(List.of(
+                new AtmMovement("deposito", new BigDecimal("25")),
+                new AtmMovement("deposito", new BigDecimal("24")),
+                new AtmMovement("deposito", new BigDecimal("23"))));
+        when(remoteClient.getMovements(eq(999L), anyString())).thenThrow(new com.duoc.banco_legacy.core.exception.AccountNotFoundException(999));
+        when(remoteClient.getMovements(eq(102L), anyString())).thenReturn(List.of());
     }
     @Test void fullReadPathWithRealJwtAndJdbc() throws Exception {
         mvc.perform(get("/api/atm/accounts/101/balance").with(bearer("ATM")))
@@ -65,6 +80,26 @@ class AtmDataIntegrationTests extends JwtTestSupport {
                 .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(0));
     }
 
+    @Test void bothGetOperationsRelayBearer() throws Exception {
+        String jwt = token("ATM");
+        mvc.perform(get("/api/atm/accounts/101/balance")
+                .header("Authorization", "Bearer " + jwt)).andExpect(status().isOk());
+        mvc.perform(get("/api/atm/accounts/101/movements")
+                .header("Authorization", "Bearer " + jwt)).andExpect(status().isOk());
+        verify(remoteClient).getBalance(101, "Bearer " + jwt);
+        verify(remoteClient).getMovements(101, "Bearer " + jwt);
+    }
+
+    @Test void downstreamFailureIs503WithoutFinancialData() throws Exception {
+        when(remoteClient.getBalance(eq(101L), anyString()))
+                .thenThrow(new com.duoc.banco_legacy.atm.client.AccountServiceUnavailableException(
+                        new IllegalStateException("downstream")));
+        mvc.perform(get("/api/atm/accounts/101/balance").with(bearer("ATM")))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.code").value("ACCOUNT_SERVICE_UNAVAILABLE"))
+                .andExpect(jsonPath("$.availableBalance").doesNotExist());
+    }
+
     @org.junit.jupiter.params.ParameterizedTest
     @org.junit.jupiter.params.provider.ValueSource(strings={"{\"amount\":0}","{\"amount\":-1}","{\"amount\":null}","{}","{\"amount\":0.001}","{\"amount\":100000000000000000}"})
     void invalidWithdrawalIs400(String body) throws Exception {
@@ -80,18 +115,13 @@ class AtmDataIntegrationTests extends JwtTestSupport {
                 .andExpect(jsonPath("$.balanceBefore").value(1010))
                 .andExpect(jsonPath("$.balanceAfter").value(910));
 
-        mvc.perform(get("/api/atm/accounts/101/balance").with(bearer("ATM")))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.availableBalance").value(910));
         assertThat(jdbc.queryForObject(
                 "SELECT saldo_procesado FROM interes_procesado WHERE cuenta_id=101 ORDER BY id DESC LIMIT 1",
                 BigDecimal.class)).isEqualByComparingTo("910");
         assertThat(jdbc.queryForObject(
                 "SELECT COUNT(*) FROM movimiento_anual_procesado WHERE cuenta_id=101 AND tipo_transaccion='retiro' AND monto=100",
                 Integer.class)).isEqualTo(1);
-        mvc.perform(get("/api/atm/accounts/101/movements").with(bearer("ATM")))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].type").value("retiro"))
-                .andExpect(jsonPath("$[0].amount").value(100));
+        verifyNoInteractions(remoteClient);
     }
 
     @Test void movementInsertFailureRollsBackBalanceUpdate() {

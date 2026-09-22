@@ -1,0 +1,6 @@
+{
+  "Phase": "05-half-open-atm",
+  "ObservedAt": "2026-09-19T20:57:07.4906082-03:00",
+  "Result": "PASS",
+  "CircuitState": "HALF_OPEN"
+}

@@ -1,0 +1,24 @@
+{
+  "observedAt": "2026-09-19T19:08:47.1675907-03:00",
+  "command": "mvn -B clean verify",
+  "result": "BUILD SUCCESS",
+  "modules": 10,
+  "tests": 138,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "secretAudit": {
+    "scope": "Fuentes Web/Mobile/ATM/Account, config-repository, scripts Semana 6 y colección Postman; excluye target y .local",
+    "privateKeyBlocks": 0,
+    "literalPasswordSecretTokenLong": 0,
+    "jdbcUrlWithEmbeddedCredentials": 0
+  },
+  "liveWebAtm": "NOT_RUN",
+  "livePilotMobile": "docs/evidence/semana-6/live/20260919-182710",
+  "configServerIsolated": {
+    "web": "PASS",
+    "atm": "PASS",
+    "accountService": "PASS",
+    "processStoppedAfterCheck": true
+  }
+}

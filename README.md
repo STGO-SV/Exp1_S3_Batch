@@ -1,17 +1,24 @@
-# Banco Legacy — Desarrollo Backend III, Semana 5
+# Banco Legacy — Desarrollo Backend III, Semana 6
+
+> La rama `semana-6` extiende la cadena Spring Cloud a Web, Mobile y los GET de ATM. Consulte
+> [docs/semana-6.md](docs/semana-6.md) para arranque, verificación y límites de esta arquitectura.
 
 Monorepo Maven que conserva el procesamiento legacy de semanas anteriores y entrega tres Backend for Frontend (BFF)
 independientes para Web, Mobile y ATM. Semana 5 incorpora Bearer JWT, un emisor local mínimo, optimización JDBC
 y HTTPS directo en las cuatro aplicaciones Spring Boot mediante PKCS12 local.
 
-**Estado:** código, JWT y TLS directo implementados. La evidencia HTTPS con H2 no sustituye la ejecución final con PostgreSQL.
+**Estado:** tres BFF con lecturas remotas y retiro ATM local. La validación live de los tres canales queda separada
+de las pruebas H2; sólo el piloto Mobile tiene evidencia live de resiliencia previa a esta extensión.
 
 ## Arquitectura
 
 ```text
 Cliente / Postman ──HTTPS──> Web BFF :8081 ─────┐
-                         ├──> Mobile BFF :8082 ──┼──> Core JDBC ──> PostgreSQL
+                         ├──> Mobile BFF :8082 ──┼──HTTPS/Eureka──> Account Service :8085 ──> Core JDBC ──> PostgreSQL
                          └──> ATM BFF :8083 ─────┘
+                                      └── POST retiro local ──> Core JDBC ──> PostgreSQL
+
+Config Server :8888 ──> Web, Mobile, ATM y Account Service
 
 Cliente local ──HTTPS──> Auth :8084 ──> JWT RS256
                                       clave privada   clave pública → cada BFF
@@ -28,9 +35,22 @@ CSV legacy ──> Batch ──> PostgreSQL   (no ejecutar para iniciar los BFF)
 | banco-legacy-mobile-bff | Contrato compacto Mobile |
 | banco-legacy-atm-bff | Saldo y movimientos mínimos, retiro transaccional real |
 
-Los BFF dependen únicamente de Core entre los módulos propios. No dependen de Auth para compilar ni consultan al emisor
+Los GET de Web, Mobile y ATM usan Account Service por nombre lógico. ATM conserva Core local para el retiro.
+Los BFF no dependen de Auth para compilar ni consultan al emisor
 para validar cada petición: usan su clave pública. Cada aplicación conserva su cadena de seguridad, puerto y JAR.
-El escaneo de componentes se limita al canal y Core. No se añadió IdP empresarial ni filtros JWT manuales.
+El escaneo de componentes de ATM incluye Core para el POST; Web y Mobile no abren conexión JDBC. No hay Gateway.
+
+## Ejecución Semana 6
+
+Desde una sesión con las variables externas de JWT, Auth y PostgreSQL preparadas, ejecutar `mvn -B clean verify`
+cuando los JAR no estén abiertos, seguido de `./scripts/start-week6.ps1` y `./scripts/verify-week6.ps1`.
+`./scripts/verify-week6-resilience.ps1 -AccountId 101` es una prueba aparte que detiene y restaura únicamente
+Account Service; no invoca el POST ATM. Los tres BFF se registran en Eureka y disponen de un Circuit Breaker
+`accountService` independiente. Las pruebas de H2 no constituyen evidencia live. Los detalles y el orden seguro
+se encuentran en [docs/semana-6.md](docs/semana-6.md).
+
+Las secciones siguientes describen contratos y procedimientos históricos de Semana 5; sus comandos `start-week5.ps1`
+y `verify-week5.ps1` corresponden a aquella topología.
 
 ## Contratos y optimización
 
@@ -83,7 +103,7 @@ $env:DB_USER = 'postgres'
 $env:DB_PASSWORD = [Net.NetworkCredential]::new('', (Read-Host 'Contraseña PostgreSQL' -AsSecureString)).Password
 ```
 
-Web y Mobile deben usar usuarios PostgreSQL de sólo lectura. ATM necesita UPDATE sobre `interes_procesado` e INSERT sobre
+Account Service usa un usuario PostgreSQL de sólo lectura. ATM necesita UPDATE sobre `interes_procesado` e INSERT sobre
 `movimiento_anual_procesado`; su pool no se marca read-only. SQL init permanece deshabilitado y no se crean tablas reales automáticamente.
 
 ## Compilar y ejecutar

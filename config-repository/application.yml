@@ -1,0 +1,22 @@
+security:
+  jwt:
+    issuer: ${JWT_ISSUER:banco-legacy-auth}
+    audience: ${JWT_AUDIENCE:banco-bff}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,circuitbreakers,circuitbreakerevents
+  health:
+    circuitbreakers:
+      enabled: true
+
+logging:
+  level:
+    com.duoc.banco_legacy: INFO

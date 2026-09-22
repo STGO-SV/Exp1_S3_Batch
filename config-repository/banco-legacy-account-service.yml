@@ -1,0 +1,33 @@
+server:
+  port: ${ACCOUNT_SERVICE_PORT:8085}
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-alias: bff-local
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      read-only: true
+  sql:
+    init:
+      mode: never
+
+eureka:
+  instance:
+    hostname: localhost
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-port: ${ACCOUNT_SERVICE_PORT:8085}
+    status-page-url: https://localhost:${ACCOUNT_SERVICE_PORT:8085}/actuator/info
+    health-check-url: https://localhost:${ACCOUNT_SERVICE_PORT:8085}/actuator/health
+
+banking:
+  limits:
+    mobile-movements: 5
+    web-movements: 20
+    web-anomalies: 10
+    atm-movements: 3

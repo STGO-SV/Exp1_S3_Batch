@@ -1,7 +1,7 @@
 package com.duoc.banco_legacy.atm;
 
-import com.duoc.banco_legacy.core.service.LegacyAccountQueryService;
-import com.duoc.banco_legacy.core.model.AccountBalance;
+import com.duoc.banco_legacy.atm.client.AccountServiceClient;
+import com.duoc.banco_legacy.atm.dto.AtmBalance;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,10 +19,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class AtmJwtSecurityTests extends JwtTestSupport {
     @Autowired MockMvc mvc;
-    @MockBean LegacyAccountQueryService service;
+    @MockBean AccountServiceClient service;
     static final String URL = "/api/atm/accounts/101/balance";
     @BeforeEach void data() {
-        when(service.getAvailableBalance(101)).thenReturn(BigDecimal.TEN);
+        when(service.getBalance(org.mockito.ArgumentMatchers.eq(101L), org.mockito.ArgumentMatchers.anyString()))
+                .thenReturn(new AtmBalance(101, BigDecimal.TEN));
     }
     @Test void validSignedToken() throws Exception {
         mvc.perform(get(URL).with(bearer("ATM"))).andExpect(status().isOk())

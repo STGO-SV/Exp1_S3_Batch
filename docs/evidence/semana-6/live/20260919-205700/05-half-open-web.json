@@ -1,0 +1,6 @@
+{
+  "Phase": "05-half-open-web",
+  "ObservedAt": "2026-09-19T20:57:06.9483761-03:00",
+  "Result": "PASS",
+  "CircuitState": "HALF_OPEN"
+}

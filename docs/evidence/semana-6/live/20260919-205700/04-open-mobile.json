@@ -1,0 +1,7 @@
+{
+  "Phase": "04-open-mobile",
+  "ObservedAt": "2026-09-19T20:57:02.1666042-03:00",
+  "Result": "PASS",
+  "HttpStatus": 503,
+  "CircuitState": "OPEN"
+}

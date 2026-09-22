@@ -1,0 +1,7 @@
+{
+  "Phase": "09-closed",
+  "ObservedAt": "2026-09-19T18:27:34.3939330-03:00",
+  "Result": "PASS",
+  "HttpStatus": 200,
+  "CircuitState": "CLOSED"
+}

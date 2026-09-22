@@ -1,0 +1,7 @@
+{
+  "Phase": "09-closed-mobile",
+  "ObservedAt": "2026-09-19T20:57:32.9431950-03:00",
+  "Result": "PASS",
+  "HttpStatus": 200,
+  "CircuitState": "CLOSED"
+}

@@ -1,0 +1,46 @@
+server:
+  port: ${WEB_BFF_PORT:8081}
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-alias: bff-local
+
+eureka:
+  instance:
+    hostname: localhost
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-port: ${WEB_BFF_PORT:8081}
+    status-page-url: https://localhost:${WEB_BFF_PORT:8081}/actuator/info
+    health-check-url: https://localhost:${WEB_BFF_PORT:8081}/actuator/health
+
+security:
+  jwt:
+    issuer: ${JWT_ISSUER:banco-legacy-auth}
+    audience: ${JWT_AUDIENCE:banco-bff}
+
+banking:
+  account-service-name: banco-legacy-account-service
+  http:
+    connect-timeout: 2s
+    read-timeout: 3s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,circuitbreakers
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountService:
+        register-health-indicator: true
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        minimum-number-of-calls: 3
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 1
+        automatic-transition-from-open-to-half-open-enabled: true

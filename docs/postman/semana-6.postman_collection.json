@@ -1,0 +1,408 @@
+{
+  "item": [
+    {
+      "request": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{webToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "Web dashboard"
+    },
+    {
+      "request": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{mobileToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "Mobile summary"
+    },
+    {
+      "request": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/movements",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{mobileToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "Mobile movements"
+    },
+    {
+      "request": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{atmToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "ATM balance"
+    },
+    {
+      "request": {
+        "url": "https://localhost:8083/api/atm/accounts/101/movements",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{atmToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "ATM movements"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{webToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT WEB -> WEB (200)"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 403', function () { pm.response.to.have.status(403); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{webToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT WEB -> MOBILE (403)"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 403', function () { pm.response.to.have.status(403); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{webToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT WEB -> ATM (403)"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 403', function () { pm.response.to.have.status(403); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{mobileToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT MOBILE -> WEB (403)"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{mobileToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT MOBILE -> MOBILE (200)"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 403', function () { pm.response.to.have.status(403); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{mobileToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT MOBILE -> ATM (403)"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 403', function () { pm.response.to.have.status(403); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{atmToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT ATM -> WEB (403)"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 403', function () { pm.response.to.have.status(403); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{atmToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT ATM -> MOBILE (403)"
+    },
+    {
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "method": "GET",
+        "header": [
+          {
+            "value": "Bearer {{atmToken}}",
+            "key": "Authorization"
+          }
+        ]
+      },
+      "name": "JWT ATM -> ATM (200)"
+    },
+    {
+      "name": "Account Web dashboard",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{webToken}}"
+          }
+        ],
+        "url": "https://localhost:8085/internal/accounts/101/web-dashboard"
+      }
+    },
+    {
+      "name": "Account Mobile summary",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{mobileToken}}"
+          }
+        ],
+        "url": "https://localhost:8085/internal/accounts/101/summary"
+      }
+    },
+    {
+      "name": "Account Mobile movements",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{mobileToken}}"
+          }
+        ],
+        "url": "https://localhost:8085/internal/accounts/101/movements"
+      }
+    },
+    {
+      "name": "Account ATM balance",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{atmToken}}"
+          }
+        ],
+        "url": "https://localhost:8085/internal/accounts/101/atm-balance"
+      }
+    },
+    {
+      "name": "Account ATM movements",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{atmToken}}"
+          }
+        ],
+        "url": "https://localhost:8085/internal/accounts/101/atm-movements"
+      }
+    },
+    {
+      "name": "Web Circuit Breaker",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{webToken}}"
+          }
+        ],
+        "url": "https://localhost:8081/actuator/circuitbreakers"
+      }
+    },
+    {
+      "name": "Mobile Circuit Breaker",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{mobileToken}}"
+          }
+        ],
+        "url": "https://localhost:8082/actuator/circuitbreakers"
+      }
+    },
+    {
+      "name": "ATM Circuit Breaker",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{atmToken}}"
+          }
+        ],
+        "url": "https://localhost:8083/actuator/circuitbreakers"
+      }
+    }
+  ],
+  "info": {
+    "description": "GET de los tres BFF y matriz JWT. Los tokens se cargan como variables locales; no incluye secretos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "name": "Banco Legacy Semana 6"
+  },
+  "variable": [
+    {
+      "value": "",
+      "key": "webToken"
+    },
+    {
+      "value": "",
+      "key": "mobileToken"
+    },
+    {
+      "value": "",
+      "key": "atmToken"
+    }
+  ]
+}

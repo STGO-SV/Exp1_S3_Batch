@@ -1,0 +1,6 @@
+{
+  "Phase": "03-fallback-mobile",
+  "ObservedAt": "2026-09-19T20:57:02.1645904-03:00",
+  "Result": "PASS",
+  "HttpStatus": 503
+}

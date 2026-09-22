@@ -1,7 +1,7 @@
 package com.duoc.banco_legacy.mobile;
 
-import com.duoc.banco_legacy.core.service.LegacyAccountQueryService;
-import com.duoc.banco_legacy.core.model.AccountBalance;
+import com.duoc.banco_legacy.mobile.client.AccountServiceClient;
+import com.duoc.banco_legacy.mobile.dto.MobileAccountSummary;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,10 +19,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class MobileJwtSecurityTests extends JwtTestSupport {
     @Autowired MockMvc mvc;
-    @MockBean LegacyAccountQueryService service;
+    @MockBean AccountServiceClient service;
     static final String URL = "/api/mobile/accounts/101/summary";
     @BeforeEach void data() {
-        when(service.getSummary(101)).thenReturn(new com.duoc.banco_legacy.core.model.AccountSummary(BigDecimal.TEN, "ahorro"));
+        when(service.getSummary(org.mockito.ArgumentMatchers.eq(101L), org.mockito.ArgumentMatchers.anyString()))
+                .thenReturn(new MobileAccountSummary(101, BigDecimal.TEN, "ahorro"));
     }
     @Test void validSignedToken() throws Exception {
         mvc.perform(get(URL).with(bearer("MOBILE"))).andExpect(status().isOk())

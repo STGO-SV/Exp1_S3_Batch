@@ -33,6 +33,9 @@ public class MobileSecurityConfig {
                 .requestCache(cache -> cache.disable())
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                        .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers("/actuator/circuitbreakers", "/actuator/circuitbreakerevents")
+                        .hasRole("MOBILE")
                         .requestMatchers("/api/mobile/**").hasRole("MOBILE")
                         .anyRequest().denyAll())
                 .exceptionHandling(errors -> errors.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()))

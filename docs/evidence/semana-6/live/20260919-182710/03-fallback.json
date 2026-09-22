@@ -1,0 +1,6 @@
+{
+  "Phase": "03-fallback",
+  "ObservedAt": "2026-09-19T18:27:11.8685794-03:00",
+  "Result": "PASS",
+  "HttpStatus": 503
+}

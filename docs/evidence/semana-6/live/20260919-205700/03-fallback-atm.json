@@ -1,0 +1,6 @@
+{
+  "Phase": "03-fallback-atm",
+  "ObservedAt": "2026-09-19T20:57:02.4933236-03:00",
+  "Result": "PASS",
+  "HttpStatus": 503
+}

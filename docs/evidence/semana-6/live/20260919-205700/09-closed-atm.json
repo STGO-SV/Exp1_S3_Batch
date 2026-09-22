@@ -1,0 +1,7 @@
+{
+  "Phase": "09-closed-atm",
+  "ObservedAt": "2026-09-19T20:57:32.9977541-03:00",
+  "Result": "PASS",
+  "HttpStatus": 200,
+  "CircuitState": "CLOSED"
+}

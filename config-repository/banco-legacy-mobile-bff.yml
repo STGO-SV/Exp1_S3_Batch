@@ -1,0 +1,35 @@
+server:
+  port: ${MOBILE_BFF_PORT:8082}
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-alias: bff-local
+
+eureka:
+  instance:
+    hostname: localhost
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-port: ${MOBILE_BFF_PORT:8082}
+    status-page-url: https://localhost:${MOBILE_BFF_PORT:8082}/actuator/info
+    health-check-url: https://localhost:${MOBILE_BFF_PORT:8082}/actuator/health
+
+banking:
+  account-service-name: banco-legacy-account-service
+  http:
+    connect-timeout: 2s
+    read-timeout: 3s
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountService:
+        register-health-indicator: true
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        minimum-number-of-calls: 3
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 1
+        automatic-transition-from-open-to-half-open-enabled: true

@@ -1,8 +1,9 @@
 package com.duoc.banco_legacy.web;
 
-import com.duoc.banco_legacy.core.service.LegacyAccountQueryService;
-import com.duoc.banco_legacy.core.model.AccountBalance;
+import com.duoc.banco_legacy.web.client.AccountServiceClient;
+import com.duoc.banco_legacy.web.dto.WebAccountDashboard;
 import java.math.BigDecimal;
+import java.util.List;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -19,11 +20,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class WebJwtSecurityTests extends JwtTestSupport {
     @Autowired MockMvc mvc;
-    @MockBean LegacyAccountQueryService service;
+    @MockBean AccountServiceClient service;
     static final String URL = "/api/web/accounts/101/dashboard";
     @BeforeEach void data() {
-        when(service.getBalance(101)).thenReturn(new AccountBalance(101L, "Ana", BigDecimal.TEN,
-                BigDecimal.ZERO, BigDecimal.TEN, "ahorro"));
+        when(service.getDashboard(org.mockito.ArgumentMatchers.eq(101L), org.mockito.ArgumentMatchers.anyString()))
+                .thenReturn(new WebAccountDashboard(101, "Ana", "ahorro", BigDecimal.TEN,
+                        BigDecimal.ZERO, BigDecimal.TEN, List.of(), List.of()));
     }
     @Test void validSignedToken() throws Exception {
         mvc.perform(get(URL).with(bearer("WEB"))).andExpect(status().isOk())

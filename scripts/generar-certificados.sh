@@ -14,6 +14,11 @@ for service in "${SERVICES[@]}"; do
     exit 1
   fi
 done
+ACCOUNT_KEYSTORE="$ROOT_DIR/.local/tls/account-service-keystore.p12"
+if [[ -e "$ACCOUNT_KEYSTORE" && "$FORCE" != true ]]; then
+  echo "Ya existe el keystore externo de Account Service. Use --force sólo para rotarlo deliberadamente." >&2
+  exit 1
+fi
 # Contraseña académica oficial; exportar una diferente antes de ejecutar si se desea.
 export TLS_KEYSTORE_PASSWORD="${TLS_KEYSTORE_PASSWORD:-changeit}"
 [[ ${#TLS_KEYSTORE_PASSWORD} -ge 6 ]] || { echo "Contraseña demasiado corta" >&2; exit 1; }
@@ -32,5 +37,14 @@ keytool -exportcert -rfc -alias bff-local -keystore "$TMP" \
 for service in "${SERVICES[@]}"; do
   cp -- "$TMP" "$ROOT_DIR/$service/src/main/resources/keystore.p12"
 done
+cp -- "$TMP" "$ACCOUNT_KEYSTORE"
+rm -f -- "$ROOT_DIR/.local/tls/week6-truststore.p12"
+keytool -importcert -noprompt -alias banco-local-ca \
+  -file "$ROOT_DIR/.local/tls/localhost.crt" \
+  -keystore "$ROOT_DIR/.local/tls/week6-truststore.p12" \
+  -storetype PKCS12 -storepass changeit
+rm -f -- "$ROOT_DIR/banco-legacy-account-service/src/main/resources/keystore.p12"
 echo "Certificado de laboratorio copiado a Auth, Web, Mobile y ATM."
 echo "Certificado público: .local/tls/localhost.crt. No se modificó confianza del sistema."
+echo "Keystore externo de Account Service y truststore cliente de Mobile disponibles en .local/tls/."
+echo "Antes de iniciar, ejecute mvn -B clean verify para actualizar los certificados empaquetados de Auth y Mobile."

@@ -13,6 +13,8 @@ function New-Week5HttpClient {
         $handler.ServerCertificateCustomValidationCallback = [Net.Http.HttpClientHandler]::DangerousAcceptAnyServerCertificateValidator
     } elseif ($TrustedCertificate) {
         if (!(Test-Path -LiteralPath $TrustedCertificate -PathType Leaf)) { throw 'No existe el certificado público de confianza.' }
+        $resolvedCertificate = Resolve-Path -LiteralPath $TrustedCertificate -ErrorAction Stop
+        if ($resolvedCertificate.Provider.Name -ne 'FileSystem') { throw 'El certificado debe ser un archivo local.' }
         # Los callbacks TLS se ejecutan fuera del runspace de PowerShell. Se usa un delegado CLR, no un scriptblock.
         if (!('Week5.LocalCertificateTrust' -as [type])) {
             Add-Type -TypeDefinition @'
@@ -37,7 +39,7 @@ namespace Week5 {
 }
 '@
         }
-        [Week5.LocalCertificateTrust]::Configure($handler, [IO.Path]::GetFullPath($TrustedCertificate))
+        [Week5.LocalCertificateTrust]::Configure($handler, $resolvedCertificate.ProviderPath)
     }
     $client = [Net.Http.HttpClient]::new($handler)
     $client.Timeout = [TimeSpan]::FromSeconds(20)
@@ -79,10 +81,11 @@ function Invoke-Week5Http {
 }
 
 function Get-Week5Tokens {
-    param([Net.Http.HttpClient]$Client, [string]$AuthUrl = 'https://localhost:8084', [switch]$InternalHttp)
+    param([Net.Http.HttpClient]$Client, [string]$AuthUrl = 'https://localhost:8084', [switch]$InternalHttp,
+          [ValidateSet('WEB','MOBILE','ATM')][string[]]$Channels = @('WEB','MOBILE','ATM'))
     Assert-Week5Url $AuthUrl -InternalHttp:$InternalHttp
     $result = @{}
-    foreach ($channel in @('WEB','MOBILE','ATM')) {
+    foreach ($channel in $Channels) {
         $password = [Environment]::GetEnvironmentVariable("DEMO_${channel}_PASSWORD")
         if (!$password) { throw "Falta DEMO_${channel}_PASSWORD." }
         $body = @{username=$channel.ToLower()+'-user'; password=$password} | ConvertTo-Json -Compress

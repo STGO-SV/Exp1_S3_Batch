@@ -1,0 +1,18 @@
+[INFO] Reactor Summary for Banco Legacy 0.0.1-SNAPSHOT:
+[INFO] 
+[INFO] Banco Legacy ....................................... SUCCESS [  0.165 s]
+[INFO] banco-legacy-batch ................................. SUCCESS [ 15.807 s]
+[INFO] banco-legacy-core .................................. SUCCESS [  5.404 s]
+[INFO] banco-legacy-config-server ......................... SUCCESS [  7.921 s]
+[INFO] banco-legacy-discovery-server ...................... SUCCESS [  9.155 s]
+[INFO] banco-legacy-account-service ....................... SUCCESS [ 10.897 s]
+[INFO] banco-legacy-auth .................................. SUCCESS [  7.211 s]
+[INFO] banco-legacy-web-bff ............................... SUCCESS [ 12.335 s]
+[INFO] banco-legacy-mobile-bff ............................ SUCCESS [ 15.545 s]
+[INFO] banco-legacy-atm-bff ............................... SUCCESS [ 17.268 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:42 min
+[INFO] Finished at: 2026-09-19T19:08:32-03:00
+[INFO] ------------------------------------------------------------------------

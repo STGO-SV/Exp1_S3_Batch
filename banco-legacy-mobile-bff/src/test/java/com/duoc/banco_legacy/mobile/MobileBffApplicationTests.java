@@ -1,8 +1,9 @@
 package com.duoc.banco_legacy.mobile;
 
-import com.duoc.banco_legacy.core.model.AccountBalance;
-import com.duoc.banco_legacy.core.model.AccountMovement;
-import com.duoc.banco_legacy.core.service.LegacyAccountQueryService;
+import com.duoc.banco_legacy.mobile.client.AccountServiceClient;
+import com.duoc.banco_legacy.mobile.client.AccountServiceUnavailableException;
+import com.duoc.banco_legacy.mobile.dto.MobileAccountSummary;
+import com.duoc.banco_legacy.mobile.dto.MobileMovement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MobileBffApplicationTests extends JwtTestSupport {
     @Autowired MockMvc mvc;
     @Autowired TestRestTemplate rest;
-    @MockBean LegacyAccountQueryService service;
+    @MockBean AccountServiceClient service;
 
     @BeforeEach
     void data() {
-        when(service.getSummary(101)).thenReturn(new com.duoc.banco_legacy.core.model.AccountSummary(new BigDecimal("1010"), "ahorro"));
-        when(service.getCompactMovements(101, 5)).thenReturn(List.of(
-                new com.duoc.banco_legacy.core.model.CompactMovement(LocalDate.of(2026, 1, 1), "deposito", new BigDecimal("100"))));
+        when(service.getSummary(org.mockito.ArgumentMatchers.eq(101L), org.mockito.ArgumentMatchers.anyString()))
+                .thenReturn(new MobileAccountSummary(101, new BigDecimal("1010"), "ahorro"));
+        when(service.getMovements(org.mockito.ArgumentMatchers.eq(101L), org.mockito.ArgumentMatchers.anyString())).thenReturn(List.of(
+                new MobileMovement(LocalDate.of(2026, 1, 1), "deposito", new BigDecimal("100"))));
     }
 
     @Test
@@ -61,10 +63,11 @@ class MobileBffApplicationTests extends JwtTestSupport {
     }
 
     @Test void falloInternoNoSeEnmascaraComoProhibido() {
-        when(service.getSummary(101)).thenThrow(new IllegalStateException("Fallo de infraestructura simulado"));
+        when(service.getSummary(org.mockito.ArgumentMatchers.eq(101L), org.mockito.ArgumentMatchers.anyString()))
+                .thenThrow(new AccountServiceUnavailableException(new IllegalStateException("Fallo simulado")));
 
         var response = rest.exchange("/api/mobile/accounts/101/summary", org.springframework.http.HttpMethod.GET, entity("MOBILE"), String.class);
 
-        org.junit.jupiter.api.Assertions.assertEquals(500, response.getStatusCode().value());
+        org.junit.jupiter.api.Assertions.assertEquals(503, response.getStatusCode().value());
     }
 }
