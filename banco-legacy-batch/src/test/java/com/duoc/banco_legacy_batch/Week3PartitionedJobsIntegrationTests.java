@@ -55,6 +55,9 @@ class Week3PartitionedJobsIntegrationTests {
         assertThat(contar("movimiento_anual_procesado")).isEqualTo(642);
         assertThat(jdbcClient.sql("SELECT COUNT(DISTINCT transaccion_id) FROM transaccion_procesada")
                 .query(Integer.class).single()).isEqualTo(401);
+        Integer anomalyCount = jdbcClient.sql("SELECT COUNT(*) FROM transaccion_procesada WHERE anomalia")
+                .query(Integer.class).single();
+        assertThat(contar("anomaly_event_outbox")).isEqualTo(anomalyCount);
     }
 
     private JobExecution ejecutar(Job job) throws Exception {
