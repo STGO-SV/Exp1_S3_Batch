@@ -46,3 +46,5 @@ El volumen `banco-legacy-kafka-data` conserva los datos. Para eliminarlo deliber
 ## Limitación
 
 Esta topología local de un solo broker no representa alta disponibilidad. El replication factor 1 es apropiado únicamente para desarrollo y demostración local; una caída del broker deja Kafka temporalmente indisponible.
+
+El publicador outbox de esta etapa se ejecuta en una sola instancia de `banco-legacy-batch`. La coordinación entre múltiples instancias publicadoras, mediante leases o bloqueos distribuidos, queda explícitamente fuera del alcance actual.
