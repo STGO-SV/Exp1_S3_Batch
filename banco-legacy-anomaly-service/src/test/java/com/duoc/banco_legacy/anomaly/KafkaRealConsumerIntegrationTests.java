@@ -30,7 +30,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 class KafkaRealConsumerIntegrationTests {
 
     @Autowired JdbcClient jdbcClient;
-    @Autowired KafkaTemplate<String, AnomalousTransactionEvent> kafkaTemplate;
+    @Autowired KafkaTemplate<String, Object> kafkaTemplate;
 
     @Test
     void consumeEventoRealDelBatchYRedeliveryNoDuplicaElEfecto() throws Exception {

@@ -9,12 +9,19 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.serialization.ByteArrayDeserializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.kafka.test.utils.KafkaTestUtils;
 
 @SpringBootTest(properties = {
         "spring.datasource.url=jdbc:h2:mem:anomaly_kafka;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
@@ -26,11 +33,14 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
         "spring.kafka.producer.properties.spring.json.add.type.headers=false",
         "banking.kafka.consumer-instance=embedded-consumer"
 })
-@EmbeddedKafka(partitions = 1, topics = "banco.transacciones.anomalas.v1")
+@EmbeddedKafka(partitions = 1, topics = {
+        "banco.transacciones.anomalas.v1", "banco.transacciones.anomalas.v1.DLT"
+})
 class KafkaConsumerIntegrationTests {
 
-    @Autowired KafkaTemplate<String, AnomalousTransactionEvent> kafkaTemplate;
+    @Autowired KafkaTemplate<String, Object> kafkaTemplate;
     @Autowired JdbcClient jdbcClient;
+    @Autowired EmbeddedKafkaBroker broker;
 
     @Test
     void contratoJsonDelProductorEsConsumidoYPersistidoSinDuplicarEfecto() throws Exception {
@@ -45,6 +55,12 @@ class KafkaConsumerIntegrationTests {
         kafkaTemplate.send("banco.transacciones.anomalas.v1", Long.toString(transactionId), event).get();
         awaitCount(transactionId, 1);
         kafkaTemplate.send("banco.transacciones.anomalas.v1", Long.toString(transactionId), event).get();
+        AnomalousTransactionEvent sameTransactionDifferentEvent = new AnomalousTransactionEvent(
+                UUID.randomUUID(), event.correlationId(), event.eventVersion(), event.occurredAt(),
+                transactionId, event.transactionDate(), event.amount(), event.transactionType(),
+                event.anomalyReason());
+        kafkaTemplate.send("banco.transacciones.anomalas.v1", Long.toString(transactionId),
+                sameTransactionDifferentEvent).get();
         Thread.sleep(500);
 
         Map<String, Object> row = jdbcClient.sql("""
@@ -63,6 +79,7 @@ class KafkaConsumerIntegrationTests {
         assertThat(((Number) row.get("partition_id")).intValue()).isZero();
         assertThat(((Number) row.get("offset_value")).longValue()).isGreaterThanOrEqualTo(0L);
         assertThat(row.get("consumer_instance")).isEqualTo("embedded-consumer");
+        assertThat(dltContainsKey(Long.toString(transactionId))).isFalse();
     }
 
     private void awaitCount(long transactionId, long expected) throws InterruptedException {
@@ -79,5 +96,20 @@ class KafkaConsumerIntegrationTests {
     private long count(long transactionId) {
         return jdbcClient.sql("SELECT COUNT(*) FROM processed_anomaly_event WHERE transaction_id=:id")
                 .param("id", transactionId).query(Long.class).single();
+    }
+
+    private boolean dltContainsKey(String key) {
+        Map<String, Object> properties = KafkaTestUtils.consumerProps(
+                "duplicate-dlt-check-" + UUID.randomUUID(), "false", broker);
+        try (Consumer<String, byte[]> consumer = new DefaultKafkaConsumerFactory<>(properties,
+                new StringDeserializer(), new ByteArrayDeserializer()).createConsumer()) {
+            broker.consumeFromAnEmbeddedTopic(consumer, "banco.transacciones.anomalas.v1.DLT");
+            for (ConsumerRecord<String, byte[]> record : consumer.poll(Duration.ofSeconds(1))) {
+                if (key.equals(record.key())) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

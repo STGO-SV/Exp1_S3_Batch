@@ -27,6 +27,8 @@ public class AnomalousTransactionListener {
     @KafkaListener(topics = "${banking.kafka.anomaly-topic}")
     public void consume(ConsumerRecord<String, AnomalousTransactionEvent> record) {
         AnomalousTransactionEvent event = record.value();
+        log.info("event=anomaly_received eventId={} transactionId={} topic={} partition={} offset={}",
+                event.eventId(), event.transactionId(), record.topic(), record.partition(), record.offset());
         boolean inserted = repository.save(event, record.topic(), record.partition(),
                 record.offset(), consumerInstance);
 
@@ -34,4 +36,5 @@ public class AnomalousTransactionListener {
                 inserted ? "PROCESSED" : "DUPLICATE", event.eventId(), event.transactionId(),
                 record.topic(), record.partition(), record.offset(), consumerInstance);
     }
+
 }
