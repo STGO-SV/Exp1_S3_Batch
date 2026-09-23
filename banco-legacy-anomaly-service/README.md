@@ -8,4 +8,10 @@ La entrega es **at-least-once con consumidor idempotente**. El listener usa ackn
 
 La concurrencia predeterminada es 1. `ANOMALY_CONSUMER_INSTANCE` permite identificar el proceso en logs y persistencia; una futura demostración horizontal utilizará tres procesos con `concurrency=1` cada uno.
 
-Esta fase no incluye escalabilidad horizontal, transacciones Kafka+base de datos ni semántica exactly-once.
+La demostración horizontal conserva `concurrency=1` por proceso y no incorpora Kubernetes, coordinación distribuida propia, transacciones Kafka+base de datos ni semántica exactly-once.
+
+## Demostración horizontal
+
+Con el JAR empaquetado y Kafka disponible, `.\scripts\start-week7-consumers.ps1` inicia tres JVM independientes (`consumer-1`, `consumer-2` y `consumer-3`) en el mismo consumer group y con `concurrency=1` por proceso. Los PID y logs separados se guardan bajo `target/week7-consumers`. `.\scripts\stop-week7-consumers.ps1` detiene exclusivamente los procesos registrados por el script, validando PID, ejecutable y hora de inicio.
+
+La asignación se comprueba con `kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group banco-legacy-anomaly-processors --describe`. El resumen persistido para una ejecución se obtiene ejecutando `scripts/Week7ScalingEvidence.java` con su `correlationId` y el driver PostgreSQL del repositorio Maven en el classpath.
