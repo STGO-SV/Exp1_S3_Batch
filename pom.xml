@@ -19,6 +19,7 @@
 		<module>banco-legacy-config-server</module>
 		<module>banco-legacy-discovery-server</module>
 		<module>banco-legacy-account-service</module>
+		<module>banco-legacy-anomaly-service</module>
         <module>banco-legacy-auth</module>
 		<module>banco-legacy-web-bff</module>
 		<module>banco-legacy-mobile-bff</module>

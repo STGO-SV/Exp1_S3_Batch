@@ -18,6 +18,7 @@ import org.springframework.batch.core.partition.support.Partitioner;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileParseException;
@@ -36,7 +37,7 @@ public class BatchJobsConfig {
     public Step transaccionesWorkerStep(JobRepository repository, PlatformTransactionManager transactionManager,
                                         ItemStreamReader<Transaccion> transaccionReader,
                                         ItemProcessor<Transaccion, TransaccionProcesada> transaccionProcessor,
-                                        JdbcBatchItemWriter<TransaccionProcesada> transaccionWriter,
+                                        @Qualifier("transaccionWriter") ItemWriter<TransaccionProcesada> transaccionWriter,
                                         BatchStepMetricsListener stepListener,
                                         BatchSkipLoggingListener skipListener,
                                         RetryMetricsListener retryListener,

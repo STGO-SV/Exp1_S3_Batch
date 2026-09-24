@@ -5,8 +5,12 @@ import com.duoc.banco_legacy_batch.model.MovimientoAnualProcesado;
 import com.duoc.banco_legacy_batch.model.TransaccionProcesada;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
+import org.springframework.batch.item.support.CompositeItemWriter;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import javax.sql.DataSource;
@@ -15,7 +19,7 @@ import javax.sql.DataSource;
 public class JdbcWriterConfig {
 
     @Bean
-    public JdbcBatchItemWriter<TransaccionProcesada> transaccionWriter(DataSource dataSource) {
+    public JdbcBatchItemWriter<TransaccionProcesada> transaccionJdbcWriter(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<TransaccionProcesada>()
                 .dataSource(dataSource)
                 .sql("""
@@ -30,6 +34,23 @@ public class JdbcWriterConfig {
                         .addValue("tipo", item.tipo())
                         .addValue("anomalia", item.anomalia()))
                 .build();
+    }
+
+    @Bean
+    public AnomalyOutboxItemWriter anomalyOutboxItemWriter(
+            JdbcClient jdbcClient,
+            com.duoc.banco_legacy_batch.event.AnomalousTransactionEventMapper mapper) {
+        return new AnomalyOutboxItemWriter(
+                jdbcClient, mapper, AnomalyOutboxItemWriter::currentJobCorrelationId);
+    }
+
+    @Bean
+    public ItemWriter<TransaccionProcesada> transaccionWriter(
+            @Qualifier("transaccionJdbcWriter") JdbcBatchItemWriter<TransaccionProcesada> jdbcWriter,
+            @Qualifier("anomalyOutboxItemWriter") ItemWriter<TransaccionProcesada> outboxWriter) {
+        var writer = new CompositeItemWriter<TransaccionProcesada>();
+        writer.setDelegates(java.util.List.of(jdbcWriter, outboxWriter));
+        return writer;
     }
 
     @Bean

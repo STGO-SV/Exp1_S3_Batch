@@ -1,14 +1,15 @@
-# Banco Legacy — Desarrollo Backend III, Semana 6
+# Banco Legacy — Desarrollo Backend III, Semana 7
 
-> La rama `semana-6` extiende la cadena Spring Cloud a Web, Mobile y los GET de ATM. Consulte
-> [docs/semana-6.md](docs/semana-6.md) para arranque, verificación y límites de esta arquitectura.
+> Semana 7 añade un flujo Kafka para las anomalías producidas por el batch, sin convertir el retiro ATM en asíncrono.
+> Consulte [docs/semana-7.md](docs/semana-7.md) para el diseño, garantías, verificación y límites; Semana 6 permanece
+> documentada en [docs/semana-6.md](docs/semana-6.md).
 
 Monorepo Maven que conserva el procesamiento legacy de semanas anteriores y entrega tres Backend for Frontend (BFF)
 independientes para Web, Mobile y ATM. Semana 5 incorpora Bearer JWT, un emisor local mínimo, optimización JDBC
 y HTTPS directo en las cuatro aplicaciones Spring Boot mediante PKCS12 local.
 
-**Estado:** tres BFF con lecturas remotas y retiro ATM local. La validación live de los tres canales queda separada
-de las pruebas H2; sólo el piloto Mobile tiene evidencia live de resiliencia previa a esta extensión.
+**Estado:** el batch persiste sus resultados y una outbox en la misma transacción. Un publicador recuperable envía las
+anomalías a Kafka y un microservicio consumidor idempotente aplica retry/DLT. Se conserva el Circuit Breaker de los BFF.
 
 ## Arquitectura
 
@@ -24,6 +25,7 @@ Cliente local ──HTTPS──> Auth :8084 ──> JWT RS256
                                       clave privada   clave pública → cada BFF
 
 CSV legacy ──> Batch ──> PostgreSQL   (no ejecutar para iniciar los BFF)
+                          └── Outbox ──> Kafka (3 particiones) ──> Anomaly Service ──> PostgreSQL
 ```
 
 | Módulo | Responsabilidad |
@@ -31,14 +33,67 @@ CSV legacy ──> Batch ──> PostgreSQL   (no ejecutar para iniciar los BFF)
 | banco-legacy-batch | Jobs legacy, separado de los BFF |
 | banco-legacy-core | Modelos y consultas JDBC comunes, sin seguridad ni emisión |
 | banco-legacy-auth | Infraestructura local de autenticación y emisión JWT; sin datos bancarios |
+| banco-legacy-config-server | Configuración externa de los servicios Spring Cloud |
+| banco-legacy-discovery-server | Registro Eureka para la comunicación por nombre lógico |
+| banco-legacy-account-service | Lecturas bancarias remotas consumidas por los BFF |
 | banco-legacy-web-bff | Contrato Web completo |
 | banco-legacy-mobile-bff | Contrato compacto Mobile |
 | banco-legacy-atm-bff | Saldo y movimientos mínimos, retiro transaccional real |
+| banco-legacy-anomaly-service | Consumidor Kafka idempotente de anomalías, con retry y DLT |
 
 Los GET de Web, Mobile y ATM usan Account Service por nombre lógico. ATM conserva Core local para el retiro.
 Los BFF no dependen de Auth para compilar ni consultan al emisor
 para validar cada petición: usan su clave pública. Cada aplicación conserva su cadena de seguridad, puerto y JAR.
 El escaneo de componentes de ATM incluye Core para el POST; Web y Mobile no abren conexión JDBC. No hay Gateway.
+
+## Inicio rápido de Semana 7
+
+Requisitos: Java 21, el Maven Wrapper incluido, PowerShell 7, Docker Desktop y PostgreSQL. La topología Kafka local
+usa un único broker de laboratorio y no ofrece alta disponibilidad. Desde la raíz del repositorio:
+
+```powershell
+.\mvnw.cmd clean verify
+.\scripts\start-week7-kafka.ps1
+```
+
+El primer comando compila y prueba el reactor completo sin requerir Kafka, Docker ni PostgreSQL externos. El segundo
+levanta Kafka, espera su healthcheck y crea/verifica el tópico principal y su DLT, ambos con tres particiones y RF=1.
+
+Para ejecutar el batch contra la base local, suministre las credenciales en la sesión y, si corresponde, la ruta CSV:
+
+```powershell
+$env:DB_URL = 'jdbc:postgresql://localhost:5432/banco_legacy'
+$env:DB_USER = 'postgres'
+$env:DB_PASSWORD = '<valor-local>'
+$env:BATCH_INPUT_DIR = 'C:\ruta\bank_legacy_data\data'
+java -jar .\banco-legacy-batch\target\banco-legacy-batch-0.0.1-SNAPSHOT.jar
+```
+
+Para una sola instancia del consumidor:
+
+```powershell
+$env:ANOMALY_DB_URL = 'jdbc:postgresql://localhost:5432/banco_legacy'
+$env:ANOMALY_DB_USERNAME = 'postgres'
+$env:ANOMALY_DB_PASSWORD = '<valor-local>'
+$env:ANOMALY_CONSUMER_INSTANCE = 'consumer-1'
+java -jar .\banco-legacy-anomaly-service\target\banco-legacy-anomaly-service-0.0.1-SNAPSHOT.jar
+```
+
+La demostración horizontal usa exactamente tres JVM independientes, `concurrency=1` por JVM y el mismo consumer group:
+
+```powershell
+.\scripts\start-week7-consumers.ps1 `
+  -DatabaseUrl 'jdbc:postgresql://localhost:5432/banco_legacy' `
+  -DatabaseUsername 'postgres' `
+  -DatabasePassword '<valor-local>'
+.\scripts\verify-week7.ps1
+.\scripts\stop-week7-consumers.ps1
+docker compose -f .\infra\kafka\compose.yaml down
+```
+
+`verify-week7.ps1` es de sólo lectura: comprueba broker healthy, metadatos de ambos tópicos, las tres particiones del
+consumer group y lag cero. Requiere que las tres instancias estén activas. Los scripts no almacenan la contraseña;
+el valor predeterminado de laboratorio presente en configuración no debe utilizarse fuera del entorno académico.
 
 ## Ejecución Semana 6
 
@@ -257,6 +312,10 @@ Para sólo inspección interna, -InternalHttp permite únicamente URLs HTTP de l
 La automatización no almacena contraseñas, claves ni JWT completos. Los resultados PostgreSQL sólo deben
 documentarse como aprobados después de ejecutar el comando anterior en la sesión que contiene las variables.
 La validación modifica únicamente sus datos efímeros de laboratorio y los elimina en `finally`.
+
+## Semana 7 — eventos de anomalías
+
+La evolución de Semana 7 publica mediante transactional outbox las anomalías detectadas por el batch, las procesa en un microservicio Kafka idempotente y demuestra retry, DLT y escalabilidad horizontal con tres procesos independientes. Consulte la [arquitectura, operación y evidencia consolidada](docs/semana-7.md). Las capturas de evidencia se adjuntan por separado en el paquete de entrega y no se versionan en Git.
 
 ## Limitaciones y siguiente bloque
 

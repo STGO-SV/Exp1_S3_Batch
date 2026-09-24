@@ -49,6 +49,14 @@ class BatchJobsIntegrationTests {
         Integer anomalias = jdbcClient.sql("SELECT COUNT(*) FROM transaccion_procesada WHERE anomalia")
                 .query(Integer.class).single();
         assertThat(anomalias).isEqualTo(1);
+        assertThat(contar("anomaly_event_outbox")).isEqualTo(1);
+        assertThat(jdbcClient.sql("SELECT COUNT(*) FROM anomaly_event_outbox WHERE status = 'PENDING' AND publish_attempts = 0")
+                .query(Integer.class).single()).isEqualTo(1);
+        assertThat(jdbcClient.sql("""
+                SELECT COUNT(*) FROM anomaly_event_outbox outbox
+                JOIN transaccion_procesada tx ON tx.transaccion_id = outbox.transaction_id
+                WHERE tx.anomalia = TRUE
+                """).query(Integer.class).single()).isEqualTo(1);
 
         String saldo = jdbcClient.sql("SELECT CAST(saldo_procesado AS VARCHAR) FROM interes_procesado WHERE cuenta_id = 101")
                 .query(String.class).single();
