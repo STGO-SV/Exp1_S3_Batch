@@ -1,0 +1,303 @@
+name: banco-legacy
+
+x-java-service: &java-service
+  restart: unless-stopped
+  networks: [banco-network]
+  volumes:
+    - ./.local/compose:/run/banco-legacy:ro
+
+x-config-client-environment: &config-client-environment
+  CONFIG_SERVER_URL: http://config-server:8888
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+  JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY:?Ejecute scripts/initialize-compose-environment.ps1}
+  OAUTH_ISSUER: https://localhost:8084
+  JWT_AUDIENCE: banco-bff
+  TLS_KEYSTORE_PASSWORD: ${TLS_KEYSTORE_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+  SERVER_SSL_KEY_STORE: file:/run/banco-legacy/banco-legacy-docker.p12
+  SERVER_SSL_KEY_STORE_PASSWORD: ${TLS_KEYSTORE_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+  JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/run/banco-legacy/banco-legacy-truststore.p12 -Djavax.net.ssl.trustStorePassword=${TLS_KEYSTORE_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+
+services:
+  postgres:
+    image: postgres:16.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: banco_legacy_batch
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./banco-legacy-batch/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/10-batch-schema.sql:ro
+      - ./banco-legacy-anomaly-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/20-anomaly-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d banco_legacy_batch"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [banco-network]
+
+  kafka:
+    image: apache/kafka:3.8.0
+    restart: unless-stopped
+    environment:
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 20s
+    networks: [banco-network]
+
+  config-server:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-config-server
+    image: banco-legacy/config-server:semana-8
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: file:/config-repository
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./config-repository:/config-repository:ro
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8888/application/default"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  discovery-server:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-discovery-server
+    image: banco-legacy/discovery-server:semana-8
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      EUREKA_INSTANCE_HOSTNAME: discovery-server
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8761/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  auth-server:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-auth
+    image: banco-legacy/auth-server:semana-8
+    environment:
+      AUTH_ADDRESS: 0.0.0.0
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY:?Ejecute scripts/initialize-compose-environment.ps1}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY:?Ejecute scripts/initialize-compose-environment.ps1}
+      OAUTH_WEB_CLIENT_SECRET: ${OAUTH_WEB_CLIENT_SECRET:?Ejecute scripts/initialize-compose-environment.ps1}
+      OAUTH_MOBILE_CLIENT_SECRET: ${OAUTH_MOBILE_CLIENT_SECRET:?Ejecute scripts/initialize-compose-environment.ps1}
+      OAUTH_ATM_CLIENT_SECRET: ${OAUTH_ATM_CLIENT_SECRET:?Ejecute scripts/initialize-compose-environment.ps1}
+      OAUTH_ISSUER: https://localhost:8084
+      JWT_AUDIENCE: banco-bff
+      SERVER_SSL_KEY_STORE: file:/run/banco-legacy/banco-legacy-docker.p12
+      SERVER_SSL_KEY_STORE_PASSWORD: ${TLS_KEYSTORE_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+    ports:
+      - "8084:8084"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8084/oauth2/jwks"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  account-service:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-account-service
+    image: banco-legacy/account-service:semana-8
+    environment:
+      <<: *config-client-environment
+      SERVER_ADDRESS: 0.0.0.0
+      DB_URL: jdbc:postgresql://postgres:5432/banco_legacy_batch
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+      ACCOUNT_TLS_KEYSTORE: file:/run/banco-legacy/banco-legacy-docker.p12
+      ACCOUNT_TLS_KEYSTORE_PASSWORD: ${TLS_KEYSTORE_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+      EUREKA_INSTANCE_HOSTNAME: account-service
+      EUREKA_INSTANCE_STATUS_PAGE_URL: https://account-service:8085/actuator/info
+      EUREKA_INSTANCE_HEALTH_CHECK_URL: https://account-service:8085/actuator/health
+    ports:
+      - "8085:8085"
+    depends_on:
+      postgres: {condition: service_healthy}
+      config-server: {condition: service_healthy}
+      discovery-server: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8085/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 15s
+
+  web-bff:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-web-bff
+    image: banco-legacy/web-bff:semana-8
+    environment:
+      <<: *config-client-environment
+      SERVER_ADDRESS: 0.0.0.0
+      EUREKA_INSTANCE_HOSTNAME: web-bff
+      EUREKA_INSTANCE_STATUS_PAGE_URL: https://web-bff:8081/actuator/info
+      EUREKA_INSTANCE_HEALTH_CHECK_URL: https://web-bff:8081/actuator/health
+    ports:
+      - "8081:8081"
+    depends_on:
+      config-server: {condition: service_healthy}
+      discovery-server: {condition: service_healthy}
+      account-service: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8081/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  mobile-bff:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-mobile-bff
+    image: banco-legacy/mobile-bff:semana-8
+    environment:
+      <<: *config-client-environment
+      SERVER_ADDRESS: 0.0.0.0
+      EUREKA_INSTANCE_HOSTNAME: mobile-bff
+      EUREKA_INSTANCE_STATUS_PAGE_URL: https://mobile-bff:8082/actuator/info
+      EUREKA_INSTANCE_HEALTH_CHECK_URL: https://mobile-bff:8082/actuator/health
+    ports:
+      - "8082:8082"
+    depends_on:
+      config-server: {condition: service_healthy}
+      discovery-server: {condition: service_healthy}
+      account-service: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8082/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  atm-bff:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-atm-bff
+    image: banco-legacy/atm-bff:semana-8
+    environment:
+      <<: *config-client-environment
+      SERVER_ADDRESS: 0.0.0.0
+      DB_URL: jdbc:postgresql://postgres:5432/banco_legacy_batch
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+      EUREKA_INSTANCE_HOSTNAME: atm-bff
+      EUREKA_INSTANCE_STATUS_PAGE_URL: https://atm-bff:8083/actuator/info
+      EUREKA_INSTANCE_HEALTH_CHECK_URL: https://atm-bff:8083/actuator/health
+    ports:
+      - "8083:8083"
+    depends_on:
+      postgres: {condition: service_healthy}
+      config-server: {condition: service_healthy}
+      discovery-server: {condition: service_healthy}
+      account-service: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8083/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  anomaly-service:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-anomaly-service
+    image: banco-legacy/anomaly-service:semana-8
+    environment:
+      ANOMALY_DB_URL: jdbc:postgresql://postgres:5432/banco_legacy_batch
+      ANOMALY_DB_USERNAME: postgres
+      ANOMALY_DB_PASSWORD: ${POSTGRES_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ANOMALY_CONSUMER_INSTANCE: anomaly-service-1
+    depends_on:
+      postgres: {condition: service_healthy}
+      kafka: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD-SHELL", "kill -0 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+  batch:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-batch
+    image: banco-legacy/batch:semana-8
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/banco_legacy_batch
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      BATCH_RUN_ON_STARTUP: "false"
+      BATCH_INPUT_DIR: /data
+    volumes:
+      - ${BATCH_DATA_DIR:-../bank_legacy_data/data/semana_3}:/data:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+      kafka: {condition: service_healthy}
+      anomaly-service: {condition: service_started}
+    healthcheck:
+      test: ["CMD-SHELL", "kill -0 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+networks:
+  banco-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

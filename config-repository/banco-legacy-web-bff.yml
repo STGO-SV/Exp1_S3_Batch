@@ -17,7 +17,7 @@ eureka:
 
 security:
   jwt:
-    issuer: ${JWT_ISSUER:banco-legacy-auth}
+    issuer: ${OAUTH_ISSUER:https://localhost:8084}
     audience: ${JWT_AUDIENCE:banco-bff}
 
 banking:

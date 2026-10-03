@@ -56,3 +56,6 @@ infra/nginx-proxy-manager/letsencrypt/
 *.db
 *secrets*.json
 *tokens*.json
+
+# Semana 8 : propiedades para pruebas locales
+**/application-local.properties

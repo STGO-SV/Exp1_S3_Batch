@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Clock;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,7 @@ public class AnomalyOutboxRepository {
                         SET status = 'PUBLISHED', published_at = :publishedAt, last_error = NULL
                         WHERE event_id = :eventId AND status = 'PENDING'
                         """)
-                .param("publishedAt", Instant.now(clock))
+                .param("publishedAt", OffsetDateTime.ofInstant(Instant.now(clock), ZoneOffset.UTC))
                 .param("eventId", eventId)
                 .update();
         requireSingleUpdate(updated, eventId, "marcar como PUBLISHED");

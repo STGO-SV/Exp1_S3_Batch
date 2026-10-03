@@ -12,7 +12,7 @@ public final class Week7ScalingEvidence {
         }
         String correlationId = args[0];
         try (Connection connection = DriverManager.getConnection(
-                env("ANOMALY_DB_URL", "jdbc:postgresql://localhost:5432/banco_legacy"),
+                env("ANOMALY_DB_URL", "jdbc:postgresql://localhost:5432/banco_legacy_batch"),
                 env("ANOMALY_DB_USERNAME", "postgres"),
                 env("ANOMALY_DB_PASSWORD", "postgres"))) {
             printDistribution(connection, correlationId);

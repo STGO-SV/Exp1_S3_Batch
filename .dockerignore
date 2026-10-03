@@ -1,0 +1,14 @@
+.git
+.idea
+.vscode
+.local
+.env
+.env.*
+!.env.example
+**/target
+**/*.p12
+**/*.jks
+**/application-local.properties
+docs/evidence
+infra/nginx-proxy-manager/data
+infra/nginx-proxy-manager/letsencrypt

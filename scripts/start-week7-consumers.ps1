@@ -3,7 +3,7 @@
 param(
     [string]$JarPath = "banco-legacy-anomaly-service/target/banco-legacy-anomaly-service-0.0.1-SNAPSHOT.jar",
     [string]$BootstrapServers = "localhost:9092",
-    [string]$DatabaseUrl = "jdbc:postgresql://localhost:5432/banco_legacy",
+    [string]$DatabaseUrl = "jdbc:postgresql://localhost:5432/banco_legacy_batch",
     [string]$DatabaseUsername = "postgres",
     [string]$DatabasePassword = "postgres"
 )

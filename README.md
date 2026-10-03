@@ -62,7 +62,7 @@ levanta Kafka, espera su healthcheck y crea/verifica el tópico principal y su D
 Para ejecutar el batch contra la base local, suministre las credenciales en la sesión y, si corresponde, la ruta CSV:
 
 ```powershell
-$env:DB_URL = 'jdbc:postgresql://localhost:5432/banco_legacy'
+$env:DB_URL = 'jdbc:postgresql://localhost:5432/banco_legacy_batch'
 $env:DB_USER = 'postgres'
 $env:DB_PASSWORD = '<valor-local>'
 $env:BATCH_INPUT_DIR = 'C:\ruta\bank_legacy_data\data'
@@ -72,7 +72,7 @@ java -jar .\banco-legacy-batch\target\banco-legacy-batch-0.0.1-SNAPSHOT.jar
 Para una sola instancia del consumidor:
 
 ```powershell
-$env:ANOMALY_DB_URL = 'jdbc:postgresql://localhost:5432/banco_legacy'
+$env:ANOMALY_DB_URL = 'jdbc:postgresql://localhost:5432/banco_legacy_batch'
 $env:ANOMALY_DB_USERNAME = 'postgres'
 $env:ANOMALY_DB_PASSWORD = '<valor-local>'
 $env:ANOMALY_CONSUMER_INSTANCE = 'consumer-1'
@@ -83,7 +83,7 @@ La demostración horizontal usa exactamente tres JVM independientes, `concurrenc
 
 ```powershell
 .\scripts\start-week7-consumers.ps1 `
-  -DatabaseUrl 'jdbc:postgresql://localhost:5432/banco_legacy' `
+  -DatabaseUrl 'jdbc:postgresql://localhost:5432/banco_legacy_batch' `
   -DatabaseUsername 'postgres' `
   -DatabasePassword '<valor-local>'
 .\scripts\verify-week7.ps1

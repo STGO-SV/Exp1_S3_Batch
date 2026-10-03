@@ -209,7 +209,7 @@ Reproducción y verificación operativa:
 .\scripts\start-week7-kafka.ps1
 .\mvnw.cmd -pl banco-legacy-anomaly-service -am package
 .\scripts\start-week7-consumers.ps1 `
-  -DatabaseUrl 'jdbc:postgresql://localhost:5432/banco_legacy' `
+  -DatabaseUrl 'jdbc:postgresql://localhost:5432/banco_legacy_batch' `
   -DatabaseUsername 'postgres' `
   -DatabasePassword '<valor-local>'
 .\scripts\verify-week7.ps1
