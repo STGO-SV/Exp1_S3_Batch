@@ -1,5 +1,10 @@
 # Semana 7 — arquitectura orientada a eventos
 
+> Documento histórico de la entrega de Semana 7. Para el arranque operativo vigente, la base
+> `banco_legacy_batch`, la topología completa de Compose y las evidencias finales, consulte
+> [Semana 8: despliegue local con Docker Compose](semana-8-docker.md) y
+> [el índice de evidencias de Semana 8](evidence/semana-8/README.md).
+
 Evidencia obtenida en entorno local los días 22 y 23 de septiembre de 2026.
 
 ## 1. Objetivo

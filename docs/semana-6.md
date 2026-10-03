@@ -1,5 +1,8 @@
 # Semana 6 — tres BFF y lecturas compartidas
 
+> Documento histórico de la incorporación de BFF, Eureka y Resilience4j. El arranque y OAuth2 vigentes están en
+> [Semana 8: despliegue local con Docker Compose](semana-8-docker.md).
+
 Web, Mobile y ATM consumen Config Server, se registran en Eureka y resuelven
 `banco-legacy-account-service` con Spring Cloud LoadBalancer. Cada BFF valida localmente el JWT RS256 y reenvía
 el mismo Bearer a Account Service, que valida firma, issuer, audience, vigencia y rol de nuevo. Las comunicaciones

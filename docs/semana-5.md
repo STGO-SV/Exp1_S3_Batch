@@ -1,5 +1,9 @@
 # Semana 5 — JWT y HTTPS local directo
 
+> Documento histórico. El emisor JWT personalizado de esta etapa fue reemplazado en Semana 8 por Spring Authorization
+> Server con `client_credentials` y `POST /oauth2/token`. Para el procedimiento vigente consulte
+> [Semana 8: despliegue local con Docker Compose](semana-8-docker.md).
+
 La solución ejecutable de Semana 5 está formada por cuatro aplicaciones Spring Boot: Auth y los BFF Web, Mobile y ATM. Cada proceso sirve HTTPS directamente con un keystore PKCS12 local. Banco Legacy Batch no participa en esta topología y Core es una biblioteca sin servidor web.
 
 | Aplicación | Puerto | URL local |

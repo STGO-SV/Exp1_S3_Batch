@@ -1,5 +1,8 @@
 # Kafka local para Semana 7
 
+> Esta infraestructura aislada se conserva para reproducir la entrega de Semana 7. El stack final de Semana 8 usa el
+> servicio `kafka` de `docker-compose.yaml`; consulte [docs/semana-8-docker.md](../../docs/semana-8-docker.md).
+
 Esta infraestructura levanta un único broker Apache Kafka 3.9.1 en modo KRaft, con el mismo nodo actuando como broker y controller. No utiliza ZooKeeper.
 
 ## Levantar y preparar Kafka

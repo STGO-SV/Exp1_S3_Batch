@@ -1,5 +1,8 @@
 # Banco Legacy Anomaly Service
 
+> Esta descripción conserva el diseño introducido en Semana 7. El despliegue final integrado y sus nombres de servicio
+> están documentados en [docs/semana-8-docker.md](../docs/semana-8-docker.md).
+
 Consume `banco.transacciones.anomalas.v1` con el grupo `banco-legacy-anomaly-processors` y persiste cada anomalía en `processed_anomaly_event`.
 
 La entrega es **at-least-once con consumidor idempotente**. El listener usa acknowledgement por registro: Kafka no considera procesado el offset hasta que finaliza la persistencia o hasta que el registro irrecuperable se publica correctamente en `banco.transacciones.anomalas.v1.DLT`. Las restricciones sobre `event_id` y `transaction_id` convierten una redelivery en un resultado normal sin repetir el efecto.

@@ -4,6 +4,9 @@ La topología Docker es autocontenida y no modifica el PostgreSQL instalado en e
 `banco_legacy_batch` en el volumen nombrado `postgres-data` y publica PostgreSQL en el puerto local `5433` para evitar
 colisiones con el puerto `5432` del host.
 
+El estado validado consta de **9 imágenes propias** y **11 servicios Compose**. Es un despliegue local; esta evaluación
+no requiere AWS, Azure ni GCP.
+
 ## Preparación
 
 Desde la raíz del repositorio, generar las credenciales efímeras, el par RSA del Authorization Server y el material TLS:
@@ -29,6 +32,10 @@ docker-compose -f docker-compose.yaml up -d
 docker-compose -f docker-compose.yaml ps
 ```
 
+Los Config Clients mantienen `http://localhost:8888` como valor predeterminado para ejecución directa, pero Compose
+inyecta `CONFIG_SERVER_URL=http://config-server:8888`. En la red interna también se usan `postgres:5432` para la base
+`banco_legacy_batch` y `kafka:9092`; `localhost` dentro de un contenedor nunca identifica a otro servicio.
+
 Servicios publicados en el host:
 
 | Servicio | URL/puerto |
@@ -46,17 +53,29 @@ Kafka sólo se publica en la red interna como `kafka:9092`. Anomaly Service y Ba
 defecto `../bank_legacy_data/data/semana_3` como `/data`; la ruta del host puede cambiarse con `BATCH_DATA_DIR` en
 `.env`. El servicio estable conserva `BATCH_RUN_ON_STARTUP=false` para no duplicar datos en cada reinicio.
 
-Para poblar una base Docker nueva con los tres jobs académicos se crea una ejecución controlada y se detiene al terminar:
+Para poblar una base Docker nueva con los tres jobs académicos se crea una ejecución controlada y se detiene al terminar.
+Primero se detiene el servicio `batch` estable para que sólo exista una instancia publicando la outbox:
 
 ```powershell
+docker-compose -f docker-compose.yaml stop batch
 docker-compose -f docker-compose.yaml run -d --no-deps `
-  -e BATCH_RUN_ON_STARTUP=true --name banco-legacy-batch-import batch
+  -e BATCH_RUN_ON_STARTUP=true `
+  --name banco-legacy-batch-import batch
 docker logs -f banco-legacy-batch-import
-docker stop banco-legacy-batch-import
-docker rm banco-legacy-batch-import
 ```
 
-El servicio `batch` normal queda activo con los jobs deshabilitados para publicar cualquier evento pendiente del outbox.
+Cuando `transaccionesDiariasJob`, `interesesMensualesJob` y `estadosCuentaAnualesJob` aparezcan como `COMPLETED`, salir
+del seguimiento con `Ctrl+C` y ejecutar:
+
+```powershell
+docker stop banco-legacy-batch-import
+docker rm banco-legacy-batch-import
+docker-compose -f docker-compose.yaml up -d batch
+```
+
+Los CSV académicos se leen desde `/data`. El servicio `batch` normal vuelve a quedar activo con los jobs deshabilitados
+para publicar cualquier evento pendiente del outbox. En arranques posteriores se usa únicamente `docker-compose up -d`;
+no se repite la importación sobre un volumen ya poblado.
 
 ## OAuth2
 
@@ -77,6 +96,23 @@ $token = Invoke-RestMethod -SkipCertificateCheck -Method Post `
 
 Los secretos generados usan Base64URL, por lo que no contienen `+` ni `%` y son compatibles con clientes Basic Auth
 genéricos.
+
+Prueba end-to-end validada con la cuenta `101`:
+
+```powershell
+Invoke-RestMethod -SkipCertificateCheck `
+  -Uri https://localhost:8082/api/mobile/accounts/101/summary `
+  -Headers @{ Authorization = "Bearer $($token.access_token)" }
+```
+
+La cadena comprobada fue `CSV -> Batch -> PostgreSQL -> Outbox -> Kafka -> Anomaly Service -> Account Service ->
+Mobile BFF -> HTTP 200`. Tras la carga se observaron `PUBLISHED=63`, `PENDING=0` y
+`processed_anomaly_event=63`.
+
+## Evidencias
+
+Las capturas verificadas de las 9 imágenes, los 11 servicios, los tres jobs, Kafka/outbox, OAuth2 end-to-end y el
+`BUILD SUCCESS` del reactor están indexadas en [evidence/semana-8/README.md](evidence/semana-8/README.md).
 
 ## Detención y datos
 

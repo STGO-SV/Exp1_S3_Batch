@@ -1,7 +1,8 @@
 # Proxy local alternativo/experimental
 
-La solución efectiva de Semana 5 usa TLS directo en Auth y los tres BFF mediante `server.ssl.*` y los scripts oficiales
-adaptados. Esta infraestructura se conserva como preparación histórica y no debe iniciarse ni presentarse como topología final.
+La solución final de Semana 8 usa TLS directo en Authorization Server, Account Service y los tres BFF mediante
+`server.ssl.*`, dentro de `docker-compose.yaml`. Esta infraestructura de Semana 5 se conserva como preparación histórica
+y no debe iniciarse ni presentarse como topología final. Consulte [docs/semana-8-docker.md](../../docs/semana-8-docker.md).
 
 Imagen del proyecto Nginx Proxy Manager fijada a 2.15.1; SQLite interna, sin otro servidor de base de datos.
 Referencia: https://nginxproxymanager.com/setup/
