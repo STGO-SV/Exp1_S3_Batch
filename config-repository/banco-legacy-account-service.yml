@@ -15,7 +15,7 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:schema-eft-account.sql
+      schema-locations: classpath:schema-eft-account.sql,classpath:schema-eft-outbox-lease.sql
 
 eureka:
   instance:

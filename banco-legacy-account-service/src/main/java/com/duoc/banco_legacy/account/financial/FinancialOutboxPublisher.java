@@ -1,38 +1,53 @@
 package com.duoc.banco_legacy.account.financial;
+
 import com.duoc.banco_legacy.core.event.FinancialOperationCompletedEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.beans.factory.annotation.Value;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
 @Component
 @ConditionalOnProperty(name="banking.kafka.enabled",havingValue="true",matchIfMissing=true)
 public class FinancialOutboxPublisher {
- private record Pending(UUID id,String payload){}
- private final JdbcClient jdbc;private final ObjectMapper json;private final KafkaTemplate<String,Object> kafka;private final String topic;
- public FinancialOutboxPublisher(JdbcClient jdbc,ObjectMapper json,KafkaTemplate<String,Object> kafka,
-  @Value("${banking.kafka.financial-topic:banco.operaciones.completadas.v1}")String topic){
-  this.jdbc=jdbc;this.json=json;this.kafka=kafka;this.topic=topic;
- }
- @Scheduled(fixedDelayString="${banking.kafka.outbox-delay-ms:2000}")
- public void publish() {
-  var pending=jdbc.sql("SELECT event_id,payload FROM eft_financial_outbox WHERE status='PENDING' ORDER BY event_id LIMIT 100")
-   .query((rs,n)->new Pending(UUID.fromString(rs.getString(1)),rs.getString(2))).list();
-  for(var row:pending) {
-   try {
-    var event=json.readValue(row.payload(),FinancialOperationCompletedEvent.class);event.validate();
-    kafka.send(topic,event.result().operationId().toString(),event).get(5,TimeUnit.SECONDS);
-    jdbc.sql("UPDATE eft_financial_outbox SET status='PUBLISHED',published_at=CURRENT_TIMESTAMP,attempts=attempts+1,last_error=NULL WHERE event_id=:id AND status='PENDING'")
-     .param("id",row.id()).update();
-   } catch(Exception failure) {
-    if(failure instanceof InterruptedException)Thread.currentThread().interrupt();
-    jdbc.sql("UPDATE eft_financial_outbox SET attempts=attempts+1,last_error=:error WHERE event_id=:id AND status='PENDING'")
-     .param("id",row.id()).param("error",failure.getClass().getSimpleName()).update();
-   }
-  }
- }
+    private static final Logger LOG=LoggerFactory.getLogger(FinancialOutboxPublisher.class);
+    private final FinancialOutboxStore store;
+    private final ObjectMapper json;
+    private final KafkaTemplate<String,Object> kafka;
+    private final String topic,owner;
+    private final int leaseSeconds,batchSize;
+
+    public FinancialOutboxPublisher(FinancialOutboxStore store,ObjectMapper json,KafkaTemplate<String,Object> kafka,
+            @Value("${banking.kafka.financial-topic:banco.operaciones.completadas.v1}") String topic,
+            @Value("${banking.kafka.outbox-owner:${spring.application.name:account}:${HOSTNAME:local}}") String owner,
+            @Value("${banking.kafka.outbox-lease-seconds:30}") int leaseSeconds,
+            @Value("${banking.kafka.outbox-batch-size:20}") int batchSize) {
+        if(leaseSeconds<15 || batchSize<1 || batchSize>100)throw new IllegalArgumentException("Invalid outbox lease/batch");
+        this.store=store;this.json=json;this.kafka=kafka;this.topic=topic;
+        this.owner=owner+":"+UUID.randomUUID();this.leaseSeconds=leaseSeconds;this.batchSize=batchSize;
+    }
+    @Scheduled(fixedDelayString="${banking.kafka.outbox-delay-ms:2000}")
+    public void publish() {
+        for(int i=0;i<batchSize && !Thread.currentThread().isInterrupted();i++) {
+            var next=store.claim(owner,leaseSeconds);
+            if(next.isEmpty())return;
+            var claim=next.get();
+            try {
+                var event=json.readValue(claim.payload(),FinancialOperationCompletedEvent.class);
+                event.validate();
+                kafka.send(topic,event.result().operationId().toString(),event).get(5,TimeUnit.SECONDS);
+                if(store.published(claim))
+                    LOG.info("Financial outbox published eventId={} owner={}",event.eventId(),owner);
+                else LOG.warn("Financial outbox lease lost after ack eventId={} owner={}",event.eventId(),owner);
+            } catch(Exception failure) {
+                store.retry(claim,failure.getClass().getSimpleName());
+                if(failure instanceof InterruptedException)Thread.currentThread().interrupt();
+            }
+        }
+    }
 }

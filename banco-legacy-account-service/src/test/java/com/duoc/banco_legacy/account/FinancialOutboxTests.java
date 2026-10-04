@@ -1,41 +1,59 @@
 package com.duoc.banco_legacy.account;
 import com.duoc.banco_legacy.account.financial.*;
-import com.duoc.banco_legacy.account.registry.*;
 import com.duoc.banco_legacy.core.event.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.kafka.core.KafkaTemplate;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
-@SpringBootTest(properties={"spring.datasource.url=jdbc:h2:mem:financial_outbox;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
- "spring.sql.init.mode=always","spring.sql.init.schema-locations=classpath:schema-eft-account.sql"})
-class FinancialOutboxTests extends JwtTestSupport {
- @Autowired JdbcTemplate jdbc;@Autowired JdbcClient client;@Autowired ObjectMapper json;@Autowired AccountPostingService posting;
- @Autowired AccountRegistryService registry;@MockBean CustomerRegistryClient customers;
- @Test void failureKeepsPendingAndAcknowledgedRetryPublishesExactlyOneStoredEvent(){
-  jdbc.execute("CREATE TABLE IF NOT EXISTS interes_procesado(cuenta_id BIGINT)");
-  jdbc.execute("CREATE TABLE IF NOT EXISTS movimiento_anual_procesado(cuenta_id BIGINT)");
-  registry.open(301,"ahorro",List.of(UUID.randomUUID()));
-  posting.post("operator","deposit",new FinancialOperationRequest(UUID.randomUUID(),"DEPOSIT",null,301L,new BigDecimal("10")));
-  @SuppressWarnings("unchecked") KafkaTemplate<String,Object> kafka=mock(KafkaTemplate.class);
-  when(kafka.send(anyString(),anyString(),any())).thenReturn(CompletableFuture.failedFuture(new IllegalStateException("broker down")));
-  var publisher=new FinancialOutboxPublisher(client,json,kafka,"banco.operaciones.completadas.v1");
-  publisher.publish();
-  assertThat(jdbc.queryForObject("SELECT status FROM eft_financial_outbox",String.class)).isEqualTo("PENDING");
-  assertThat(jdbc.queryForObject("SELECT attempts FROM eft_financial_outbox",Integer.class)).isEqualTo(1);
-  when(kafka.send(anyString(),anyString(),any())).thenReturn(CompletableFuture.completedFuture(null));
-  publisher.publish();publisher.publish();
-  assertThat(jdbc.queryForObject("SELECT status FROM eft_financial_outbox",String.class)).isEqualTo("PUBLISHED");
-  assertThat(jdbc.queryForObject("SELECT attempts FROM eft_financial_outbox",Integer.class)).isEqualTo(2);
-  verify(kafka,times(2)).send(eq("banco.operaciones.completadas.v1"),anyString(),isA(FinancialOperationCompletedEvent.class));
-  assertThat(registry.get(301).balance()).isEqualByComparingTo("10");
- }
+
+class FinancialOutboxTests {
+    FinancialOutboxStore store;
+    KafkaTemplate<String,Object> kafka;
+    FinancialOutboxStore.Claim claim;
+    FinancialOutboxPublisher publisher;
+    @BeforeEach @SuppressWarnings("unchecked") void setup() throws Exception {
+        store=mock(FinancialOutboxStore.class);kafka=mock(KafkaTemplate.class);
+        var json=new ObjectMapper().findAndRegisterModules();
+        var receipt=new FinancialOperationResult(UUID.randomUUID(),"DEPOSIT",null,301L,
+                new BigDecimal("10.00"),"COMPLETED",null,new BigDecimal("10.00"),Instant.now());
+        var event=new FinancialOperationCompletedEvent(UUID.randomUUID(),1,"operator",new FinancialOperationRequest(receipt.operationId(),"DEPOSIT",null,301L,new BigDecimal("10.00")).fingerprint(),receipt);
+        claim=new FinancialOutboxStore.Claim(event.eventId(),json.writeValueAsString(event),"worker",UUID.randomUUID());
+        when(store.claim(anyString(),eq(30))).thenReturn(Optional.of(claim),Optional.empty());
+        publisher=new FinancialOutboxPublisher(store,json,kafka,"banco.operaciones.completadas.v1","worker",30,1);
+    }
+    @Test void acknowledgedSendPublishesOnlyAfterAck() {
+        when(kafka.send(anyString(),anyString(),any())).thenReturn(CompletableFuture.completedFuture(null));
+        when(store.published(claim)).thenReturn(true);
+        publisher.publish();
+        var order=inOrder(store,kafka);
+        order.verify(store).claim(anyString(),eq(30));
+        order.verify(kafka).send(anyString(),anyString(),any());
+        order.verify(store).published(claim);
+        verify(store,never()).retry(any(),anyString());
+    }
+    @Test void brokerFailureReleasesOwnedClaimForRetryWithoutPublished() {
+        when(kafka.send(anyString(),anyString(),any())).thenReturn(CompletableFuture.failedFuture(new IllegalStateException()));
+        publisher.publish();
+        verify(store).retry(eq(claim),anyString());verify(store,never()).published(any());
+    }
+    @Test void anotherWorkerClaimMeansNoSend() {
+        when(store.claim(anyString(),eq(30))).thenReturn(Optional.empty());
+        publisher.publish();verifyNoInteractions(kafka);
+    }
+    @Test void pendingAckDoesNotMarkPublished() throws Exception {
+        var ack=new CompletableFuture<org.springframework.kafka.support.SendResult<String,Object>>();
+        when(kafka.send(anyString(),anyString(),any())).thenReturn(ack);
+        try(var executor=java.util.concurrent.Executors.newSingleThreadExecutor()) {
+            var task=executor.submit(publisher::publish);
+            verify(kafka,timeout(2000)).send(anyString(),anyString(),any());
+            verify(store,never()).published(any());
+            ack.complete(null);task.get(3,java.util.concurrent.TimeUnit.SECONDS);
+            verify(store).published(claim);
+        }
+    }
 }

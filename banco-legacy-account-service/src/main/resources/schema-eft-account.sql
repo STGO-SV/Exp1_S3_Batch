@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS eft_account_posting (
 );
 CREATE TABLE IF NOT EXISTS eft_financial_outbox (
  event_id UUID PRIMARY KEY, operation_id UUID NOT NULL UNIQUE REFERENCES eft_account_posting(operation_id),
- payload TEXT NOT NULL, status VARCHAR(20) NOT NULL DEFAULT 'PENDING' CHECK(status IN ('PENDING','PUBLISHED')),
- attempts INTEGER NOT NULL DEFAULT 0, published_at TIMESTAMP WITH TIME ZONE, last_error VARCHAR(120)
+ payload TEXT NOT NULL, status VARCHAR(20) NOT NULL DEFAULT 'PENDING' CONSTRAINT chk_eft_financial_outbox_status CHECK(status IN ('PENDING','PROCESSING','PUBLISHED')),
+ attempts INTEGER NOT NULL DEFAULT 0, published_at TIMESTAMP WITH TIME ZONE, last_error VARCHAR(120),
+ claim_owner VARCHAR(240), claim_token UUID, claimed_at TIMESTAMP WITH TIME ZONE,
+ lease_until TIMESTAMP WITH TIME ZONE, retry_at TIMESTAMP WITH TIME ZONE
 );
