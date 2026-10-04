@@ -1,0 +1,56 @@
+services:
+  customer-service:
+    environment:
+      EUREKA_INSTANCE_INSTANCE_ID: $${spring.application.name}:$${HOSTNAME}
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      BANKING_HTTP_TLS_SERVICE_NAME: account-service
+      SERVER_TOMCAT_ACCESSLOG_ENABLED: "true"
+      SERVER_TOMCAT_ACCESSLOG_DIRECTORY: /tmp/banco-access
+      SERVER_TOMCAT_ACCESSLOG_PATTERN: "%t %m %U %s"
+      EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS: "5"
+      EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS: "5"
+      EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS: "15"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--cacert", "/run/banco-legacy/banco-legacy-docker.crt", "https://localhost:8087/actuator/health"]
+  account-service:
+    environment:
+      BANKING_KAFKA_OUTBOX_BATCH_SIZE: "1"
+      BANKING_KAFKA_OUTBOX_DELAY_MS: "300"
+      EUREKA_INSTANCE_INSTANCE_ID: $${spring.application.name}:$${HOSTNAME}
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      BANKING_HTTP_TLS_SERVICE_NAME: customer-service
+      SERVER_TOMCAT_ACCESSLOG_ENABLED: "true"
+      SERVER_TOMCAT_ACCESSLOG_DIRECTORY: /tmp/banco-access
+      SERVER_TOMCAT_ACCESSLOG_PATTERN: "%t %m %U %s"
+      EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS: "5"
+      EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS: "5"
+      EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS: "15"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--cacert", "/run/banco-legacy/banco-legacy-docker.crt", "https://localhost:8085/actuator/health"]
+    ports: !reset []
+  payment-service:
+    environment:
+      SPRING_KAFKA_CONSUMER_CLIENT_ID: $${HOSTNAME}
+      EUREKA_INSTANCE_INSTANCE_ID: $${spring.application.name}:$${HOSTNAME}
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      BANKING_HTTP_TLS_SERVICE_NAME: account-service
+      SERVER_TOMCAT_ACCESSLOG_ENABLED: "true"
+      SERVER_TOMCAT_ACCESSLOG_DIRECTORY: /tmp/banco-access
+      SERVER_TOMCAT_ACCESSLOG_PATTERN: "%t %m %U %s"
+      EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS: "5"
+      EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS: "5"
+      EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS: "15"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--cacert", "/run/banco-legacy/banco-legacy-docker.crt", "https://localhost:8086/actuator/health"]
+  web-bff:
+    environment:
+      BANKING_HTTP_TLS_SERVICE_NAME: account-service
+      EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS: "5"
+  mobile-bff:
+    environment:
+      BANKING_HTTP_TLS_SERVICE_NAME: account-service
+      EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS: "5"
+  atm-bff:
+    environment:
+      BANKING_HTTP_TLS_SERVICE_NAME: account-service
+      EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS: "5"
