@@ -1,0 +1,108 @@
+{
+  "inspected_at": "2026-10-04",
+  "source": "C:/Dev/Duoc/DBE3/bank_legacy_data/data",
+  "method": "PowerShell Import-Csv; comparación textual de claves y nombres; todos los registros sin filtrar rechazos",
+  "contains_personal_names": false,
+  "live_postgresql_inspected": false,
+  "live_postgresql_reason": "Docker Desktop Linux engine pipe absent; read-only inspection could not run",
+  "datasets": [
+    {
+      "dataset": "semana_1",
+      "headers": {
+        "intereses": "cuenta_id,nombre,saldo,edad,tipo",
+        "cuentas_anuales": "cuenta_id,fecha,transaccion,monto,descripcion",
+        "transacciones": "id,fecha,monto,tipo"
+      },
+      "interest_rows": 8,
+      "distinct_account_keys": 8,
+      "movement_rows": 9,
+      "transaction_rows": 10,
+      "accounts_with_different_names": 0,
+      "names_on_different_account_keys": 1,
+      "movements_without_interest_key": 0,
+      "raw_interest_types": [
+        "ahorro",
+        "hipoteca",
+        "prestamo"
+      ],
+      "raw_movement_types": [
+        "compra",
+        "deposito",
+        "retiro"
+      ],
+      "raw_transaction_types": [
+        "credito",
+        "debito"
+      ]
+    },
+    {
+      "dataset": "semana_2",
+      "headers": {
+        "intereses": "cuenta_id,nombre,saldo,edad,tipo",
+        "cuentas_anuales": "cuenta_id,fecha,transaccion,monto,descripcion",
+        "transacciones": "id,fecha,monto,tipo"
+      },
+      "interest_rows": 8,
+      "distinct_account_keys": 8,
+      "movement_rows": 9,
+      "transaction_rows": 10,
+      "accounts_with_different_names": 0,
+      "names_on_different_account_keys": 1,
+      "movements_without_interest_key": 0,
+      "raw_interest_types": [
+        "-1 ",
+        "ahorro",
+        "ahorro ",
+        "hipoteca",
+        "prestamo"
+      ],
+      "raw_movement_types": [
+        "compra",
+        "deposito",
+        "retiro"
+      ],
+      "raw_transaction_types": [
+        "credito",
+        "credito ",
+        "debito",
+        "debito ",
+        "invalid"
+      ]
+    },
+    {
+      "dataset": "semana_3",
+      "headers": {
+        "intereses": "cuenta_id,nombre,saldo,edad,tipo",
+        "cuentas_anuales": "cuenta_id,fecha,transaccion,monto,descripcion",
+        "transacciones": "id,fecha,monto,tipo"
+      },
+      "interest_rows": 1000,
+      "distinct_account_keys": 50,
+      "movement_rows": 1000,
+      "transaction_rows": 1000,
+      "accounts_with_different_names": 50,
+      "names_on_different_account_keys": 8,
+      "movements_without_interest_key": 0,
+      "raw_interest_types": [
+        "-1",
+        "ahorro",
+        "hipoteca",
+        "prestamo",
+        "unknown"
+      ],
+      "raw_movement_types": [
+        "compra",
+        "deposito",
+        "depósito",
+        "pago",
+        "retiro"
+      ],
+      "raw_transaction_types": [
+        "credito",
+        "debito",
+        "desconocido",
+        "invalid"
+      ]
+    }
+  ]
+}
