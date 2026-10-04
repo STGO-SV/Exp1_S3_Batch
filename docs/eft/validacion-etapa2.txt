@@ -1,0 +1,59 @@
+EFT Etapa 2 — validación 2026-10-04 America/Santiago
+Base: eft 9c19005; main 76b9773
+Java 21.0.12; Spring Boot 3.3.4
+
+mvn -B verify
+BUILD SUCCESS en reactor padre y 12 módulos jar
+Duración: 03:00 min
+Finalización: 2026-10-04 15:35:35 -03:00
+Surefire: 207 reportados; 0 failures; 0 errors; 0 skipped
+30 casos nuevos respecto de Etapa 1 (177)
+
+Distribución:
+core 12
+batch 31
+config-server 2
+discovery-server 1
+account-service 21
+payment-service 3
+customer-service 16
+anomaly-service 12
+auth 9
+web-bff 22
+mobile-bff 27
+atm-bff 51
+
+Cobertura nueva:
+AccountRegistryIntegrationTests: 10
+CustomerRegistryClientTests: 5
+CustomerRegistryIntegrationTests: 8
+AccountRegistryClientTests: 5
+DomainOperatorAuthorizationTests: 2
+
+Límites:
+4 tests KafkaReal* retornan sin lógica de integración externa al faltar week7.kafka.integration=true.
+No presentarlos como evidencia Kafka real; sí se ejecutaron casos embedded existentes de Anomaly.
+No lógica financiera nueva en Payment: no hay tests nuevos de saldo/transferencia porque su implementación se detuvo por decisiones documentadas.
+Tests legacy de retiro/saldo insuficiente/rollback siguen incluidos en mvn verify.
+
+Focalizadas:
+Account y Customer: SUCCESS tras corregir dependencia Resilience4j requerida por fixtures.
+Auth: mvn -B -pl banco-legacy-auth test, BUILD SUCCESS, 9 tests, 15.371 s.
+Se corrigió uso inicial de un método de copia RegisteredClient ausente en la versión local; se verificó API local y se usó RegisteredClient.from.
+El verify final incluye todas estas correcciones y concurrencia.
+
+Inicializador:
+Upgrade aislado desde script de Etapa 1 (9c19005), preservación de siete valores secretos/keys existentes, nuevo secreto técnico, renovación SAN.
+Segunda ejecución deja .env, keystore, truststore y certificado con hashes idénticos.
+Fixture temporal ignorada eliminada tras verificar ruta absoluta; .env/.local de trabajo no modificados.
+No se muestran ni versionan valores secretos.
+
+Docker Compose:
+Base config --quiet PASS
+Base + compose.eft.yaml + compose.scale-local.yaml --profile eft config --quiet PASS
+No arranque, build de imagen ni --scale.
+Inspección READ ONLY de PostgreSQL de Compose no ejecutable: Docker Linux engine pipe ausente.
+Compatibilidad SQL: sintaxis PostgreSQL y ejecución/reaplicación H2 MODE=PostgreSQL; no equivalen a prueba PostgreSQL real.
+
+git diff --check: PASS
+Logs eft-stage2-focused.log, eft-stage2-auth-tests.log y eft-stage2-verify.log: locales ignorados.

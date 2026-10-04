@@ -92,3 +92,12 @@ Salida: evidencia local reproducible y tests end-to-end OAuth2/BFF/Kafka/Postgre
 Usar tests focalizados de módulos durante desarrollo; mvn verify al cerrar cada etapa.
 No reemplazar evidencia nueva con capturas históricas. Mantener OAuth2, BFF, jobs, PostgreSQL, Config/Eureka, Resilience4j, outbox/Kafka/retry/DLT y Compose.
 No versionar .env/.local/privados/certificados. Revisar diff y archivos explícitos antes de cada commit.
+## Estado después de Etapa 2
+
+Modelo y contratos detallados: modelo-dominio.md y contratos-servicios.md.
+Se implementó maestro registral aditivo de Account/Customer, vínculos explícitos, concurrencia/idempotencia administrativa y dos llamadas REST resilientes.
+Customer se integró al Compose base; Payment continúa como scaffold opcional.
+Hay 207 casos reportados por verify, sin fallos; cuatro casos de Kafka externo siguen sin ejecutar integración.
+Saldo maestro/migración, identidad real/titularidad legacy y cierre financiero quedan para revisión humana antes de Payment.
+El ciclo registral no equivale a gestión financiera completa ni a operación de las cuentas nuevas desde ATM/BFF.
+La siguiente fase prioritaria es revisar las decisiones concretas de modelo-dominio.md; no pasar directamente a despliegue/escala.

@@ -69,3 +69,15 @@ Customer desconocido: Account expone 404 CUSTOMER_NOT_FOUND, sin escribir.
 Error de conexión/5xx/circuito abierto: 503 CUSTOMER_UNAVAILABLE o ACCOUNT_UNAVAILABLE, sin datos ficticios.
 BD: 503 DATABASE_UNAVAILABLE; integridad/carrera: 409 CONFLICT. Errores de formato/Bean Validation: 400 INVALID_REQUEST.
 No exponer SQL/stack traces ni mensajes arbitrarios de la dependencia.
+## Account financiero interno — propuesta NO implementada
+
+Completa el límite transaccional del diseño Payment; no hay rutas disponibles ni grants asociados todavía.
+
+| Método / URI propuesto | Request | Response/HTTP | Validaciones | Responsable/autorización propuesta | Efectos persistentes | Evento |
+|---|---|---|---|---|---|---|
+| POST /internal/accounts/postings | {operationType: DEPOSIT/PAYMENT/TRANSFER,sourceAccountId?,destinationAccountId?,amount,description}; Idempotency-Key | comprobante {operationId,type,status,sourceAccountId?,destinationAccountId?,amount}; 201/200 replay; 400; 404; 409 clave/saldo/estado; 401/403; 503 incierto | campos según operación; cuenta operable y monto; vínculo financiero acordado; hash canónico por sub JWT verificado, tipo y key | Account; accounts.post; JWT original de orden o delegación autenticada a definir; nunca confiar actor en header libre | saldo(s), movimientos, resultado idempotente y outbox en una transacción | solo evento Completed aplicable, no comando asíncrono de crédito |
+| GET /internal/accounts/postings/{operationId} | sin body | comprobante real 200; 400/404/401/403/503 | identidad técnica de origen y permiso de lectura de operación | Account; accounts.post.read; identidad/delegación según acuerdo | SELECT resultado; sin recalcular resultado | ninguno |
+
+accounts.post/accounts.post.read y payments.* son scopes propuestos, no se conceden al operador actual.
+Falta aprobar saldo/ledger, cierre financiero y delegación/autorización; no basta asignar scopes para declarar operativo el diseño.
+No hay response de saldo ficticio; comprobante representa únicamente transacción confirmada. Timeout se reconcilia por la misma clave; caída antes de respuesta no prueba rollback.
