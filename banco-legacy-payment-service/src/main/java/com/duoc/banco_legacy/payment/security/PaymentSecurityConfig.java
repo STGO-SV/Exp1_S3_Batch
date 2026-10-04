@@ -32,14 +32,19 @@ public class PaymentSecurityConfig {
         authorities.setAuthoritiesClaimName("roles");
         authorities.setAuthorityPrefix("ROLE_");
         var converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(authorities);
+        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+ var result=new java.util.ArrayList<org.springframework.security.core.GrantedAuthority>(authorities.convert(jwt));
+ result.addAll(new JwtGrantedAuthoritiesConverter().convert(jwt));return result;
+});
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .requestCache(cache -> cache.disable())
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/actuator/health").permitAll()
-                        .anyRequest().denyAll())
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/payments", "/api/payments/deposits", "/api/payments/transfers").hasAuthority("SCOPE_payments.write")
+ .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/payments/operations/*").hasAuthority("SCOPE_payments.read")
+ .anyRequest().denyAll())
                 .exceptionHandling(errors -> errors.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()))
                 .oauth2ResourceServer(resource -> resource.jwt(jwt -> jwt.jwtAuthenticationConverter(converter)))
                 .build();
