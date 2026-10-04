@@ -1,0 +1,77 @@
+{
+  "capturedAt": "2026-10-04T21:13:37.287206+00:00",
+  "data": {
+    "recovered": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-recovery",
+      "request": {
+        "accountId": 1791148331085,
+        "amount": 7
+      },
+      "status": 200,
+      "response": {
+        "operationId": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791148331085,
+        "amount": 7,
+        "status": "COMPLETED",
+        "createdAt": "2026-10-04T21:13:10.588274Z",
+        "result": {
+          "operationId": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791148331085,
+          "amount": 7.0,
+          "status": "COMPLETED",
+          "sourceBalanceAfter": null,
+          "targetBalanceAfter": 77.0,
+          "completedAt": "2026-10-04T21:13:35.324057228Z"
+        },
+        "failureCode": null
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "replay": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-recovery",
+      "request": {
+        "accountId": 1791148331085,
+        "amount": 7
+      },
+      "status": 200,
+      "response": {
+        "operationId": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791148331085,
+        "amount": 7,
+        "status": "COMPLETED",
+        "createdAt": "2026-10-04T21:13:10.588274Z",
+        "result": {
+          "operationId": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791148331085,
+          "amount": 7.0,
+          "status": "COMPLETED",
+          "sourceBalanceAfter": null,
+          "targetBalanceAfter": 77.0,
+          "completedAt": "2026-10-04T21:13:35.324057228Z"
+        },
+        "failureCode": null
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "status": 200
+      }
+    ],
+    "sourceBalance": 77,
+    "postings": 1
+  }
+}

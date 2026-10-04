@@ -1,0 +1,41 @@
+{
+  "capturedAt": "2026-10-04T21:21:29.003825+00:00",
+  "data": {
+    "paymentReplay": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-payment",
+      "request": {
+        "sourceAccountId": 1791148331086,
+        "amount": 10
+      },
+      "status": 200,
+      "response": {
+        "operationId": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+        "type": "PAYMENT",
+        "sourceAccountId": 1791148331086,
+        "targetAccountId": null,
+        "amount": 10,
+        "status": "COMPLETED",
+        "createdAt": "2026-10-04T21:12:18.357350Z",
+        "result": {
+          "operationId": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+          "type": "PAYMENT",
+          "sourceAccountId": 1791148331086,
+          "targetAccountId": null,
+          "amount": 10.0,
+          "status": "COMPLETED",
+          "sourceBalanceAfter": 20.0,
+          "targetBalanceAfter": null,
+          "completedAt": "2026-10-04T21:12:18.382037787Z"
+        },
+        "failureCode": null
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "validEventRepublishedAfterDlt": "451d59ff-822b-4196-9f4c-5e9492ccb1e2",
+    "allPartitionsLagZero": true,
+    "eventAuditCountStill": 1,
+    "note": "Comprobación posterior a DLT, sin nuevos movimientos ni postings."
+  }
+}

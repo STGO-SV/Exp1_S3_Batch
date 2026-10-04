@@ -1,0 +1,62 @@
+{
+  "capturedAt": "2026-10-04T21:12:29.148217+00:00",
+  "data": {
+    "closure": {
+      "method": "POST",
+      "url": "https://account-service:8085/api/accounts/1791148331086/closure",
+      "idempotencyKey": null,
+      "request": {
+        "version": 2
+      },
+      "status": 200,
+      "response": {
+        "accountId": 1791148331086,
+        "accountType": "ahorro",
+        "status": "CLOSED",
+        "version": 3,
+        "customerIds": [
+          "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        ],
+        "balance": 20.0,
+        "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "rejectedDeposit": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-closed",
+      "request": {
+        "accountId": 1791148331086,
+        "amount": 1
+      },
+      "status": 409,
+      "response": {
+        "code": "ACCOUNT_CLOSED",
+        "message": "ACCOUNT_CLOSED"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "rejectedTransfer": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/transfers",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-rollback",
+      "request": {
+        "sourceAccountId": 1791148331085,
+        "targetAccountId": 1791148331086,
+        "amount": 5
+      },
+      "status": 409,
+      "response": {
+        "code": "ACCOUNT_CLOSED",
+        "message": "ACCOUNT_CLOSED"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "recordPreserved": true,
+    "balances": [
+      70,
+      20
+    ]
+  }
+}

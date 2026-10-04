@@ -1,0 +1,13 @@
+{
+  "old_jar_has_schema": false,
+  "source_has_schema": true,
+  "cause": "Imagen Account anterior sin schema-eft-account.sql; configuración actual requiere ese recurso.",
+  "log_excerpt": [
+    "account-service-1  | Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'legacyAccountReadRepository' defined in URL [jar:nested:/app/application.jar/!BOOT-INF/lib/banco-legacy-core-0.0.1-SNAPSHOT.jar!/com/duoc/banco_legacy/core/repository/LegacyAccountReadRepository.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: No schema scripts found at location 'classpath:schema-eft-account.sql'",
+    "account-service-1  | Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: No schema scripts found at location 'classpath:schema-eft-account.sql'",
+    "account-service-1  | Caused by: java.lang.IllegalStateException: No schema scripts found at location 'classpath:schema-eft-account.sql'"
+  ],
+  "correction": "Reconstrucción desde eft; no cambios especulativos ni SQL manual.",
+  "current_running_jar_has_schema": true,
+  "current_container_healthy": true
+}

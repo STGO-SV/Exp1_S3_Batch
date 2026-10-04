@@ -1,0 +1,118 @@
+{
+  "capturedAt": "2026-10-04T21:13:18.463243+00:00",
+  "data": {
+    "normal200": {
+      "method": "GET",
+      "url": "https://payment-service:8086/api/payments/operations/350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+      "idempotencyKey": null,
+      "request": null,
+      "status": 200,
+      "response": {
+        "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791148331085,
+        "amount": 100,
+        "status": "COMPLETED",
+        "createdAt": "2026-10-04T21:12:16.775716Z",
+        "result": {
+          "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791148331085,
+          "amount": 100.0,
+          "status": "COMPLETED",
+          "sourceBalanceAfter": null,
+          "targetBalanceAfter": 100.0,
+          "completedAt": "2026-10-04T21:12:17.162515344Z"
+        },
+        "failureCode": null
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "accountStopped": true,
+    "response503": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-recovery",
+      "request": {
+        "accountId": 1791148331085,
+        "amount": 7
+      },
+      "status": 503,
+      "response": {
+        "code": "ACCOUNT_UNAVAILABLE",
+        "message": "ACCOUNT_UNAVAILABLE"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "repeated503": [
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "idempotencyKey": "eft4-a1f2ee5aa5ef-recovery",
+        "request": {
+          "accountId": 1791148331085,
+          "amount": 7
+        },
+        "status": 503,
+        "response": {
+          "code": "ACCOUNT_UNAVAILABLE",
+          "message": "ACCOUNT_UNAVAILABLE"
+        },
+        "tlsCertificateAndHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "idempotencyKey": "eft4-a1f2ee5aa5ef-recovery",
+        "request": {
+          "accountId": 1791148331085,
+          "amount": 7
+        },
+        "status": 503,
+        "response": {
+          "code": "ACCOUNT_UNAVAILABLE",
+          "message": "ACCOUNT_UNAVAILABLE"
+        },
+        "tlsCertificateAndHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "idempotencyKey": "eft4-a1f2ee5aa5ef-recovery",
+        "request": {
+          "accountId": 1791148331085,
+          "amount": 7
+        },
+        "status": 503,
+        "response": {
+          "code": "ACCOUNT_UNAVAILABLE",
+          "message": "ACCOUNT_UNAVAILABLE"
+        },
+        "tlsCertificateAndHostnameVerified": true
+      }
+    ],
+    "eventRecovery503": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-event-recovery",
+      "request": {
+        "accountId": 1791148331085,
+        "amount": 2
+      },
+      "status": 503,
+      "response": {
+        "code": "ACCOUNT_UNAVAILABLE",
+        "message": "ACCOUNT_UNAVAILABLE"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "postgresPending": {
+      "operation_id": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+      "status": "PENDING",
+      "receipt": null
+    },
+    "postings": 0
+  }
+}

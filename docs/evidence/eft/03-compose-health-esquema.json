@@ -1,0 +1,307 @@
+{
+  "capturedAt": "2026-10-04T21:12:06.420943+00:00",
+  "data": {
+    "services": [
+      {
+        "Command": "\"java -jar /app/appl…\"",
+        "CreatedAt": "2026-10-04 18:10:26 -0300 -03",
+        "Engine": "",
+        "ExitCode": 0,
+        "Health": "healthy",
+        "ID": "b0a57ea5f1ac",
+        "Image": "banco-legacy/account-service:semana-8",
+        "Labels": "com.docker.compose.project=banco-legacy,com.docker.compose.replace=account-service-1,desktop.docker.io/ports/8085/tcp=:8085,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/binds/0/Target=/run/banco-legacy,com.docker.compose.config-hash=950737f3ad926aadd0f8850b5d77444f6bc9e5dcf37ffc77e59f484ba8dad9dd,com.docker.compose.project.config_files=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\docker-compose.yaml,com.docker.compose.project.working_dir=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch,desktop.docker.io/binds/0/Source=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose,com.docker.compose.container-number=1,com.docker.compose.depends_on=config-server:service_healthy:false,discovery-server:service_healthy:false,postgres:service_healthy:false,kafka:service_healthy:false,com.docker.compose.image=sha256:c190900d1d0c83fe83b0395789e0846739ee4c75fada3d1dcc5f3d4db053046a,com.docker.compose.oneoff=False,com.docker.compose.service=account-service,com.docker.compose.version=5.5.1,desktop.docker.io/ports.scheme=v2,org.opencontainers.image.version=22.04",
+        "LocalVolumes": "0",
+        "Mounts": "/run/desktop/m…",
+        "Name": "banco-legacy-account-service-1",
+        "Names": "banco-legacy-account-service-1",
+        "Networks": "banco-legacy_banco-network",
+        "Ports": "0.0.0.0:8085->8085/tcp, [::]:8085->8085/tcp",
+        "Project": "banco-legacy",
+        "Publishers": [
+          {
+            "URL": "0.0.0.0",
+            "TargetPort": 8085,
+            "PublishedPort": 8085,
+            "Protocol": "tcp"
+          },
+          {
+            "URL": "::",
+            "TargetPort": 8085,
+            "PublishedPort": 8085,
+            "Protocol": "tcp"
+          }
+        ],
+        "RunningFor": "About a minute ago",
+        "Service": "account-service",
+        "Size": "0B",
+        "State": "running",
+        "Status": "Up About a minute (healthy)"
+      },
+      {
+        "Command": "\"java -jar /app/appl…\"",
+        "CreatedAt": "2026-10-04 18:07:01 -0300 -03",
+        "Engine": "",
+        "ExitCode": 0,
+        "Health": "healthy",
+        "ID": "953001a634eb",
+        "Image": "banco-legacy/auth-server:semana-8",
+        "Labels": "com.docker.compose.depends_on=,com.docker.compose.image=sha256:33fa7c766589f1ab9d27c482c322d85a7f45dbc9e6fe4987d74d6c5e18ac0bf8,com.docker.compose.service=auth-server,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/binds/0/Target=/run/banco-legacy,com.docker.compose.config-hash=55ccb1312748b2a4698d4454db66cca1a266b9f52119f30109345936d9540b44,com.docker.compose.container-number=1,com.docker.compose.project=banco-legacy,desktop.docker.io/ports.scheme=v2,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\docker-compose.yaml,com.docker.compose.replace=auth-server-1,desktop.docker.io/binds/0/Source=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose,com.docker.compose.project.working_dir=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch,com.docker.compose.version=5.5.1,desktop.docker.io/ports/8084/tcp=:8084,org.opencontainers.image.version=22.04",
+        "LocalVolumes": "0",
+        "Mounts": "/run/desktop/m…",
+        "Name": "banco-legacy-auth-server-1",
+        "Names": "banco-legacy-auth-server-1",
+        "Networks": "banco-legacy_banco-network",
+        "Ports": "0.0.0.0:8084->8084/tcp, [::]:8084->8084/tcp",
+        "Project": "banco-legacy",
+        "Publishers": [
+          {
+            "URL": "0.0.0.0",
+            "TargetPort": 8084,
+            "PublishedPort": 8084,
+            "Protocol": "tcp"
+          },
+          {
+            "URL": "::",
+            "TargetPort": 8084,
+            "PublishedPort": 8084,
+            "Protocol": "tcp"
+          }
+        ],
+        "RunningFor": "5 minutes ago",
+        "Service": "auth-server",
+        "Size": "0B",
+        "State": "running",
+        "Status": "Up 5 minutes (healthy)"
+      },
+      {
+        "Command": "\"java -jar /app/appl…\"",
+        "CreatedAt": "2026-10-04 18:07:01 -0300 -03",
+        "Engine": "",
+        "ExitCode": 0,
+        "Health": "healthy",
+        "ID": "8bfd19d31b3a",
+        "Image": "banco-legacy/config-server:semana-8",
+        "Labels": "com.docker.compose.project.working_dir=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch,com.docker.compose.version=5.5.1,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/binds/0/Target=/config-repository,desktop.docker.io/ports/8888/tcp=:8888,com.docker.compose.config-hash=9cf9e5adaacf1fba782b4f715a805b5ced82a546b5a17e5fb734cb525982ba6e,com.docker.compose.project=banco-legacy,com.docker.compose.project.config_files=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\docker-compose.yaml,desktop.docker.io/ports.scheme=v2,org.opencontainers.image.version=22.04,com.docker.compose.container-number=1,com.docker.compose.image=sha256:fe8e8321da1b9b598823c155483d30d61e804baae52d35698987043c9bc8aa73,desktop.docker.io/binds/0/Source=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\config-repository,com.docker.compose.depends_on=,com.docker.compose.replace=config-server-1,com.docker.compose.service=config-server,com.docker.compose.oneoff=False",
+        "LocalVolumes": "0",
+        "Mounts": "/run/desktop/m…",
+        "Name": "banco-legacy-config-server-1",
+        "Names": "banco-legacy-config-server-1",
+        "Networks": "banco-legacy_banco-network",
+        "Ports": "0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp",
+        "Project": "banco-legacy",
+        "Publishers": [
+          {
+            "URL": "0.0.0.0",
+            "TargetPort": 8888,
+            "PublishedPort": 8888,
+            "Protocol": "tcp"
+          },
+          {
+            "URL": "::",
+            "TargetPort": 8888,
+            "PublishedPort": 8888,
+            "Protocol": "tcp"
+          }
+        ],
+        "RunningFor": "5 minutes ago",
+        "Service": "config-server",
+        "Size": "0B",
+        "State": "running",
+        "Status": "Up 4 minutes (healthy)"
+      },
+      {
+        "Command": "\"java -jar /app/appl…\"",
+        "CreatedAt": "2026-10-04 18:10:26 -0300 -03",
+        "Engine": "",
+        "ExitCode": 0,
+        "Health": "healthy",
+        "ID": "1096c4882f29",
+        "Image": "banco-legacy/customer-service:eft",
+        "Labels": "desktop.docker.io/ports.scheme=v2,com.docker.compose.config-hash=3fafb02e9745c8b639a020a3fad2a29743503f5806f846877d497e9ee5e747e6,com.docker.compose.project.config_files=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\docker-compose.yaml,com.docker.compose.service=customer-service,com.docker.compose.version=5.5.1,com.docker.compose.container-number=1,desktop.docker.io/binds/0/Source=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose,desktop.docker.io/binds/0/Target=/run/banco-legacy,com.docker.compose.depends_on=config-server:service_healthy:false,discovery-server:service_healthy:false,postgres:service_healthy:false,com.docker.compose.image=sha256:ec1c57e0a075e6793945473ba6604ad341c9afaf22883d0cddd5debc226a5a29,com.docker.compose.oneoff=False,com.docker.compose.project=banco-legacy,com.docker.compose.project.working_dir=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch,desktop.docker.io/binds/0/SourceKind=hostFile,org.opencontainers.image.version=22.04",
+        "LocalVolumes": "0",
+        "Mounts": "/run/desktop/m…",
+        "Name": "banco-legacy-customer-service-1",
+        "Names": "banco-legacy-customer-service-1",
+        "Networks": "banco-legacy_banco-network",
+        "Ports": "8087/tcp",
+        "Project": "banco-legacy",
+        "Publishers": [
+          {
+            "URL": "",
+            "TargetPort": 8087,
+            "PublishedPort": 0,
+            "Protocol": "tcp"
+          }
+        ],
+        "RunningFor": "About a minute ago",
+        "Service": "customer-service",
+        "Size": "0B",
+        "State": "running",
+        "Status": "Up About a minute (healthy)"
+      },
+      {
+        "Command": "\"java -jar /app/appl…\"",
+        "CreatedAt": "2026-10-04 18:07:01 -0300 -03",
+        "Engine": "",
+        "ExitCode": 0,
+        "Health": "healthy",
+        "ID": "514ad287ab4c",
+        "Image": "banco-legacy/discovery-server:semana-8",
+        "Labels": "com.docker.compose.depends_on=,com.docker.compose.image=sha256:6c36524db2a8cd3a243b2955086f4dbc6efa626f62dad11783a84ad142990fc6,com.docker.compose.version=5.5.1,com.docker.compose.config-hash=efe45b9e42abf7da246d5221621105b939f2cc0e5693d702d8b99820ae757994,com.docker.compose.project.config_files=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\docker-compose.yaml,com.docker.compose.project.working_dir=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch,desktop.docker.io/binds/0/Target=/run/banco-legacy,desktop.docker.io/ports/8761/tcp=:8761,com.docker.compose.container-number=1,com.docker.compose.oneoff=False,com.docker.compose.replace=discovery-server-1,desktop.docker.io/binds/0/Source=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose,com.docker.compose.project=banco-legacy,com.docker.compose.service=discovery-server,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/ports.scheme=v2,org.opencontainers.image.version=22.04",
+        "LocalVolumes": "0",
+        "Mounts": "/run/desktop/m…",
+        "Name": "banco-legacy-discovery-server-1",
+        "Names": "banco-legacy-discovery-server-1",
+        "Networks": "banco-legacy_banco-network",
+        "Ports": "0.0.0.0:8761->8761/tcp, [::]:8761->8761/tcp",
+        "Project": "banco-legacy",
+        "Publishers": [
+          {
+            "URL": "0.0.0.0",
+            "TargetPort": 8761,
+            "PublishedPort": 8761,
+            "Protocol": "tcp"
+          },
+          {
+            "URL": "::",
+            "TargetPort": 8761,
+            "PublishedPort": 8761,
+            "Protocol": "tcp"
+          }
+        ],
+        "RunningFor": "5 minutes ago",
+        "Service": "discovery-server",
+        "Size": "0B",
+        "State": "running",
+        "Status": "Up 5 minutes (healthy)"
+      },
+      {
+        "Command": "\"/__cacert_entrypoin…\"",
+        "CreatedAt": "2026-10-04 18:07:01 -0300 -03",
+        "Engine": "",
+        "ExitCode": 0,
+        "Health": "healthy",
+        "ID": "24a2824025ea",
+        "Image": "apache/kafka:3.8.0",
+        "Labels": "com.docker.compose.project.working_dir=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch,com.docker.compose.project=banco-legacy,com.docker.compose.service=kafka,maintainer=Apache Kafka,org.label-schema.vcs-url=https://github.com/apache/kafka,com.docker.compose.depends_on=,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\docker-compose.yaml,com.docker.compose.replace=kafka-1,com.docker.compose.version=5.5.1,desktop.docker.io/ports.scheme=v2,org.label-schema.build-date=2024-07-23,org.label-schema.description=Apache Kafka,com.docker.compose.config-hash=45e216a45a10c8d0288931d32f2f36d9d98acda8c2a16cf9850c094b6fb411ad,com.docker.compose.container-number=1,com.docker.compose.image=sha256:c9aea96a4813e77e703541b1d8f7d58c9ee05b77353da33684db55c840548791,org.label-schema.name=kafka",
+        "LocalVolumes": "3",
+        "Mounts": "3dcb213616f22b…,f5fe21ecc1a55a…,407f998a6ea487…",
+        "Name": "banco-legacy-kafka-1",
+        "Names": "banco-legacy-kafka-1",
+        "Networks": "banco-legacy_banco-network",
+        "Ports": "9092/tcp",
+        "Project": "banco-legacy",
+        "Publishers": [
+          {
+            "URL": "",
+            "TargetPort": 9092,
+            "PublishedPort": 0,
+            "Protocol": "tcp"
+          }
+        ],
+        "RunningFor": "5 minutes ago",
+        "Service": "kafka",
+        "Size": "0B",
+        "State": "running",
+        "Status": "Up 5 minutes (healthy)"
+      },
+      {
+        "Command": "\"java -jar /app/appl…\"",
+        "CreatedAt": "2026-10-04 18:10:27 -0300 -03",
+        "Engine": "",
+        "ExitCode": 0,
+        "Health": "healthy",
+        "ID": "67b68b4dcef8",
+        "Image": "banco-legacy/payment-service:eft",
+        "Labels": "com.docker.compose.project.config_files=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\docker-compose.yaml,desktop.docker.io/binds/0/SourceKind=hostFile,com.docker.compose.container-number=1,com.docker.compose.project=banco-legacy,desktop.docker.io/ports.scheme=v2,com.docker.compose.image=sha256:ae28da95a5f6692e8595145041278e6e2c7ed454cf76d14bbb741b0fbffa7b34,com.docker.compose.project.working_dir=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch,com.docker.compose.service=payment-service,desktop.docker.io/binds/0/Source=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose,desktop.docker.io/binds/0/Target=/run/banco-legacy,com.docker.compose.config-hash=5f5b83c9debf24b7e3a9f45fdfbdd2c2693fd0da1ed9c0d2b42ac326d1207fc0,com.docker.compose.depends_on=account-service:service_healthy:false,config-server:service_healthy:false,discovery-server:service_healthy:false,postgres:service_healthy:false,kafka:service_healthy:false,com.docker.compose.oneoff=False,com.docker.compose.version=5.5.1,org.opencontainers.image.version=22.04",
+        "LocalVolumes": "0",
+        "Mounts": "/run/desktop/m…",
+        "Name": "banco-legacy-payment-service-1",
+        "Names": "banco-legacy-payment-service-1",
+        "Networks": "banco-legacy_banco-network",
+        "Ports": "8086/tcp",
+        "Project": "banco-legacy",
+        "Publishers": [
+          {
+            "URL": "",
+            "TargetPort": 8086,
+            "PublishedPort": 0,
+            "Protocol": "tcp"
+          }
+        ],
+        "RunningFor": "About a minute ago",
+        "Service": "payment-service",
+        "Size": "0B",
+        "State": "running",
+        "Status": "Up About a minute (healthy)"
+      },
+      {
+        "Command": "\"docker-entrypoint.s…\"",
+        "CreatedAt": "2026-10-04 17:57:39 -0300 -03",
+        "Engine": "",
+        "ExitCode": 0,
+        "Health": "healthy",
+        "ID": "f336084a4910",
+        "Image": "postgres:16.4",
+        "Labels": "com.docker.compose.project=banco-legacy,com.docker.compose.project.config_files=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\docker-compose.yaml,com.docker.compose.replace=postgres-1,com.docker.compose.version=5.5.1,desktop.docker.io/binds/1/Source=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\banco-legacy-batch\\src\\main\\resources\\schema.sql,desktop.docker.io/binds/1/SourceKind=hostFile,desktop.docker.io/binds/2/SourceKind=hostFile,desktop.docker.io/binds/2/Target=/docker-entrypoint-initdb.d/20-anomaly-schema.sql,desktop.docker.io/ports/5432/tcp=:5433,com.docker.compose.depends_on=,com.docker.compose.project.working_dir=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch,desktop.docker.io/binds/2/Source=C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\banco-legacy-anomaly-service\\src\\main\\resources\\schema.sql,desktop.docker.io/ports.scheme=v2,com.docker.compose.config-hash=e9ee11360abf4f5179a299c48fe06a3cb51af7c804c7e71d0ff9eff2fff19096,com.docker.compose.container-number=1,com.docker.compose.image=sha256:9a70e4d1c03a5066080292db2dd95ee3965d3651316e21989fa0935afb8ce8ca,com.docker.compose.oneoff=False,com.docker.compose.service=postgres,desktop.docker.io/binds/1/Target=/docker-entrypoint-initdb.d/10-batch-schema.sql",
+        "LocalVolumes": "1",
+        "Mounts": "/run/desktop/m…,/run/desktop/m…,banco-legacy_p…",
+        "Name": "banco-legacy-postgres-1",
+        "Names": "banco-legacy-postgres-1",
+        "Networks": "banco-legacy_banco-network",
+        "Ports": "0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp",
+        "Project": "banco-legacy",
+        "Publishers": [
+          {
+            "URL": "0.0.0.0",
+            "TargetPort": 5432,
+            "PublishedPort": 5433,
+            "Protocol": "tcp"
+          },
+          {
+            "URL": "::",
+            "TargetPort": 5432,
+            "PublishedPort": 5433,
+            "Protocol": "tcp"
+          }
+        ],
+        "RunningFor": "14 minutes ago",
+        "Service": "postgres",
+        "Size": "0B",
+        "State": "running",
+        "Status": "Up 14 minutes (healthy)"
+      }
+    ],
+    "schema": "public|anomaly_event_outbox\npublic|batch_job_execution\npublic|batch_job_execution_context\npublic|batch_job_execution_params\npublic|batch_job_instance\npublic|batch_step_execution\npublic|batch_step_execution_context\npublic|eft_account\npublic|eft_account_balance\npublic|eft_account_holder\npublic|eft_account_posting\npublic|eft_customer\npublic|eft_financial_outbox\npublic|eft_payment_event_audit\npublic|eft_payment_operation\npublic|interes_procesado\npublic|movimiento_anual_procesado\npublic|processed_anomaly_event\npublic|transaccion_procesada",
+    "postgres": "PostgreSQL 16.4 (Debian 16.4-1.pgdg120+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit\nbanco_legacy_batch\npostgres",
+    "volume": [
+      {
+        "Type": "bind",
+        "Source": "/run/desktop/mnt/host/c/Dev/Duoc/DBE3/banco-legacy-batch/banco-legacy-batch/src/main/resources/schema.sql",
+        "Destination": "/docker-entrypoint-initdb.d/10-batch-schema.sql",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/run/desktop/mnt/host/c/Dev/Duoc/DBE3/banco-legacy-batch/banco-legacy-anomaly-service/src/main/resources/schema.sql",
+        "Destination": "/docker-entrypoint-initdb.d/20-anomaly-schema.sql",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "volume",
+        "Name": "banco-legacy_postgres-data",
+        "Source": "/var/lib/docker/volumes/banco-legacy_postgres-data/_data",
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ]
+  }
+}

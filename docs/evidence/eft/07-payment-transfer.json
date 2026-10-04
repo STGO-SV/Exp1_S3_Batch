@@ -1,0 +1,36 @@
+{
+  "capturedAt": "2026-10-04T21:12:18.008456+00:00",
+  "data": {
+    "method": "POST",
+    "url": "https://payment-service:8086/api/payments/transfers",
+    "idempotencyKey": "eft4-a1f2ee5aa5ef-transfer",
+    "request": {
+      "sourceAccountId": 1791148331085,
+      "targetAccountId": 1791148331086,
+      "amount": 30
+    },
+    "status": 201,
+    "response": {
+      "operationId": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+      "type": "TRANSFER",
+      "sourceAccountId": 1791148331085,
+      "targetAccountId": 1791148331086,
+      "amount": 30,
+      "status": "COMPLETED",
+      "createdAt": "2026-10-04T21:12:17.737757Z",
+      "result": {
+        "operationId": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+        "type": "TRANSFER",
+        "sourceAccountId": 1791148331085,
+        "targetAccountId": 1791148331086,
+        "amount": 30.0,
+        "status": "COMPLETED",
+        "sourceBalanceAfter": 70.0,
+        "targetBalanceAfter": 30.0,
+        "completedAt": "2026-10-04T21:12:17.762187035Z"
+      },
+      "failureCode": null
+    },
+    "tlsCertificateAndHostnameVerified": true
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "capturedAt": "2026-10-04T21:12:25.416232+00:00",
+  "data": [
+    {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-no-token",
+      "request": {
+        "accountId": 1791148331085,
+        "amount": 1
+      },
+      "status": 401,
+      "response": null,
+      "tlsCertificateAndHostnameVerified": true
+    },
+    {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-wrong-scope",
+      "request": {
+        "accountId": 1791148331085,
+        "amount": 1
+      },
+      "status": 403,
+      "response": null,
+      "tlsCertificateAndHostnameVerified": true
+    }
+  ]
+}

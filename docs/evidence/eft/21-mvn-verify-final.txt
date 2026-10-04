@@ -1,0 +1,45 @@
+EFT Etapa 4 - verificación final real y automatizada
+Fecha: 2026-10-04; rama eft, base d046500.
+
+Focalizado: mvn -pl banco-legacy-account-service,banco-legacy-payment-service,banco-legacy-customer-service,banco-legacy-auth -am test
+BUILD SUCCESS
+
+mvn verify
+[INFO] Reactor Summary for Banco Legacy 0.0.1-SNAPSHOT:
+[INFO] 
+[INFO] Banco Legacy ....................................... SUCCESS [  0.004 s]
+[INFO] banco-legacy-core .................................. SUCCESS [  7.594 s]
+[INFO] banco-legacy-batch ................................. SUCCESS [ 19.947 s]
+[INFO] banco-legacy-config-server ......................... SUCCESS [  8.026 s]
+[INFO] banco-legacy-discovery-server ...................... SUCCESS [  9.499 s]
+[INFO] banco-legacy-account-service ....................... SUCCESS [ 20.678 s]
+[INFO] banco-legacy-payment-service ....................... SUCCESS [ 25.024 s]
+[INFO] banco-legacy-customer-service ...................... SUCCESS [ 15.957 s]
+[INFO] banco-legacy-anomaly-service ....................... SUCCESS [ 27.109 s]
+[INFO] banco-legacy-auth .................................. SUCCESS [ 10.205 s]
+[INFO] banco-legacy-web-bff ............................... SUCCESS [ 12.983 s]
+[INFO] banco-legacy-mobile-bff ............................ SUCCESS [ 16.958 s]
+[INFO] banco-legacy-atm-bff ............................... SUCCESS [ 18.804 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  03:13 min
+[INFO] Finished at: 2026-10-04T18:19:26-03:00
+[INFO] ------------------------------------------------------------------------
+
+XML Surefire: módulo | tests | failures | errors | skipped reportados
+banco-legacy-account-service | 36 | 0 | 0 | 0
+banco-legacy-anomaly-service | 12 | 0 | 0 | 0
+banco-legacy-atm-bff | 51 | 0 | 0 | 0
+banco-legacy-auth | 11 | 0 | 0 | 0
+banco-legacy-batch | 31 | 0 | 0 | 0
+banco-legacy-config-server | 2 | 0 | 0 | 0
+banco-legacy-core | 15 | 0 | 0 | 0
+banco-legacy-customer-service | 16 | 0 | 0 | 0
+banco-legacy-discovery-server | 1 | 0 | 0 | 0
+banco-legacy-mobile-bff | 27 | 0 | 0 | 0
+banco-legacy-payment-service | 21 | 0 | 0 | 0
+banco-legacy-web-bff | 22 | 0 | 0 | 0
+TOTAL | 245 | 0 | 0 | 0
+
+Cuatro KafkaReal heredados siguen sin habilitarse; sus retornos no aparecen como skipped. La evidencia financiera Kafka Compose real se valida separadamente por el runner y archivos 12b/13/14/15.

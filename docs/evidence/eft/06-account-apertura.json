@@ -1,0 +1,107 @@
+{
+  "capturedAt": "2026-10-04T21:12:16.381787+00:00",
+  "data": [
+    {
+      "method": "PUT",
+      "url": "https://account-service:8085/api/accounts/1791148331085",
+      "idempotencyKey": null,
+      "request": {
+        "accountType": "ahorro",
+        "customerIds": [
+          "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        ]
+      },
+      "status": 201,
+      "response": {
+        "accountId": 1791148331085,
+        "accountType": "ahorro",
+        "status": "ACTIVE",
+        "version": 0,
+        "customerIds": [
+          "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        ],
+        "balance": 0.0,
+        "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    {
+      "method": "PUT",
+      "url": "https://account-service:8085/api/accounts/1791148331086",
+      "idempotencyKey": null,
+      "request": {
+        "accountType": "ahorro",
+        "customerIds": [
+          "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        ]
+      },
+      "status": 201,
+      "response": {
+        "accountId": 1791148331086,
+        "accountType": "ahorro",
+        "status": "ACTIVE",
+        "version": 0,
+        "customerIds": [
+          "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        ],
+        "balance": 0.0,
+        "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    {
+      "method": "GET",
+      "url": "https://account-service:8085/api/accounts?customerId=d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+      "idempotencyKey": null,
+      "request": null,
+      "status": 200,
+      "response": [
+        {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 0,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 0.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        {
+          "accountId": 1791148331086,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 0,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 0.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        }
+      ],
+      "tlsCertificateAndHostnameVerified": true
+    },
+    {
+      "method": "PATCH",
+      "url": "https://account-service:8085/api/accounts/1791148331085",
+      "idempotencyKey": null,
+      "request": {
+        "accountType": "ahorro",
+        "version": 0
+      },
+      "status": 200,
+      "response": {
+        "accountId": 1791148331085,
+        "accountType": "ahorro",
+        "status": "ACTIVE",
+        "version": 1,
+        "customerIds": [
+          "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        ],
+        "balance": 0.0,
+        "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    }
+  ]
+}

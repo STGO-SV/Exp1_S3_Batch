@@ -1,0 +1,15 @@
+{
+  "capturedAt": "2026-10-04T21:23:18.354321+00:00",
+  "data": {
+    "injectedKey": "eft4-a1f2ee5aa5ef-poison",
+    "dltTopic": "banco.operaciones.completadas.v1.DLT",
+    "matchingDltRecords": [
+      "eft4-a1f2ee5aa5ef-poison\t{invalid-json"
+    ],
+    "consumerExitCode": 0,
+    "boundedReadTimeoutExpected": false,
+    "malformedJsonIsNonRetryable": true,
+    "transientRetriesCoveredByTests": true,
+    "note": "Se recomprobó el mensaje inválido ya enviado; no se inyectó un segundo fallo."
+  }
+}

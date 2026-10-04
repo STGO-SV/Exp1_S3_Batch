@@ -1,0 +1,66 @@
+{
+  "capturedAt": "2026-10-04T21:13:42.488738+00:00",
+  "data": {
+    "pendingCreatedWhileAccountStopped": true,
+    "accountInternalCommand": {
+      "method": "POST",
+      "url": "https://account-service:8085/internal/accounts/postings",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-event-recovery",
+      "request": {
+        "operationId": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791148331085,
+        "amount": 2
+      },
+      "status": 201,
+      "response": {
+        "operationId": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791148331085,
+        "amount": 2.0,
+        "status": "COMPLETED",
+        "sourceBalanceAfter": null,
+        "targetBalanceAfter": 79.0,
+        "completedAt": "2026-10-04T21:13:37.616980385Z"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "paymentReconciledBeforePostRetry": true,
+    "replay": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-event-recovery",
+      "request": {
+        "accountId": 1791148331085,
+        "amount": 2
+      },
+      "status": 200,
+      "response": {
+        "operationId": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791148331085,
+        "amount": 2,
+        "status": "COMPLETED",
+        "createdAt": "2026-10-04T21:13:16.630126Z",
+        "result": {
+          "operationId": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791148331085,
+          "amount": 2.0,
+          "status": "COMPLETED",
+          "sourceBalanceAfter": null,
+          "targetBalanceAfter": 79.0,
+          "completedAt": "2026-10-04T21:13:37.616980385Z"
+        },
+        "failureCode": null
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "sourceBalance": 79,
+    "postings": 1
+  }
+}

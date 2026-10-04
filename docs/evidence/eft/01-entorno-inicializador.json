@@ -1,0 +1,87 @@
+{
+  "timestamp": "2026-10-04T21:05:48.130362+00:00",
+  "tls_previous_served_san": [
+    [
+      "DNS",
+      "localhost"
+    ],
+    [
+      "DNS",
+      "auth-server"
+    ],
+    [
+      "DNS",
+      "account-service"
+    ],
+    [
+      "DNS",
+      "web-bff"
+    ],
+    [
+      "DNS",
+      "mobile-bff"
+    ],
+    [
+      "DNS",
+      "atm-bff"
+    ],
+    [
+      "IP Address",
+      "127.0.0.1"
+    ]
+  ],
+  "tls_current_san": [
+    [
+      "DNS",
+      "localhost"
+    ],
+    [
+      "DNS",
+      "auth-server"
+    ],
+    [
+      "DNS",
+      "account-service"
+    ],
+    [
+      "DNS",
+      "web-bff"
+    ],
+    [
+      "DNS",
+      "mobile-bff"
+    ],
+    [
+      "DNS",
+      "atm-bff"
+    ],
+    [
+      "DNS",
+      "customer-service"
+    ],
+    [
+      "DNS",
+      "payment-service"
+    ],
+    [
+      "IP Address",
+      "127.0.0.1"
+    ]
+  ],
+  "tls_previous_expiration": "Oct  2 18:37:30 2027 GMT",
+  "reason_for_tls_regeneration": "El certificado servido por Auth anterior no incluía DNS Customer/Payment requeridos por el inicializador.",
+  "variables_presence": {
+    "POSTGRES_PASSWORD": true,
+    "OAUTH_WEB_CLIENT_SECRET": true,
+    "OAUTH_MOBILE_CLIENT_SECRET": true,
+    "OAUTH_ATM_CLIENT_SECRET": true,
+    "JWT_PRIVATE_KEY": true,
+    "JWT_PUBLIC_KEY": true,
+    "TLS_KEYSTORE_PASSWORD": true,
+    "OAUTH_DOMAIN_CLIENT_SECRET": true,
+    "OAUTH_PAYMENT_CLIENT_SECRET": true
+  },
+  "second_initialization_env_tls_unchanged": true,
+  "first_initialization_env_values_preserved": true,
+  "first_initialization_note": "Comparación en memoria del primer intento confirmó igualdad de todos los valores previos; el cambio TLS interrumpió su primera escritura de evidencia. No se usó RotateSecrets."
+}

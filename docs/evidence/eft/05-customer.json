@@ -1,0 +1,56 @@
+{
+  "capturedAt": "2026-10-04T21:12:13.443545+00:00",
+  "data": [
+    {
+      "method": "PUT",
+      "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+      "idempotencyKey": null,
+      "request": {
+        "name": "Prueba EFT 4"
+      },
+      "status": 201,
+      "response": {
+        "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "name": "Prueba EFT 4",
+        "version": 0
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    {
+      "method": "GET",
+      "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+      "idempotencyKey": null,
+      "request": null,
+      "status": 200,
+      "response": {
+        "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "name": "Prueba EFT 4",
+        "version": 0
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    {
+      "method": "PATCH",
+      "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+      "idempotencyKey": null,
+      "request": {
+        "name": "Prueba EFT 4 actualizada",
+        "version": 0
+      },
+      "status": 200,
+      "response": {
+        "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "name": "Prueba EFT 4 actualizada",
+        "version": 1
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    {
+      "postgres": {
+        "customer_id": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "name": "Prueba EFT 4 actualizada",
+        "version": 1
+      }
+    }
+  ]
+}

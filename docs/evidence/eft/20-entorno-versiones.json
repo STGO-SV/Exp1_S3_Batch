@@ -1,0 +1,85 @@
+{
+  "capturedAt": "2026-10-04T21:24:01.277549+00:00",
+  "data": {
+    "docker": {
+      "Client": {
+        "Version": "29.8.1",
+        "ApiVersion": "1.56",
+        "DefaultAPIVersion": "1.56",
+        "GitCommit": "4a63305",
+        "GoVersion": "go1.26.8",
+        "Os": "windows",
+        "Arch": "amd64",
+        "BuildTime": "Tue Sep 15 16:28:39 2026",
+        "Context": "desktop-linux"
+      },
+      "Server": {
+        "Platform": {
+          "Name": "Docker Desktop 4.93.0 (240920)"
+        },
+        "Version": "29.8.1",
+        "ApiVersion": "1.56",
+        "MinAPIVersion": "1.40",
+        "Os": "linux",
+        "Arch": "amd64",
+        "Components": [
+          {
+            "Name": "Engine",
+            "Version": "29.8.1",
+            "Details": {
+              "ApiVersion": "1.56",
+              "Arch": "amd64",
+              "BuildTime": "Tue Sep 15 16:25:38 2026",
+              "Experimental": "false",
+              "GitCommit": "464cd50",
+              "GoVersion": "go1.26.8",
+              "KernelVersion": "6.6.114.1-microsoft-standard-WSL2",
+              "MinAPIVersion": "1.40",
+              "Module": "github.com/moby/moby/v2",
+              "ModuleVersion": "v2.0.0+unknown",
+              "Os": "linux"
+            }
+          },
+          {
+            "Name": "containerd",
+            "Version": "v2.3.5",
+            "Details": {
+              "GitCommit": "1294c24a7da8e5a793ed378161673abe94118892"
+            }
+          },
+          {
+            "Name": "runc",
+            "Version": "1.5.1",
+            "Details": {
+              "GitCommit": "v1.5.1-0-g8f2685a4"
+            }
+          },
+          {
+            "Name": "docker-init",
+            "Version": "0.19.0",
+            "Details": {
+              "GitCommit": "de40ad0"
+            }
+          }
+        ],
+        "GitCommit": "464cd50",
+        "GoVersion": "go1.26.8",
+        "KernelVersion": "6.6.114.1-microsoft-standard-WSL2",
+        "BuildTime": "2026-09-15T16:25:38.000000000+00:00"
+      }
+    },
+    "backend": {
+      "ServerVersion": "29.8.1",
+      "OperatingSystem": "Docker Desktop",
+      "KernelVersion": "6.6.114.1-microsoft-standard-WSL2",
+      "OSType": "linux",
+      "CPUs": 16,
+      "MemoryBytes": 16429170688
+    },
+    "compose": "Docker Compose version v5.5.1",
+    "kafkaVersion": "3.8.0",
+    "postgresVersion": "PostgreSQL 16.4 (Debian 16.4-1.pgdg120+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit",
+    "composeBaseValid": true,
+    "composeEftOverrideValid": true
+  }
+}

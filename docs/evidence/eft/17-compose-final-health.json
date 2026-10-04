@@ -1,0 +1,61 @@
+{
+  "capturedAt": "2026-10-04T21:18:28.327241+00:00",
+  "data": [
+    {
+      "name": "/banco-legacy-postgres-1",
+      "status": "running",
+      "health": "healthy",
+      "restartCount": 0,
+      "image": "sha256:e62fbf9d3e2b49816a32c400ed2dba83e3b361e6833e624024309c35d334b412"
+    },
+    {
+      "name": "/banco-legacy-kafka-1",
+      "status": "running",
+      "health": "healthy",
+      "restartCount": 0,
+      "image": "sha256:c89f315cff967322c5d2021434b32271393cb193aa7ec1d43e97341924e57069"
+    },
+    {
+      "name": "/banco-legacy-config-server-1",
+      "status": "running",
+      "health": "healthy",
+      "restartCount": 0,
+      "image": "sha256:285a8592d91f36a4c2ee827c249c0c35a03d79a7a34ebe8afb24c276978e81c4"
+    },
+    {
+      "name": "/banco-legacy-discovery-server-1",
+      "status": "running",
+      "health": "healthy",
+      "restartCount": 0,
+      "image": "sha256:25d8c0dde6cc97e63630ebf44e473db7789cfcafab781db659460b446269210b"
+    },
+    {
+      "name": "/banco-legacy-auth-server-1",
+      "status": "running",
+      "health": "healthy",
+      "restartCount": 0,
+      "image": "sha256:6103e386f4d6e7b894210c0921aa5239e796910f5ad02ae147323d13b699bdf0"
+    },
+    {
+      "name": "/banco-legacy-customer-service-1",
+      "status": "running",
+      "health": "healthy",
+      "restartCount": 0,
+      "image": "sha256:66022ece367a5ab38fe93e810e266611bdd20cbe4986d50bacc432f4f1d1d385"
+    },
+    {
+      "name": "/banco-legacy-account-service-1",
+      "status": "running",
+      "health": "healthy",
+      "restartCount": 0,
+      "image": "sha256:30c5b9093da74ae0f80edf9031461a43ebda9004e3b82774b3b6fde9e5e72555"
+    },
+    {
+      "name": "/banco-legacy-payment-service-1",
+      "status": "running",
+      "health": "healthy",
+      "restartCount": 0,
+      "image": "sha256:efb500c443d7e96698de07f4906d3588839019e09aebb84cfb87dd3b28c1733d"
+    }
+  ]
+}

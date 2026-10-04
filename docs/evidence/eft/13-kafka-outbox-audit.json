@@ -1,0 +1,48 @@
+{
+  "capturedAt": "2026-10-04T21:14:52.681404+00:00",
+  "data": {
+    "topic": "banco.operaciones.completadas.v1",
+    "topicDescription": "Topic: banco.operaciones.completadas.v1\tTopicId: bFqYSqOkQu2nfIvpuBDk6Q\tPartitionCount: 3\tReplicationFactor: 1\tConfigs: \n\tTopic: banco.operaciones.completadas.v1\tPartition: 0\tLeader: 1\tReplicas: 1\tIsr: 1\tElr: \tLastKnownElr: \n\tTopic: banco.operaciones.completadas.v1\tPartition: 1\tLeader: 1\tReplicas: 1\tIsr: 1\tElr: \tLastKnownElr: \n\tTopic: banco.operaciones.completadas.v1\tPartition: 2\tLeader: 1\tReplicas: 1\tIsr: 1\tElr: \tLastKnownElr: \n",
+    "outbox": [
+      {
+        "event_id": "451d59ff-822b-4196-9f4c-5e9492ccb1e2",
+        "operation_id": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+        "status": "PUBLISHED",
+        "attempts": 1,
+        "published_at": "2026-10-04T21:12:18.457261+00:00"
+      },
+      {
+        "event_id": "dbfb2fde-df17-4c52-b802-ca5b9075b936",
+        "operation_id": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+        "status": "PUBLISHED",
+        "attempts": 1,
+        "published_at": "2026-10-04T21:13:38.500506+00:00"
+      },
+      {
+        "event_id": "c28f1659-82fa-4410-801e-69810985960b",
+        "operation_id": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+        "status": "PUBLISHED",
+        "attempts": 1,
+        "published_at": "2026-10-04T21:12:18.469178+00:00"
+      },
+      {
+        "event_id": "33c59335-b2ec-4bda-839d-9cf98234e3fe",
+        "operation_id": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+        "status": "PUBLISHED",
+        "attempts": 1,
+        "published_at": "2026-10-04T21:12:20.481005+00:00"
+      },
+      {
+        "event_id": "db9220fb-c00e-451b-adf4-62c99de408b7",
+        "operation_id": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+        "status": "PUBLISHED",
+        "attempts": 1,
+        "published_at": "2026-10-04T21:13:36.483185+00:00"
+      }
+    ],
+    "auditCount": 5,
+    "replayedEventId": "451d59ff-822b-4196-9f4c-5e9492ccb1e2",
+    "replayedEventAuditCount": 1,
+    "consumerGroup": "\nGROUP                   TOPIC                            PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                             HOST            CLIENT-ID\nfinancial-payment-audit banco.operaciones.completadas.v1 1          2               2               0               consumer-financial-payment-audit-1-f920b092-3e1f-4e4d-ad5f-8af990bd7357 /172.20.0.14    consumer-financial-payment-audit-1\nfinancial-payment-audit banco.operaciones.completadas.v1 2          1               1               0               consumer-financial-payment-audit-1-f920b092-3e1f-4e4d-ad5f-8af990bd7357 /172.20.0.14    consumer-financial-payment-audit-1\nfinancial-payment-audit banco.operaciones.completadas.v1 0          3               3               0               consumer-financial-payment-audit-1-f920b092-3e1f-4e4d-ad5f-8af990bd7357 /172.20.0.14    consumer-financial-payment-audit-1"
+  }
+}

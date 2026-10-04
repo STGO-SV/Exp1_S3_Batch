@@ -1,0 +1,124 @@
+{
+  "capturedAt": "2026-10-04T21:12:24.383531+00:00",
+  "data": {
+    "replays": [
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "idempotencyKey": "eft4-a1f2ee5aa5ef-deposit",
+        "request": {
+          "accountId": 1791148331085,
+          "amount": 100
+        },
+        "status": 200,
+        "response": {
+          "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791148331085,
+          "amount": 100,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T21:12:16.775716Z",
+          "result": {
+            "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 100.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 100.0,
+            "completedAt": "2026-10-04T21:12:17.162515344Z"
+          },
+          "failureCode": null
+        },
+        "tlsCertificateAndHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/transfers",
+        "idempotencyKey": "eft4-a1f2ee5aa5ef-transfer",
+        "request": {
+          "sourceAccountId": 1791148331085,
+          "targetAccountId": 1791148331086,
+          "amount": 30
+        },
+        "status": 200,
+        "response": {
+          "operationId": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+          "type": "TRANSFER",
+          "sourceAccountId": 1791148331085,
+          "targetAccountId": 1791148331086,
+          "amount": 30,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T21:12:17.737757Z",
+          "result": {
+            "operationId": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+            "type": "TRANSFER",
+            "sourceAccountId": 1791148331085,
+            "targetAccountId": 1791148331086,
+            "amount": 30.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": 70.0,
+            "targetBalanceAfter": 30.0,
+            "completedAt": "2026-10-04T21:12:17.762187035Z"
+          },
+          "failureCode": null
+        },
+        "tlsCertificateAndHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments",
+        "idempotencyKey": "eft4-a1f2ee5aa5ef-payment",
+        "request": {
+          "sourceAccountId": 1791148331086,
+          "amount": 10
+        },
+        "status": 200,
+        "response": {
+          "operationId": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+          "type": "PAYMENT",
+          "sourceAccountId": 1791148331086,
+          "targetAccountId": null,
+          "amount": 10,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T21:12:18.357350Z",
+          "result": {
+            "operationId": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+            "type": "PAYMENT",
+            "sourceAccountId": 1791148331086,
+            "targetAccountId": null,
+            "amount": 10.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": 20.0,
+            "targetBalanceAfter": null,
+            "completedAt": "2026-10-04T21:12:18.382037787Z"
+          },
+          "failureCode": null
+        },
+        "tlsCertificateAndHostnameVerified": true
+      }
+    ],
+    "conflict": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "idempotencyKey": "eft4-a1f2ee5aa5ef-deposit",
+      "request": {
+        "accountId": 1791148331085,
+        "amount": 101
+      },
+      "status": 409,
+      "response": {
+        "code": "IDEMPOTENCY_CONFLICT",
+        "message": "IDEMPOTENCY_CONFLICT"
+      },
+      "tlsCertificateAndHostnameVerified": true
+    },
+    "postingsBefore": "3",
+    "postingsAfter": "3",
+    "paymentOperations": "3",
+    "sourceBalance": 70,
+    "targetBalance": 20
+  }
+}

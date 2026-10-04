@@ -1,0 +1,9 @@
+{
+  "capturedAt": "2026-10-04T21:18:30.807475+00:00",
+  "data": {
+    "recoveryAndEventRecoveryCompleted": true,
+    "onePostingEach": true,
+    "accountHealthy": true,
+    "note": "Se recomprobó read-only el resultado tras corregir la salida Unicode del runner; no se repitieron movimientos."
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "capturedAt": "2026-10-04T21:15:00.548145+00:00",
+  "data": {
+    "customer": {
+      "customer_id": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+      "name": "Prueba EFT 4 actualizada",
+      "version": 1
+    },
+    "accounts": [
+      {
+        "account_id": 1791148331085,
+        "status": "OPEN",
+        "version": 5,
+        "balance": 79.0
+      },
+      {
+        "account_id": 1791148331086,
+        "status": "CLOSED",
+        "version": 3,
+        "balance": 20.0
+      }
+    ],
+    "payments": [
+      {
+        "operation_id": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+        "status": "COMPLETED",
+        "idempotency_key": "eft4-a1f2ee5aa5ef-deposit",
+        "failure_code": null
+      },
+      {
+        "operation_id": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+        "status": "COMPLETED",
+        "idempotency_key": "eft4-a1f2ee5aa5ef-transfer",
+        "failure_code": null
+      },
+      {
+        "operation_id": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+        "status": "COMPLETED",
+        "idempotency_key": "eft4-a1f2ee5aa5ef-payment",
+        "failure_code": null
+      },
+      {
+        "operation_id": "f7003695-6006-4d5b-ab1a-035a5d489588",
+        "status": "FAILED",
+        "idempotency_key": "eft4-a1f2ee5aa5ef-closed",
+        "failure_code": "ACCOUNT_CLOSED"
+      },
+      {
+        "operation_id": "4be902ba-28c3-49ab-98b0-8bf918fbe0cf",
+        "status": "FAILED",
+        "idempotency_key": "eft4-a1f2ee5aa5ef-rollback",
+        "failure_code": "ACCOUNT_CLOSED"
+      },
+      {
+        "operation_id": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+        "status": "COMPLETED",
+        "idempotency_key": "eft4-a1f2ee5aa5ef-recovery",
+        "failure_code": null
+      },
+      {
+        "operation_id": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+        "status": "COMPLETED",
+        "idempotency_key": "eft4-a1f2ee5aa5ef-event-recovery",
+        "failure_code": null
+      }
+    ],
+    "postings": 5,
+    "audit": 5
+  }
+}

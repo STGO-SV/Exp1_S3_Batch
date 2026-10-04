@@ -1,0 +1,450 @@
+{
+  "capturedAt": "2026-10-04T21:28:24.998111+00:00",
+  "data": {
+    "sqlReadOnly": true,
+    "runId": "eft4-a1f2ee5aa5ef",
+    "queries": {
+      "holders": "SELECT json_agg(x) FROM (SELECT account_id,customer_id FROM eft_account_holder WHERE account_id IN (1791148331085,1791148331086) ORDER BY account_id) x",
+      "balances": "SELECT json_agg(x) FROM (SELECT account_id,balance FROM eft_account_balance WHERE account_id IN (1791148331085,1791148331086) ORDER BY account_id) x",
+      "postings": "SELECT json_agg(x) FROM (SELECT operation_id,actor,idempotency_key,request_hash,receipt::json AS receipt FROM eft_account_posting WHERE idempotency_key LIKE 'eft4-a1f2ee5aa5ef%' ORDER BY idempotency_key) x",
+      "paymentOperations": "SELECT json_agg(x) FROM (SELECT operation_id,actor,idempotency_key,status,request::json AS request,receipt::json AS receipt,failure_code,failure_status,created_at FROM eft_payment_operation WHERE idempotency_key LIKE 'eft4-a1f2ee5aa5ef%' ORDER BY idempotency_key) x",
+      "outbox": "SELECT json_agg(x) FROM (SELECT event_id,operation_id,status,attempts,published_at,last_error FROM eft_financial_outbox WHERE operation_id IN (SELECT operation_id FROM eft_account_posting WHERE idempotency_key LIKE 'eft4-a1f2ee5aa5ef%') ORDER BY operation_id) x",
+      "audit": "SELECT json_agg(x) FROM (SELECT event_id,operation_id,received_at,payload::json AS payload FROM eft_payment_event_audit WHERE operation_id IN (SELECT operation_id FROM eft_account_posting WHERE idempotency_key LIKE 'eft4-a1f2ee5aa5ef%') ORDER BY operation_id) x"
+    },
+    "results": {
+      "holders": [
+        {
+          "account_id": 1791148331085,
+          "customer_id": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        {
+          "account_id": 1791148331086,
+          "customer_id": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        }
+      ],
+      "balances": [
+        {
+          "account_id": 1791148331085,
+          "balance": 79.0
+        },
+        {
+          "account_id": 1791148331086,
+          "balance": 20.0
+        }
+      ],
+      "postings": [
+        {
+          "operation_id": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-deposit",
+          "request_hash": "61681a27b40d924aaf2e5e8f62683f9bfdb080b370ef2b183002dbd2c916c35d",
+          "receipt": {
+            "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 100.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 100.0,
+            "completedAt": "2026-10-04T21:12:17.162515344Z"
+          }
+        },
+        {
+          "operation_id": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-event-recovery",
+          "request_hash": "cd9c5b9329bac836cba39eb56adf3c259f62155796c89edabf3718c66952a248",
+          "receipt": {
+            "operationId": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 2.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 79.0,
+            "completedAt": "2026-10-04T21:13:37.616980385Z"
+          }
+        },
+        {
+          "operation_id": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-payment",
+          "request_hash": "6170dd2b709e2cb78a07e53cd971d29aa5f6a1bbb2b34b09ffdeec0cf5056ba9",
+          "receipt": {
+            "operationId": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+            "type": "PAYMENT",
+            "sourceAccountId": 1791148331086,
+            "targetAccountId": null,
+            "amount": 10.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": 20.0,
+            "targetBalanceAfter": null,
+            "completedAt": "2026-10-04T21:12:18.382037787Z"
+          }
+        },
+        {
+          "operation_id": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-recovery",
+          "request_hash": "1f6b45d8604257d9285335e3e2806886e5fcdb0361215975f4c67806b649dacc",
+          "receipt": {
+            "operationId": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 7.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 77.0,
+            "completedAt": "2026-10-04T21:13:35.324057228Z"
+          }
+        },
+        {
+          "operation_id": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-transfer",
+          "request_hash": "3151fd22da01b2dd6f495bd3df688c8d4f39e8308a158a66b4f7fbc90a28da53",
+          "receipt": {
+            "operationId": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+            "type": "TRANSFER",
+            "sourceAccountId": 1791148331085,
+            "targetAccountId": 1791148331086,
+            "amount": 30.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": 70.0,
+            "targetBalanceAfter": 30.0,
+            "completedAt": "2026-10-04T21:12:17.762187035Z"
+          }
+        }
+      ],
+      "paymentOperations": [
+        {
+          "operation_id": "f7003695-6006-4d5b-ab1a-035a5d489588",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-closed",
+          "status": "FAILED",
+          "request": {
+            "operationId": "f7003695-6006-4d5b-ab1a-035a5d489588",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331086,
+            "amount": 1
+          },
+          "receipt": null,
+          "failure_code": "ACCOUNT_CLOSED",
+          "failure_status": 409,
+          "created_at": "2026-10-04T21:12:26.805109+00:00"
+        },
+        {
+          "operation_id": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-deposit",
+          "status": "COMPLETED",
+          "request": {
+            "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 100
+          },
+          "receipt": {
+            "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 100.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 100.0,
+            "completedAt": "2026-10-04T21:12:17.162515344Z"
+          },
+          "failure_code": null,
+          "failure_status": null,
+          "created_at": "2026-10-04T21:12:16.775716+00:00"
+        },
+        {
+          "operation_id": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-event-recovery",
+          "status": "COMPLETED",
+          "request": {
+            "operationId": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 2
+          },
+          "receipt": {
+            "operationId": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 2.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 79.0,
+            "completedAt": "2026-10-04T21:13:37.616980385Z"
+          },
+          "failure_code": null,
+          "failure_status": null,
+          "created_at": "2026-10-04T21:13:16.630126+00:00"
+        },
+        {
+          "operation_id": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-payment",
+          "status": "COMPLETED",
+          "request": {
+            "operationId": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+            "type": "PAYMENT",
+            "sourceAccountId": 1791148331086,
+            "targetAccountId": null,
+            "amount": 10
+          },
+          "receipt": {
+            "operationId": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+            "type": "PAYMENT",
+            "sourceAccountId": 1791148331086,
+            "targetAccountId": null,
+            "amount": 10.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": 20.0,
+            "targetBalanceAfter": null,
+            "completedAt": "2026-10-04T21:12:18.382037787Z"
+          },
+          "failure_code": null,
+          "failure_status": null,
+          "created_at": "2026-10-04T21:12:18.35735+00:00"
+        },
+        {
+          "operation_id": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-recovery",
+          "status": "COMPLETED",
+          "request": {
+            "operationId": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 7
+          },
+          "receipt": {
+            "operationId": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791148331085,
+            "amount": 7.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 77.0,
+            "completedAt": "2026-10-04T21:13:35.324057228Z"
+          },
+          "failure_code": null,
+          "failure_status": null,
+          "created_at": "2026-10-04T21:13:10.588274+00:00"
+        },
+        {
+          "operation_id": "4be902ba-28c3-49ab-98b0-8bf918fbe0cf",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-rollback",
+          "status": "FAILED",
+          "request": {
+            "operationId": "4be902ba-28c3-49ab-98b0-8bf918fbe0cf",
+            "type": "TRANSFER",
+            "sourceAccountId": 1791148331085,
+            "targetAccountId": 1791148331086,
+            "amount": 5
+          },
+          "receipt": null,
+          "failure_code": "ACCOUNT_CLOSED",
+          "failure_status": 409,
+          "created_at": "2026-10-04T21:12:27.346819+00:00"
+        },
+        {
+          "operation_id": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+          "actor": "banco-payment-operator",
+          "idempotency_key": "eft4-a1f2ee5aa5ef-transfer",
+          "status": "COMPLETED",
+          "request": {
+            "operationId": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+            "type": "TRANSFER",
+            "sourceAccountId": 1791148331085,
+            "targetAccountId": 1791148331086,
+            "amount": 30
+          },
+          "receipt": {
+            "operationId": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+            "type": "TRANSFER",
+            "sourceAccountId": 1791148331085,
+            "targetAccountId": 1791148331086,
+            "amount": 30.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": 70.0,
+            "targetBalanceAfter": 30.0,
+            "completedAt": "2026-10-04T21:12:17.762187035Z"
+          },
+          "failure_code": null,
+          "failure_status": null,
+          "created_at": "2026-10-04T21:12:17.737757+00:00"
+        }
+      ],
+      "outbox": [
+        {
+          "event_id": "451d59ff-822b-4196-9f4c-5e9492ccb1e2",
+          "operation_id": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T21:12:18.457261+00:00",
+          "last_error": null
+        },
+        {
+          "event_id": "dbfb2fde-df17-4c52-b802-ca5b9075b936",
+          "operation_id": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T21:13:38.500506+00:00",
+          "last_error": null
+        },
+        {
+          "event_id": "c28f1659-82fa-4410-801e-69810985960b",
+          "operation_id": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T21:12:18.469178+00:00",
+          "last_error": null
+        },
+        {
+          "event_id": "33c59335-b2ec-4bda-839d-9cf98234e3fe",
+          "operation_id": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T21:12:20.481005+00:00",
+          "last_error": null
+        },
+        {
+          "event_id": "db9220fb-c00e-451b-adf4-62c99de408b7",
+          "operation_id": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T21:13:36.483185+00:00",
+          "last_error": null
+        }
+      ],
+      "audit": [
+        {
+          "event_id": "451d59ff-822b-4196-9f4c-5e9492ccb1e2",
+          "operation_id": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+          "received_at": "2026-10-04T21:12:18.511271+00:00",
+          "payload": {
+            "eventId": "451d59ff-822b-4196-9f4c-5e9492ccb1e2",
+            "version": 1,
+            "actor": "banco-payment-operator",
+            "requestHash": "61681a27b40d924aaf2e5e8f62683f9bfdb080b370ef2b183002dbd2c916c35d",
+            "result": {
+              "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+              "type": "DEPOSIT",
+              "sourceAccountId": null,
+              "targetAccountId": 1791148331085,
+              "amount": 100.0,
+              "status": "COMPLETED",
+              "sourceBalanceAfter": null,
+              "targetBalanceAfter": 100.0,
+              "completedAt": "2026-10-04T21:12:17.162515344Z"
+            }
+          }
+        },
+        {
+          "event_id": "dbfb2fde-df17-4c52-b802-ca5b9075b936",
+          "operation_id": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+          "received_at": "2026-10-04T21:13:38.505422+00:00",
+          "payload": {
+            "eventId": "dbfb2fde-df17-4c52-b802-ca5b9075b936",
+            "version": 1,
+            "actor": "banco-payment-operator",
+            "requestHash": "cd9c5b9329bac836cba39eb56adf3c259f62155796c89edabf3718c66952a248",
+            "result": {
+              "operationId": "4ee6251c-8a9d-4d22-b04d-da3c887fc275",
+              "type": "DEPOSIT",
+              "sourceAccountId": null,
+              "targetAccountId": 1791148331085,
+              "amount": 2.0,
+              "status": "COMPLETED",
+              "sourceBalanceAfter": null,
+              "targetBalanceAfter": 79.0,
+              "completedAt": "2026-10-04T21:13:37.616980385Z"
+            }
+          }
+        },
+        {
+          "event_id": "c28f1659-82fa-4410-801e-69810985960b",
+          "operation_id": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+          "received_at": "2026-10-04T21:12:18.559869+00:00",
+          "payload": {
+            "eventId": "c28f1659-82fa-4410-801e-69810985960b",
+            "version": 1,
+            "actor": "banco-payment-operator",
+            "requestHash": "3151fd22da01b2dd6f495bd3df688c8d4f39e8308a158a66b4f7fbc90a28da53",
+            "result": {
+              "operationId": "6cf2b531-15e5-4389-b20a-e1568fba1fd7",
+              "type": "TRANSFER",
+              "sourceAccountId": 1791148331085,
+              "targetAccountId": 1791148331086,
+              "amount": 30.0,
+              "status": "COMPLETED",
+              "sourceBalanceAfter": 70.0,
+              "targetBalanceAfter": 30.0,
+              "completedAt": "2026-10-04T21:12:17.762187035Z"
+            }
+          }
+        },
+        {
+          "event_id": "33c59335-b2ec-4bda-839d-9cf98234e3fe",
+          "operation_id": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+          "received_at": "2026-10-04T21:12:20.489014+00:00",
+          "payload": {
+            "eventId": "33c59335-b2ec-4bda-839d-9cf98234e3fe",
+            "version": 1,
+            "actor": "banco-payment-operator",
+            "requestHash": "6170dd2b709e2cb78a07e53cd971d29aa5f6a1bbb2b34b09ffdeec0cf5056ba9",
+            "result": {
+              "operationId": "da46fbe6-c09a-4aa3-b00f-28f515c61b9f",
+              "type": "PAYMENT",
+              "sourceAccountId": 1791148331086,
+              "targetAccountId": null,
+              "amount": 10.0,
+              "status": "COMPLETED",
+              "sourceBalanceAfter": 20.0,
+              "targetBalanceAfter": null,
+              "completedAt": "2026-10-04T21:12:18.382037787Z"
+            }
+          }
+        },
+        {
+          "event_id": "db9220fb-c00e-451b-adf4-62c99de408b7",
+          "operation_id": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+          "received_at": "2026-10-04T21:13:36.483512+00:00",
+          "payload": {
+            "eventId": "db9220fb-c00e-451b-adf4-62c99de408b7",
+            "version": 1,
+            "actor": "banco-payment-operator",
+            "requestHash": "1f6b45d8604257d9285335e3e2806886e5fcdb0361215975f4c67806b649dacc",
+            "result": {
+              "operationId": "eba9a904-a6d1-4927-a138-8bbc03ea1a03",
+              "type": "DEPOSIT",
+              "sourceAccountId": null,
+              "targetAccountId": 1791148331085,
+              "amount": 7.0,
+              "status": "COMPLETED",
+              "sourceBalanceAfter": null,
+              "targetBalanceAfter": 77.0,
+              "completedAt": "2026-10-04T21:13:35.324057228Z"
+            }
+          }
+        }
+      ]
+    },
+    "accountPaymentReceiptsMatch": true
+  }
+}

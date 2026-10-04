@@ -1,0 +1,35 @@
+{
+  "capturedAt": "2026-10-04T21:12:17.445944+00:00",
+  "data": {
+    "method": "POST",
+    "url": "https://payment-service:8086/api/payments/deposits",
+    "idempotencyKey": "eft4-a1f2ee5aa5ef-deposit",
+    "request": {
+      "accountId": 1791148331085,
+      "amount": 100
+    },
+    "status": 201,
+    "response": {
+      "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+      "type": "DEPOSIT",
+      "sourceAccountId": null,
+      "targetAccountId": 1791148331085,
+      "amount": 100,
+      "status": "COMPLETED",
+      "createdAt": "2026-10-04T21:12:16.775716Z",
+      "result": {
+        "operationId": "350b2874-e9d3-47be-bfc5-09f2257d4fa5",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791148331085,
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "sourceBalanceAfter": null,
+        "targetBalanceAfter": 100.0,
+        "completedAt": "2026-10-04T21:12:17.162515344Z"
+      },
+      "failureCode": null
+    },
+    "tlsCertificateAndHostnameVerified": true
+  }
+}
