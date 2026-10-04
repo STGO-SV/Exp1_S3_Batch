@@ -1,0 +1,41 @@
+EFT etapa 1 — validación 2026-10-04 America/Santiago
+Java 21.0.12; Spring Boot 3.3.4
+Base main y origin/main después de fetch: 76b977346bd4b84c85aa70f34e7ff7a8bb8e4ede
+Rama: eft
+
+mvn -B -pl banco-legacy-payment-service,banco-legacy-customer-service,banco-legacy-batch -am test
+BUILD SUCCESS; 51.838 s (antes de añadir test de restart real)
+
+mvn -B -pl banco-legacy-batch -am test -Dtest=BatchJobsRestartIntegrationTests -Dsurefire.failIfNoSpecifiedTests=false
+BUILD SUCCESS; 3 casos; 12.376 s
+Se corrigió una invocación inicial cuyos argumentos fueron interpretados incorrectamente por PowerShell; esa invocación no ejecutó tests.
+
+mvn -B verify
+BUILD SUCCESS; 02:11 min; finalizó 2026-10-04 12:54:48 -03:00
+12 módulos jar y reactor padre: todos SUCCESS
+Surefire reporta 177 tests, 0 failures, 0 errors, 0 skipped.
+Advertencia de cobertura: 4 tests KafkaReal* retornan sin comprobar integración porque week7.kafka.integration no fue activado. Surefire los cuenta como pasados; no son evidencia de Kafka externo.
+Sí se ejecutaron pruebas Kafka embebido de Anomaly.
+
+Resultados por módulo:
+core 12
+batch 31
+config-server 2
+discovery-server 1
+account-service 6
+payment-service 3
+customer-service 3
+anomaly-service 12
+auth 7
+web-bff 22
+mobile-bff 27
+atm-bff 51
+
+Docker Compose v5.1.4
+docker compose -f docker-compose.yaml -f docker/compose.eft.yaml -f docker/compose.scale-local.yaml --profile eft config --quiet
+PASS (sin imprimir configuración expandida ni secretos)
+git diff --check: PASS
+
+No ejecutado: construcción/arranque de imágenes nuevas, scale runtime, TLS de réplicas, prueba PostgreSQL real, cloud, PDF/video.
+Los logs completos eft-focused-tests.log, eft-restart-tests.log y eft-verify.log quedan locales e ignorados; no se versionan.
+No se modificaron .env/.local/certificados ni el inicializador.
