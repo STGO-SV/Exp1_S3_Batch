@@ -73,7 +73,10 @@ function Test-CertificateValidity([string]$Path) {
     try {
         $certificateObject = [Security.Cryptography.X509Certificates.X509Certificate2]::new($Path)
         $now = Get-Date
-        return $certificateObject.NotBefore -le $now -and $certificateObject.NotAfter -gt $now.AddDays(1)
+        $sanExtension = $certificateObject.Extensions | Where-Object { $_.Oid.Value -eq '2.5.29.17' } | Select-Object -First 1
+        $dnsNames = if ($null -ne $sanExtension) { $sanExtension.Format($false) } else { '' }
+        return $certificateObject.NotBefore -le $now -and $certificateObject.NotAfter -gt $now.AddDays(1) -and
+            $dnsNames -match '(?i)\bcustomer-service\b' -and $dnsNames -match '(?i)\bpayment-service\b'
     }
     catch { return $false }
     finally {
@@ -86,7 +89,7 @@ $generated = [Collections.Generic.List[string]]::new()
 $reused = [Collections.Generic.List[string]]::new()
 
 foreach ($name in @('POSTGRES_PASSWORD', 'OAUTH_WEB_CLIENT_SECRET',
-        'OAUTH_MOBILE_CLIENT_SECRET', 'OAUTH_ATM_CLIENT_SECRET')) {
+        'OAUTH_MOBILE_CLIENT_SECRET', 'OAUTH_ATM_CLIENT_SECRET', 'OAUTH_DOMAIN_CLIENT_SECRET')) {
     if (-not $RotateSecrets -and -not [string]::IsNullOrWhiteSpace($values[$name])) {
         $reused.Add($name)
     }
@@ -132,7 +135,7 @@ else {
     $tlsPassword = $values['TLS_KEYSTORE_PASSWORD']
     Remove-Item -LiteralPath @($keystore, $certificate, $truststore) -Force -ErrorAction SilentlyContinue
 
-    $san = 'dns:localhost,dns:auth-server,dns:account-service,dns:web-bff,dns:mobile-bff,dns:atm-bff,ip:127.0.0.1'
+    $san = 'dns:localhost,dns:auth-server,dns:account-service,dns:web-bff,dns:mobile-bff,dns:atm-bff,dns:customer-service,dns:payment-service,ip:127.0.0.1'
     & keytool -genkeypair -alias bff-local -keyalg RSA -keysize 2048 -validity 365 `
         -dname 'CN=Banco Legacy Local, OU=Semana 8, O=DUOC, L=Santiago, C=CL' `
         -ext "SAN=$san" -storetype PKCS12 -keystore $keystore `

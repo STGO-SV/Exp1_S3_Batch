@@ -32,13 +32,23 @@ public class CustomerSecurityConfig {
         authorities.setAuthoritiesClaimName("roles");
         authorities.setAuthorityPrefix("ROLE_");
         var converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(authorities);
+        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            var result = new java.util.ArrayList<org.springframework.security.core.GrantedAuthority>(authorities.convert(jwt));
+            result.addAll(new JwtGrantedAuthoritiesConverter().convert(jwt));
+            return result;
+        });
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .requestCache(cache -> cache.disable())
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/actuator/health").permitAll()
+                                                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/customers/*/accounts").access(
+                                new org.springframework.security.web.access.expression.WebExpressionAuthorizationManager(
+                                        "hasAuthority('SCOPE_customers.read') and hasAuthority('SCOPE_accounts.read')"))
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/customers/*").hasAuthority("SCOPE_customers.read")
+                        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/customers/*").hasAuthority("SCOPE_customers.write")
+                        .requestMatchers(org.springframework.http.HttpMethod.PATCH, "/api/customers/*").hasAuthority("SCOPE_customers.write")
                         .anyRequest().denyAll())
                 .exceptionHandling(errors -> errors.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()))
                 .oauth2ResourceServer(resource -> resource.jwt(jwt -> jwt.jwtAuthenticationConverter(converter)))

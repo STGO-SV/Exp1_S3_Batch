@@ -119,6 +119,7 @@ services:
       OAUTH_WEB_CLIENT_SECRET: ${OAUTH_WEB_CLIENT_SECRET:?Ejecute scripts/initialize-compose-environment.ps1}
       OAUTH_MOBILE_CLIENT_SECRET: ${OAUTH_MOBILE_CLIENT_SECRET:?Ejecute scripts/initialize-compose-environment.ps1}
       OAUTH_ATM_CLIENT_SECRET: ${OAUTH_ATM_CLIENT_SECRET:?Ejecute scripts/initialize-compose-environment.ps1}
+      OAUTH_DOMAIN_CLIENT_SECRET: ${OAUTH_DOMAIN_CLIENT_SECRET:-}
       OAUTH_ISSUER: https://localhost:8084
       JWT_AUDIENCE: banco-bff
       SERVER_SSL_KEY_STORE: file:/run/banco-legacy/banco-legacy-docker.p12
@@ -158,6 +159,36 @@ services:
       discovery-server: {condition: service_healthy}
     healthcheck:
       test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8085/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 15s
+
+  customer-service:
+    <<: *java-service
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MODULE: banco-legacy-customer-service
+    image: banco-legacy/customer-service:eft
+    environment:
+      <<: *config-client-environment
+      SERVER_ADDRESS: 0.0.0.0
+      DB_URL: jdbc:postgresql://postgres:5432/banco_legacy_batch
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Ejecute scripts/initialize-compose-environment.ps1}
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "false"
+      EUREKA_INSTANCE_HOSTNAME: customer-service
+      EUREKA_INSTANCE_STATUS_PAGE_URL: https://customer-service:8087/actuator/info
+      EUREKA_INSTANCE_HEALTH_CHECK_URL: https://customer-service:8087/actuator/health
+    expose: ["8087"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      config-server: {condition: service_healthy}
+      discovery-server: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8087/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 30

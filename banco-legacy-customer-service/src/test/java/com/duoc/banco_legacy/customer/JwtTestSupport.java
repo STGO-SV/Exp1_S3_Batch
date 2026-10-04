@@ -34,10 +34,14 @@ abstract class JwtTestSupport {
     }
 
     static RequestPostProcessor bearer(String role) {
+        return bearer(role, "");
+    }
+
+    static RequestPostProcessor bearer(String role, String scopes) {
         var now = Instant.now();
         var claims = JwtClaimsSet.builder().issuer("banco-legacy-auth").subject("test-user")
                 .audience(List.of("banco-bff")).issuedAt(now).notBefore(now).expiresAt(now.plusSeconds(300))
-                .claim("roles", List.of(role)).build();
+                .claim("roles", List.of(role)).claim("scope", scopes).build();
         String token = ENCODER.encode(JwtEncoderParameters.from(
                 JwsHeader.with(SignatureAlgorithm.RS256).build(), claims)).getTokenValue();
         return request -> { request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token); return request; };

@@ -1,4 +1,4 @@
-# Optional EFT scaffolding. Existing Semana 8 Compose stays unchanged.
+# Optional Payment scaffolding; Customer is now part of the base Compose.
 x-eft-service: &eft-service
   profiles: [eft]
   restart: unless-stopped
@@ -35,26 +35,6 @@ services:
     expose: ["8086"]
     healthcheck:
       test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8086/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 30
-      start_period: 15s
-  customer-service:
-    <<: *eft-service
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-      args: {MODULE: banco-legacy-customer-service}
-    image: banco-legacy/customer-service:eft
-    environment:
-      <<: *eft-environment
-      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "false"
-      EUREKA_INSTANCE_HOSTNAME: customer-service
-      EUREKA_INSTANCE_STATUS_PAGE_URL: https://customer-service:8087/actuator/info
-      EUREKA_INSTANCE_HEALTH_CHECK_URL: https://customer-service:8087/actuator/health
-    expose: ["8087"]
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "--insecure", "https://localhost:8087/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 30

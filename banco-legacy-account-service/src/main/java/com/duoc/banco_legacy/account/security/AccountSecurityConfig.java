@@ -32,7 +32,11 @@ public class AccountSecurityConfig {
         authorities.setAuthoritiesClaimName("roles");
         authorities.setAuthorityPrefix("ROLE_");
         var converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(authorities);
+        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            var result = new java.util.ArrayList<org.springframework.security.core.GrantedAuthority>(authorities.convert(jwt));
+            result.addAll(new JwtGrantedAuthoritiesConverter().convert(jwt));
+            return result;
+        });
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .requestCache(cache -> cache.disable())
@@ -42,6 +46,12 @@ public class AccountSecurityConfig {
                         .requestMatchers("/internal/accounts/*/web-dashboard").hasRole("WEB")
                         .requestMatchers("/internal/accounts/*/atm-balance", "/internal/accounts/*/atm-movements").hasRole("ATM")
                         .requestMatchers("/internal/accounts/*/summary", "/internal/accounts/*/movements").hasRole("MOBILE")
+                                                .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/accounts/*").access(
+                                new org.springframework.security.web.access.expression.WebExpressionAuthorizationManager(
+                                        "hasAuthority('SCOPE_accounts.write') and hasAuthority('SCOPE_customers.read')"))
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/accounts", "/api/accounts/*").hasAuthority("SCOPE_accounts.read")
+                        .requestMatchers(org.springframework.http.HttpMethod.PATCH, "/api/accounts/*").hasAuthority("SCOPE_accounts.write")
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/accounts/*/closure").hasAuthority("SCOPE_accounts.write")
                         .anyRequest().denyAll())
                 .exceptionHandling(errors -> errors.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()))
                 .oauth2ResourceServer(resource -> resource.jwt(jwt -> jwt.jwtAuthenticationConverter(converter)))
