@@ -52,7 +52,10 @@ public class AccountSecurityConfig {
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/accounts", "/api/accounts/*").hasAuthority("SCOPE_accounts.read")
                         .requestMatchers(org.springframework.http.HttpMethod.PATCH, "/api/accounts/*").hasAuthority("SCOPE_accounts.write")
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/accounts/*/closure").hasAuthority("SCOPE_accounts.write")
-                        .anyRequest().denyAll())
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/internal/accounts/postings").hasAuthority("SCOPE_accounts.post")
+ .requestMatchers(org.springframework.http.HttpMethod.GET, "/internal/accounts/postings/*").hasAuthority("SCOPE_accounts.post.read")
+ .requestMatchers(org.springframework.http.HttpMethod.GET, "/internal/accounts/*/operational-balance").hasAuthority("SCOPE_accounts.read")
+ .anyRequest().denyAll())
                 .exceptionHandling(errors -> errors.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()))
                 .oauth2ResourceServer(resource -> resource.jwt(jwt -> jwt.jwtAuthenticationConverter(converter)))
                 .build();

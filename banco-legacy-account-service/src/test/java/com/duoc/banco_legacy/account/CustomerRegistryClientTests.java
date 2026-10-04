@@ -30,7 +30,7 @@ class CustomerRegistryClientTests {
                 ThreadPoolBulkheadRegistry.ofDefaults(),BulkheadRegistry.ofDefaults(),properties),properties);
         factory.configureDefault(id->new Resilience4JConfigBuilder(id).circuitBreakerConfig(
                 CircuitBreakerConfig.custom().slidingWindowSize(3).minimumNumberOfCalls(3)
-                        .failureRateThreshold(50).waitDurationInOpenState(Duration.ofSeconds(1))
+                        .failureRateThreshold(50).permittedNumberOfCallsInHalfOpenState(1).waitDurationInOpenState(Duration.ofSeconds(1))
                         .ignoreExceptions(HttpClientErrorException.class).build()).build());
         client=new CustomerRegistryClient(builder,factory,"banco-legacy-customer-service");
     }
@@ -67,5 +67,15 @@ class CustomerRegistryClientTests {
                         assertThat(((RegistryException)failure).code()).isEqualTo("CUSTOMER_NOT_FOUND"));
         assertThat(factory.getCircuitBreakerRegistry().circuitBreaker("customerRegistry").getState()).isEqualTo(CircuitBreaker.State.CLOSED);
         server.verify();
+    }
+
+
+    @Test void customerRecoversAfterCircuitProbe() {
+        server.expect(times(2),requestTo(URL)).andRespond(withSuccess("{\"customerId\":\""+ID+"\",\"name\":\"Test\",\"version\":0}",MediaType.APPLICATION_JSON));
+        client.require(ID,"Bearer signed-token");
+        var circuit=factory.getCircuitBreakerRegistry().circuitBreaker("customerRegistry");
+        circuit.transitionToOpenState();circuit.transitionToHalfOpenState();
+        client.require(ID,"Bearer signed-token");
+        assertThat(circuit.getState()).isEqualTo(CircuitBreaker.State.CLOSED);server.verify();
     }
 }

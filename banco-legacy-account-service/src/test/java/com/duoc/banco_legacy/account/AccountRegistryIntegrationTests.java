@@ -33,7 +33,7 @@ class AccountRegistryIntegrationTests extends JwtTestSupport {
     void isolate() {
         jdbc.execute("CREATE TABLE IF NOT EXISTS interes_procesado (cuenta_id BIGINT)");
         jdbc.execute("CREATE TABLE IF NOT EXISTS movimiento_anual_procesado (cuenta_id BIGINT)");
-        jdbc.update("DELETE FROM eft_account_holder");jdbc.update("DELETE FROM eft_account");
+        jdbc.update("DELETE FROM eft_financial_outbox");jdbc.update("DELETE FROM eft_account_posting");jdbc.update("DELETE FROM eft_account_balance");jdbc.update("DELETE FROM eft_account_holder");jdbc.update("DELETE FROM eft_account");
         jdbc.update("DELETE FROM interes_procesado");jdbc.update("DELETE FROM movimiento_anual_procesado");
     }
     private String opening(String type) {
@@ -52,9 +52,9 @@ class AccountRegistryIntegrationTests extends JwtTestSupport {
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM eft_account_holder",Integer.class)).isEqualTo(1);
         verify(customers,times(1)).require(eq(CUSTOMER),startsWith("Bearer "));
         mvc.perform(get("/api/accounts/901").with(bearer("DOMAIN_OPERATOR","accounts.read")))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("OPEN"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("ACTIVE"))
                 .andExpect(jsonPath("$.customerIds[0]").value(CUSTOMER.toString()))
-                .andExpect(jsonPath("$.balance").doesNotExist());
+                .andExpect(jsonPath("$.balance").value(0));
         mvc.perform(put("/api/accounts/901").with(bearer("DOMAIN_OPERATOR",SCOPES))
                 .contentType(MediaType.APPLICATION_JSON).content(opening("prestamo")))
                 .andExpect(status().isConflict());

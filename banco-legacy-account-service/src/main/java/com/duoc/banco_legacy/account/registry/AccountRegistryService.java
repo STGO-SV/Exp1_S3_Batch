@@ -7,15 +7,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountRegistryService {
-    public record Account(long accountId, String accountType, String status, long version, List<UUID> customerIds) {}
+    public record Account(long accountId, String accountType, String status, long version, List<UUID> customerIds, java.math.BigDecimal balance) {
+        @com.fasterxml.jackson.annotation.JsonProperty public UUID customerId() { return customerIds.size()==1 ? customerIds.getFirst() : null; }
+    }
     public record Created(Account account, boolean created) {}
     private final JdbcClient jdbc;
     public AccountRegistryService(JdbcClient jdbc) { this.jdbc=jdbc; }
     @Transactional(readOnly=true)
     public Optional<Account> find(long id) {
-        return jdbc.sql("SELECT account_id,account_type,status,version FROM eft_account WHERE account_id=:id").param("id",id)
+        return jdbc.sql("SELECT a.account_id,a.account_type,a.status,a.version,b.balance FROM eft_account a JOIN eft_account_balance b ON b.account_id=a.account_id WHERE a.account_id=:id").param("id",id)
                 .query((rs,n)->new Account(rs.getLong("account_id"),rs.getString("account_type"),
-                        rs.getString("status"),rs.getLong("version"), holders(id))).optional();
+                        "OPEN".equals(rs.getString("status")) ? "ACTIVE" : rs.getString("status"),rs.getLong("version"), holders(id),rs.getBigDecimal("balance"))).optional();
     }
     private List<UUID> holders(long id) {
         return jdbc.sql("SELECT customer_id FROM eft_account_holder WHERE account_id=:id ORDER BY customer_id")
@@ -40,6 +42,7 @@ public class AccountRegistryService {
         try {
             jdbc.sql("INSERT INTO eft_account(account_id,account_type,status,version) VALUES (:id,:type,'OPEN',0)")
                     .param("id",id).param("type",type).update();
+            jdbc.sql("INSERT INTO eft_account_balance(account_id,balance) VALUES (:id,0)").param("id",id).update();
             for(UUID customerId:customerIds) {
                 jdbc.sql("INSERT INTO eft_account_holder(account_id,customer_id) VALUES (:id,:customer)")
                         .param("id",id).param("customer",customerId).update();

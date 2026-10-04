@@ -9,7 +9,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
 @org.springframework.core.annotation.Order(org.springframework.core.Ordered.HIGHEST_PRECEDENCE)
-@RestControllerAdvice(assignableTypes = AccountRegistryController.class)
+@RestControllerAdvice(assignableTypes = {AccountRegistryController.class, com.duoc.banco_legacy.account.financial.AccountPostingController.class})
 public class RegistryErrorHandler {
     public record Error(String code, String message) {}
     @ExceptionHandler(RegistryException.class)
@@ -17,7 +17,7 @@ public class RegistryErrorHandler {
         return ResponseEntity.status(failure.status()).body(new Error(failure.code(), failure.getMessage()));
     }
     @ExceptionHandler({MethodArgumentNotValidException.class, MethodArgumentTypeMismatchException.class,
-            MissingServletRequestParameterException.class, HttpMessageNotReadableException.class})
+            MissingServletRequestParameterException.class, org.springframework.web.bind.MissingRequestHeaderException.class, IllegalArgumentException.class, HttpMessageNotReadableException.class})
     ResponseEntity<Error> invalid(Exception ignored) {
         return ResponseEntity.badRequest().body(new Error("INVALID_REQUEST", "Solicitud inválida"));
     }
