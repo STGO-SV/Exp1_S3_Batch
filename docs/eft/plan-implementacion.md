@@ -108,3 +108,14 @@ Evidencia final en informe-etapa-3.md. Docker no disponible: pendiente smoke rea
 Próxima etapa: validar flujos en PostgreSQL/Compose, conectar BFF a maestros modernos según contrato aprobado y preparar escalado con coordinación de outbox; no ejecutarlo en esta etapa.
 
 Cierre Etapa 3: mvn verify BUILD SUCCESS, 245 tests reportados sin fallos/errores; cuatro pruebas KafkaReal sin broker externo habilitado. Compose validado estructuralmente; daemon sigue detenido. Informe y lista completa: informe-etapa-3.md; conteos/evidencia: validacion-etapa3.txt.
+
+## Cierre Etapa 4 — ejecución real
+
+Validado Compose/PostgreSQL16.4/HTTPS con certificado verificado/OAuth/Customer/Account/Payment/Kafka real.
+Imagen Account antigua corregida reconstruyéndola; SQL empaquetado y ocho tablas EFT inicializadas por servicios.
+Credencial financiera completada; secretos/JWT previos preservados. TLS regenerado solo porque faltaban SAN Customer/Payment.
+Flujos financieros, idempotencia, cierre/rollback,503/PENDING/recuperación HTTP y reconciliación Kafka ejecutados. Cinco postings/outboxes PUBLISHED/audits, sin duplicación.
+DLT real y continuidad después de mensaje inválido confirmadas; retries transitorios de infraestructura cubiertos por tests, sin fallo forzado de DB/Kafka compartidos.
+mvn verify final BUILD SUCCESS:245 tests reportados,0 fallos/errores; cuatro KafkaReal heredados sin habilitar.
+Informe informe-etapa-4.md y evidencia docs/evidence/eft. BFF existentes no modificados: necesitan recargar certificado previo antes de su próxima validación HTTPS.
+Próxima etapa: recargar TLS/verificar BFF legacy y definir integración moderna; sin cloud/merge/push/escalado en Etapa4.

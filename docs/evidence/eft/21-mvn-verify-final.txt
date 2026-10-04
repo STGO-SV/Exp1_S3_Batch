@@ -6,7 +6,7 @@ BUILD SUCCESS
 
 mvn verify
 [INFO] Reactor Summary for Banco Legacy 0.0.1-SNAPSHOT:
-[INFO] 
+[INFO]
 [INFO] Banco Legacy ....................................... SUCCESS [  0.004 s]
 [INFO] banco-legacy-core .................................. SUCCESS [  7.594 s]
 [INFO] banco-legacy-batch ................................. SUCCESS [ 19.947 s]
