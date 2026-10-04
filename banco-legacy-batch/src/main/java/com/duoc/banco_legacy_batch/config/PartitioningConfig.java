@@ -17,6 +17,9 @@ public class PartitioningConfig {
     @Bean
     public TaskExecutor partitionTaskExecutor(@Value("${batch.partition.thread-count:4}") int threadCount,
                                               @Value("${batch.partition.grid-size:4}") int gridSize) {
+        if (threadCount < 1 || gridSize < 1) {
+            throw new IllegalArgumentException("batch.partition.thread-count y grid-size deben ser positivos");
+        }
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(threadCount);
         executor.setMaxPoolSize(threadCount);
