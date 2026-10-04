@@ -6,7 +6,8 @@ server:
     key-alias: bff-local
 eureka:
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
+    hostname: localhost
     instance-id: ${spring.application.name}:${random.uuid}
     secure-port-enabled: true
     non-secure-port-enabled: false
@@ -16,3 +17,27 @@ management:
     web:
       exposure:
         include: health,info
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/banco_legacy}
+    username: ${DB_USER:banco}
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-eft-payment.sql
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountPosting:
+        sliding-window-size: 4
+        minimum-number-of-calls: 3
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 1
+        ignore-exceptions:
+          - org.springframework.web.client.HttpClientErrorException
+  timelimiter:
+    instances:
+      accountPosting:
+        timeout-duration: 5s

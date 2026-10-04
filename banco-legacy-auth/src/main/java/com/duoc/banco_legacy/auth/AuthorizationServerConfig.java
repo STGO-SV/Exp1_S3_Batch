@@ -46,7 +46,8 @@ public class AuthorizationServerConfig {
             "banco-web-bff", "WEB",
             "banco-mobile-bff", "MOBILE",
             "banco-atm-bff", "ATM",
-            "banco-domain-operator", "DOMAIN_OPERATOR");
+            "banco-domain-operator", "DOMAIN_OPERATOR",
+            "banco-payment-operator", "PAYMENT_OPERATOR");
 
     @Bean
     @Order(1)
@@ -80,6 +81,7 @@ public class AuthorizationServerConfig {
             @Value("${oauth.clients.mobile.secret}") String mobileSecret,
             @Value("${oauth.clients.atm.secret}") String atmSecret,
             @Value("${oauth.clients.domain.secret:}") String domainSecret,
+            @Value("${oauth.clients.payment.secret:}") String paymentSecret,
             @Value("${security.jwt.ttl-seconds}") long ttlSeconds) {
         if (ttlSeconds < 30 || ttlSeconds > 900) {
             throw new IllegalArgumentException("Token TTL must be 30..900 seconds");
@@ -96,7 +98,12 @@ public class AuthorizationServerConfig {
             clients.add(RegisteredClient.from(domain).scopes(scopes -> scopes.addAll(
                     List.of("accounts.write", "customers.read", "customers.write"))).build());
         }
-        return new InMemoryRegisteredClientRepository(clients);
+        if (!paymentSecret.isBlank()) {
+ var payment=client("banco-payment-operator",paymentSecret,"payments.write",passwordEncoder,tokenSettings);
+ clients.add(RegisteredClient.from(payment).scopes(scopes -> scopes.addAll(
+  List.of("payments.read","accounts.post","accounts.post.read"))).build());
+}
+return new InMemoryRegisteredClientRepository(clients);
     }
 
     private RegisteredClient client(String clientId, String secret, String scope,

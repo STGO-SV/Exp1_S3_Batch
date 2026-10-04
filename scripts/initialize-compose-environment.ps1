@@ -89,7 +89,7 @@ $generated = [Collections.Generic.List[string]]::new()
 $reused = [Collections.Generic.List[string]]::new()
 
 foreach ($name in @('POSTGRES_PASSWORD', 'OAUTH_WEB_CLIENT_SECRET',
-        'OAUTH_MOBILE_CLIENT_SECRET', 'OAUTH_ATM_CLIENT_SECRET', 'OAUTH_DOMAIN_CLIENT_SECRET')) {
+        'OAUTH_MOBILE_CLIENT_SECRET', 'OAUTH_ATM_CLIENT_SECRET', 'OAUTH_DOMAIN_CLIENT_SECRET', 'OAUTH_PAYMENT_CLIENT_SECRET')) {
     if (-not $RotateSecrets -and -not [string]::IsNullOrWhiteSpace($values[$name])) {
         $reused.Add($name)
     }
