@@ -1,0 +1,19 @@
+# Requires Compose >= 2.24.4 for !override.
+# Random host ports allow replicas without changing the default Semana 8 ports.
+services:
+  account-service:
+    ports: !override ["8085"]
+    environment:
+      EUREKA_INSTANCE_INSTANCE_ID: banco-legacy-account-service:$${random.uuid}
+  web-bff:
+    ports: !override ["8081"]
+    environment:
+      EUREKA_INSTANCE_INSTANCE_ID: banco-legacy-web-bff:$${random.uuid}
+  mobile-bff:
+    ports: !override ["8082"]
+    environment:
+      EUREKA_INSTANCE_INSTANCE_ID: banco-legacy-mobile-bff:$${random.uuid}
+  atm-bff:
+    ports: !override ["8083"]
+    environment:
+      EUREKA_INSTANCE_INSTANCE_ID: banco-legacy-atm-bff:$${random.uuid}
