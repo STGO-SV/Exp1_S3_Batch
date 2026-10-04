@@ -101,3 +101,10 @@ Hay 207 casos reportados por verify, sin fallos; cuatro casos de Kafka externo s
 Saldo maestro/migración, identidad real/titularidad legacy y cierre financiero quedan para revisión humana antes de Payment.
 El ciclo registral no equivale a gestión financiera completa ni a operación de las cuentas nuevas desde ATM/BFF.
 La siguiente fase prioritaria es revisar las decisiones concretas de modelo-dominio.md; no pasar directamente a despliegue/escala.
+## Actualización Etapa 3
+Decisiones de saldo maestro y ejecución financiera aprobadas. Implementados saldo operacional Account, comprobantes idempotentes, depósito/transferencia/pago, Payment persistente, outbox Account y consumidor de auditoría/reconciliación Payment.
+SQL inicializador aditivo, compatibilidad legacy y scopes de canal conservados. Payment integra Compose base con OAuth financiero separado.
+Evidencia final en informe-etapa-3.md. Docker no disponible: pendiente smoke real con daemon activo.
+Próxima etapa: validar flujos en PostgreSQL/Compose, conectar BFF a maestros modernos según contrato aprobado y preparar escalado con coordinación de outbox; no ejecutarlo en esta etapa.
+
+Cierre Etapa 3: mvn verify BUILD SUCCESS, 245 tests reportados sin fallos/errores; cuatro pruebas KafkaReal sin broker externo habilitado. Compose validado estructuralmente; daemon sigue detenido. Informe y lista completa: informe-etapa-3.md; conteos/evidencia: validacion-etapa3.txt.

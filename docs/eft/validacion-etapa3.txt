@@ -1,0 +1,36 @@
+EFT ETAPA 3 - evidencia final, 2026-10-04
+Repo C:/Dev/Duoc/DBE3/banco-legacy-batch, rama eft, base be36d83.
+mvn -pl banco-legacy-account-service,banco-legacy-payment-service,banco-legacy-auth -am test: BUILD SUCCESS
+mvn verify: BUILD SUCCESS, todos los 13 proyectos del reactor.
+Finished at 2026-10-04T17:31:04-03:00; Total time 04:10 min.
+
+Conteos XML Surefire: módulo | tests | failures | errors | skipped
+banco-legacy-account-service | 36 | 0 | 0 | 0
+banco-legacy-anomaly-service | 12 | 0 | 0 | 0
+banco-legacy-atm-bff | 51 | 0 | 0 | 0
+banco-legacy-auth | 11 | 0 | 0 | 0
+banco-legacy-batch | 31 | 0 | 0 | 0
+banco-legacy-config-server | 2 | 0 | 0 | 0
+banco-legacy-core | 15 | 0 | 0 | 0
+banco-legacy-customer-service | 16 | 0 | 0 | 0
+banco-legacy-discovery-server | 1 | 0 | 0 | 0
+banco-legacy-mobile-bff | 27 | 0 | 0 | 0
+banco-legacy-payment-service | 21 | 0 | 0 | 0
+banco-legacy-web-bff | 22 | 0 | 0 | 0
+TOTAL | 245 | 0 | 0 | 0
+
+Etapa2: 207 reportados. Etapa3: 245 reportados (+38), 0 failures, 0 errors, 0 skipped reportados.
+Los cuatro KafkaReal* heredados retornan sin broker externo habilitado; NO evidencia Kafka externo.
+FinancialKafkaTests: 2 tests con broker embebido, reconciliación/dedup y poison JSON→DLT/continuidad.
+Account 36: incluye 13 financieros + 1 outbox + recuperación Customer, preserva 21 previos.
+Payment 21: 11 financieros + 5 cliente/circuito + 2 Kafka + 3 scaffold/seguridad.
+Customer 16 conservados. OAuth 11 con 2 nuevos financieros. Core 15 con 3 nuevos de contratos.
+H2 valida persistencia/transacciones locales; MockRestServiceServer valida cliente/circuito, no TLS real.
+
+docker compose config --quiet: exit0.
+docker compose -f docker-compose.yaml -f docker/compose.eft.yaml config --quiet: exit0.
+docker info después de verify: sin daemon, pipe dockerDesktopLinuxEngine inexistente.
+No Compose up, healthchecks reales, PostgreSQL real, smoke distribuido ni broker externo.
+Inicializador en copia aislada desde be36d83: conserva secretos existentes; agrega solo financiero; replay mismo hash .env.
+No cambios a .env/.local/compose reales. Sin push, merge, cloud ni demostración de escalado.
+Logs completos locales ignorados: .local/etapa3-focused-final.log y .local/etapa3-verify.log.

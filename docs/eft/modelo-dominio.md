@@ -1,3 +1,5 @@
+> Documento evolutivo: Etapas 1/2 describen estado histórico. Las decisiones vigentes de Etapa 3 al final sustituyen las propuestas pendientes de saldo y Payment.
+
 # EFT Etapa 2 — modelo de dominio mínimo
 
 Estado: diseño documentado antes de implementar. Base eft 9c19005; main 76b9773.
@@ -134,3 +136,22 @@ Time-outs 2s/3s y circuit breaker. No reintentos automáticos de escritura. No l
 7. AWS y plantilla PDF siguen pendientes por separado.
 
 No se desplegará, escalará ni modificará destructivamente el esquema en esta etapa.
+## Etapa 3 — decisiones aprobadas y ejecución operacional
+
+Las decisiones financieras anteriormente pendientes quedan resueltas para cuentas maestras nuevas: saldo inicial 0, estado ACTIVE/CLOSED, importes positivos, débito sin sobregiro y pago como débito registrado sin comercio externo. No se migran saldos ni titulares legacy.
+
+Se añade eft_account_balance (account_id PK/FK local, balance DECIMAL(19,2) >=0). La versión existente de eft_account se incrementa en cada movimiento. Para preservar el esquema registral sin alterar registros/constraints, OPEN persistido se presenta como ACTIVE en la API; CLOSED conserva su significado. Los registros de Etapa 2, que no tenían saldo ni movimientos financieros, reciben saldo0 mediante INSERT de filas faltantes; jamás desde resultados Batch. No se elimina ni transforma ninguna tabla legacy. customerIds/vínculos explícitos existentes se conservan; customerId singular se presenta cuando existe un único titular.
+
+Account recibe posting idempotente (DEPOSIT/PAYMENT/TRANSFER), bloquea las cuentas en orden de ID y confirma en una sola transacción: saldo(s), versiones, comprobante y evento outbox. No hay ACID distribuida. Cierre usa la versión y bloquea operaciones posteriores, conserva saldo/registro y no reabre; no se agrega una regla no aprobada que fuerce liquidación o saldo cero.
+
+Payment persiste PENDING antes de llamar a Account. 404/409 de negocio se registran FAILED; timeout/conexión/circuito abierto permanecen PENDING porque Account podría haber confirmado. Misma identidad técnica+Idempotency-Key+payload canónico conserva operationId; payload distinto da409. Retry con misma clave o evento Kafka completado reconcilian el resultado; nunca asumir éxito en fallback. COMPLETED se registra solo con comprobante válido o evento validado.
+
+Outbox financiera específica de Account, separada de anomaly_event_outbox. Eventos DepositCompleted/TransferCompleted/PaymentCompleted contienen comprobante y correlación técnica. Payment consume para historial auditable y reconciliación de PENDING; no aplica saldos. Dedup por event_id, resultado inmutable y correlación actor/request_hash. Consumer retry/DLT; publisher conserva PENDING si Kafka falla. Entrega al menos una vez, no exactly-once ni atomicidad entre brokers/servicios.
+
+Scopes de Etapa 2 se conservan. Nuevo cliente técnico opcional banco-payment-operator: payments.write/read y accounts.post/post.read; sin administración Customer/Account ni roles de canal. Domain operator mantiene sus cuatro scopes administrativos. JWT original se propaga Payment→Account; actor se obtiene del sub verificado, no de un header libre. No IAM de personas.
+
+Se mantienen cuentas modernas fuera de BFF/ATM legacy hasta integrar explícitamente esos canales en etapa posterior. Cuentas CLOSED rechazan todas las operaciones financieras modernas; un saldo positivo permanece registrado, sin liquidación inventada.
+
+Payment almacena tipo/cuentas/amount dentro de request JSON inmutable, y completedAt/saldos posteriores dentro de receipt JSON; estado, actor, clave, hash, createdAt y failureCode/status están en columnas. No se añade PII.
+Account guarda comprobante JSON inmutable y outbox propia; eft_account_balance protege balance>=0.
+Titularidad múltiple de Etapa2 conservada: customerId singular solamente cuando hay un titular. Customer sigue UUID/name/version sin eliminación física.
