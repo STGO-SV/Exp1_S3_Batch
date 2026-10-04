@@ -1,0 +1,65 @@
+{
+  "capturedAt": "2026-10-04T21:56:07.550377+00:00",
+  "data": [
+    {
+      "channel": "web",
+      "case": "sin-token",
+      "request": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "status": 401,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      }
+    },
+    {
+      "channel": "web",
+      "case": "rol-otro-canal",
+      "request": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "status": 403,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      }
+    },
+    {
+      "channel": "mobile",
+      "case": "sin-token",
+      "request": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "status": 401,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      }
+    },
+    {
+      "channel": "mobile",
+      "case": "rol-otro-canal",
+      "request": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "status": 403,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      }
+    },
+    {
+      "channel": "atm",
+      "case": "sin-token",
+      "request": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "status": 401,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      }
+    },
+    {
+      "channel": "atm",
+      "case": "rol-otro-canal",
+      "request": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "status": 403,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      }
+    }
+  ]
+}

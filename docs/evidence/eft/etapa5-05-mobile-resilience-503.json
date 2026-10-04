@@ -1,0 +1,67 @@
+{
+  "capturedAt": "2026-10-04T21:56:33.379422+00:00",
+  "data": {
+    "before": {
+      "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "status": 200,
+      "response": {
+        "accountId": 101,
+        "balance": 8160.0,
+        "accountType": "prestamo"
+      },
+      "certificateAndHostnameVerified": true
+    },
+    "accountStopped": true,
+    "fallback": {
+      "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "status": 503,
+      "response": {
+        "code": "ACCOUNT_SERVICE_UNAVAILABLE",
+        "message": "La información bancaria no está disponible temporalmente"
+      },
+      "certificateAndHostnameVerified": true
+    },
+    "circuitBefore": {
+      "url": "https://localhost:8082/actuator/circuitbreakers",
+      "status": 200,
+      "response": {
+        "circuitBreakers": {
+          "accountService": {
+            "failureRate": "-1.0%",
+            "slowCallRate": "-1.0%",
+            "failureRateThreshold": "50.0%",
+            "slowCallRateThreshold": "100.0%",
+            "bufferedCalls": 2,
+            "failedCalls": 0,
+            "slowCalls": 0,
+            "slowFailedCalls": 0,
+            "notPermittedCalls": 0,
+            "state": "CLOSED"
+          }
+        }
+      },
+      "certificateAndHostnameVerified": true
+    },
+    "circuitAfterFailure": {
+      "url": "https://localhost:8082/actuator/circuitbreakers",
+      "status": 200,
+      "response": {
+        "circuitBreakers": {
+          "accountService": {
+            "failureRate": "33.333332%",
+            "slowCallRate": "0.0%",
+            "failureRateThreshold": "50.0%",
+            "slowCallRateThreshold": "100.0%",
+            "bufferedCalls": 3,
+            "failedCalls": 1,
+            "slowCalls": 0,
+            "slowFailedCalls": 0,
+            "notPermittedCalls": 0,
+            "state": "CLOSED"
+          }
+        }
+      },
+      "certificateAndHostnameVerified": true
+    }
+  }
+}

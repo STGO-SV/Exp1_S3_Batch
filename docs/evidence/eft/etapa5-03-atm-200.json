@@ -1,0 +1,15 @@
+{
+  "capturedAt": "2026-10-04T21:56:07.434912+00:00",
+  "data": {
+    "legacyAccountId": 101,
+    "request": {
+      "url": "https://localhost:8083/api/atm/accounts/101/balance",
+      "status": 200,
+      "response": {
+        "accountId": 101,
+        "availableBalance": 8160.0
+      },
+      "certificateAndHostnameVerified": true
+    }
+  }
+}

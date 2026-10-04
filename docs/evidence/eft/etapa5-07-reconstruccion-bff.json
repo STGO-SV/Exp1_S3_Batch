@@ -1,0 +1,27 @@
+{
+  "capturedAt": "2026-10-04T21:55:43.427359+00:00",
+  "data": {
+    "command": "docker compose build web-bff mobile-bff atm-bff",
+    "exitCode": 0,
+    "logTail": [
+      "#74 exporting layers 3.5s done",
+      "#74 exporting manifest sha256:6957507e8e67bdd29c5a1d5c1a5ae0506473f5bec658db3157e57267b9712ef6 0.1s done",
+      "#74 exporting config sha256:0fa0abe9ece6e37dbd0dd77b5fa67f3726c411c26c9d5d235f0f12b74b2cab0d",
+      "#74 exporting config sha256:0fa0abe9ece6e37dbd0dd77b5fa67f3726c411c26c9d5d235f0f12b74b2cab0d 0.1s done",
+      "#74 exporting attestation manifest sha256:08f43d4020ac83e87db6cc868c29bcd407c25aece3d0135356ff17fd5fe1abea",
+      "#74 exporting attestation manifest sha256:08f43d4020ac83e87db6cc868c29bcd407c25aece3d0135356ff17fd5fe1abea 0.1s done",
+      "#74 exporting manifest list sha256:3225fe5608b25e80163535e90ed8c395f342ee10fdff55bdd3c6e9d46dd52bda 0.1s done",
+      "#74 naming to docker.io/banco-legacy/atm-bff:semana-8",
+      "#74 naming to docker.io/banco-legacy/atm-bff:semana-8 done",
+      "#74 unpacking to docker.io/banco-legacy/atm-bff:semana-8",
+      "#74 unpacking to docker.io/banco-legacy/atm-bff:semana-8 0.4s done",
+      "#74 DONE 4.3s",
+      "",
+      "#76 [atm-bff] resolving provenance for metadata file",
+      "#76 DONE 0.0s",
+      " Image banco-legacy/web-bff:semana-8 Built ",
+      " Image banco-legacy/mobile-bff:semana-8 Built ",
+      " Image banco-legacy/atm-bff:semana-8 Built "
+    ]
+  }
+}

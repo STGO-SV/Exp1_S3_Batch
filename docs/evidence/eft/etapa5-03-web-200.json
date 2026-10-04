@@ -1,0 +1,203 @@
+{
+  "capturedAt": "2026-10-04T21:56:05.707521+00:00",
+  "data": {
+    "legacyAccountId": 101,
+    "request": {
+      "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+      "status": 200,
+      "response": {
+        "accountId": 101,
+        "holderName": "Charlie Green",
+        "accountType": "prestamo",
+        "originalBalance": 8000.0,
+        "appliedRate": 0.02,
+        "processedBalance": 8160.0,
+        "movements": [
+          {
+            "date": "2024-12-22",
+            "type": "deposito",
+            "amount": 2500.0,
+            "description": "Ingreso navideño"
+          },
+          {
+            "date": "2024-11-23",
+            "type": "compra",
+            "amount": 1500.0,
+            "description": "Compra en tienda"
+          },
+          {
+            "date": "2024-11-11",
+            "type": "compra",
+            "amount": 1000.0,
+            "description": "Ingreso navideño"
+          },
+          {
+            "date": "2024-10-16",
+            "type": "deposito",
+            "amount": -100.0,
+            "description": "Retiro parcial"
+          },
+          {
+            "date": "2024-10-06",
+            "type": "deposito",
+            "amount": 1500.0,
+            "description": "Ingreso mensual"
+          },
+          {
+            "date": "2024-09-25",
+            "type": "deposito",
+            "amount": 2500.0,
+            "description": "Ingreso mensual"
+          },
+          {
+            "date": "2024-09-05",
+            "type": "deposito",
+            "amount": 2500.0,
+            "description": "Ingreso extra"
+          },
+          {
+            "date": "2024-08-04",
+            "type": "compra",
+            "amount": 2000.0,
+            "description": "Compra en tienda"
+          },
+          {
+            "date": "2024-08-01",
+            "type": "retiro",
+            "amount": 2000.0,
+            "description": "Ingreso extra"
+          },
+          {
+            "date": "2024-07-20",
+            "type": "retiro",
+            "amount": 2000.0,
+            "description": "Compra en tienda"
+          },
+          {
+            "date": "2024-07-16",
+            "type": "retiro",
+            "amount": 2500.0,
+            "description": "Ingreso navideño"
+          },
+          {
+            "date": "2024-07-09",
+            "type": "retiro",
+            "amount": -1000.0,
+            "description": "Ingreso mensual"
+          },
+          {
+            "date": "2024-06-30",
+            "type": "deposito",
+            "amount": 1500.0,
+            "description": "Ingreso extra"
+          },
+          {
+            "date": "2024-06-12",
+            "type": "deposito",
+            "amount": 2000.0,
+            "description": "Ingreso extra"
+          },
+          {
+            "date": "2024-06-03",
+            "type": "deposito",
+            "amount": 2000.0,
+            "description": "Compra en tienda"
+          },
+          {
+            "date": "2024-05-25",
+            "type": "deposito",
+            "amount": -100.0,
+            "description": "Ingreso mensual"
+          },
+          {
+            "date": "2024-04-29",
+            "type": "deposito",
+            "amount": 3000.0,
+            "description": "Ingreso extra"
+          },
+          {
+            "date": "2024-04-26",
+            "type": "compra",
+            "amount": 1500.0,
+            "description": "Ingreso extra"
+          },
+          {
+            "date": "2024-04-22",
+            "type": "compra",
+            "amount": 2500.0,
+            "description": "Ingreso mensual"
+          },
+          {
+            "date": "2024-04-20",
+            "type": "compra",
+            "amount": -100.0,
+            "description": "Ingreso navideño"
+          }
+        ],
+        "recentAnomalies": [
+          {
+            "transactionId": 144,
+            "date": "2024-12-30",
+            "type": "debito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 850,
+            "date": "2024-12-20",
+            "type": "credito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 151,
+            "date": "2024-12-18",
+            "type": "credito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 265,
+            "date": "2024-12-16",
+            "type": "debito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 162,
+            "date": "2024-12-11",
+            "type": "debito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 206,
+            "date": "2024-11-20",
+            "type": "debito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 142,
+            "date": "2024-11-19",
+            "type": "debito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 489,
+            "date": "2024-11-15",
+            "type": "debito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 609,
+            "date": "2024-11-14",
+            "type": "credito",
+            "amount": 3000.0
+          },
+          {
+            "transactionId": 93,
+            "date": "2024-11-07",
+            "type": "debito",
+            "amount": 3000.0
+          }
+        ]
+      },
+      "certificateAndHostnameVerified": true
+    }
+  }
+}

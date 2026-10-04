@@ -1,0 +1,36 @@
+{
+  "capturedAt": "2026-10-04T21:58:06.598307+00:00",
+  "data": {
+    "accountId": 101,
+    "sqlReadOnly": true,
+    "postgres": {
+      "legacyRows": 5,
+      "modernAccountRows": 0
+    },
+    "exactResponseFields": {
+      "web": [
+        "accountId",
+        "accountType",
+        "appliedRate",
+        "holderName",
+        "movements",
+        "originalBalance",
+        "processedBalance",
+        "recentAnomalies"
+      ],
+      "mobile": [
+        "accountId",
+        "accountType",
+        "balance"
+      ],
+      "atm": [
+        "accountId",
+        "availableBalance"
+      ]
+    },
+    "balanceConsistent": 8160,
+    "webMovements": 20,
+    "webAnomalies": 10,
+    "contractsPreserved": true
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-10-04T21:56:06.565343+00:00",
+  "data": {
+    "legacyAccountId": 101,
+    "request": {
+      "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+      "status": 200,
+      "response": {
+        "accountId": 101,
+        "balance": 8160.0,
+        "accountType": "prestamo"
+      },
+      "certificateAndHostnameVerified": true
+    }
+  }
+}

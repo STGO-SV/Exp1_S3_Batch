@@ -1,0 +1,15 @@
+{
+  "capturedAt": "2026-10-04T21:56:21.890387+00:00",
+  "data": {
+    "status": 200,
+    "client": "banco-web-bff",
+    "requestedScopes": "accounts.web",
+    "response": {
+      "access_token": "[REDACTED]",
+      "scope": "accounts.web",
+      "token_type": "Bearer",
+      "expires_in": 299
+    },
+    "tlsCertificateAndHostnameVerified": true
+  }
+}

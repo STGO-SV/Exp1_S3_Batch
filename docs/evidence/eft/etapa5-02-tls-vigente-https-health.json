@@ -1,0 +1,587 @@
+{
+  "capturedAt": "2026-10-04T21:56:07.540901+00:00",
+  "data": {
+    "currentMaterial": {
+      "sha256": "0fa02588c1bfe85712639d2a98164ab6ebb3b0c0a77358b0af611d394090fd9c",
+      "subject": [
+        [
+          [
+            "countryName",
+            "CL"
+          ]
+        ],
+        [
+          [
+            "localityName",
+            "Santiago"
+          ]
+        ],
+        [
+          [
+            "organizationName",
+            "DUOC"
+          ]
+        ],
+        [
+          [
+            "organizationalUnitName",
+            "Semana 8"
+          ]
+        ],
+        [
+          [
+            "commonName",
+            "Banco Legacy Local"
+          ]
+        ]
+      ],
+      "issuer": [
+        [
+          [
+            "countryName",
+            "CL"
+          ]
+        ],
+        [
+          [
+            "localityName",
+            "Santiago"
+          ]
+        ],
+        [
+          [
+            "organizationName",
+            "DUOC"
+          ]
+        ],
+        [
+          [
+            "organizationalUnitName",
+            "Semana 8"
+          ]
+        ],
+        [
+          [
+            "commonName",
+            "Banco Legacy Local"
+          ]
+        ]
+      ],
+      "version": 3,
+      "serialNumber": "E0C3377D7BF063ED",
+      "notBefore": "Oct  4 21:04:37 2026 GMT",
+      "notAfter": "Oct  4 21:04:37 2027 GMT",
+      "subjectAltName": [
+        [
+          "DNS",
+          "localhost"
+        ],
+        [
+          "DNS",
+          "auth-server"
+        ],
+        [
+          "DNS",
+          "account-service"
+        ],
+        [
+          "DNS",
+          "web-bff"
+        ],
+        [
+          "DNS",
+          "mobile-bff"
+        ],
+        [
+          "DNS",
+          "atm-bff"
+        ],
+        [
+          "DNS",
+          "customer-service"
+        ],
+        [
+          "DNS",
+          "payment-service"
+        ],
+        [
+          "IP Address",
+          "127.0.0.1"
+        ]
+      ]
+    },
+    "containers": {
+      "account-service": {
+        "ID": "b0a57ea5f1ac",
+        "Image": "banco-legacy/account-service:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:30c5b9093da74ae0f80edf9031461a43ebda9004e3b82774b3b6fde9e5e72555",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "anomaly-service": {
+        "ID": "f411cc0facb3",
+        "Image": "banco-legacy/anomaly-service:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:0dc49cb05280bc1ef2bd7432495d403dad6485602491a02a480d1cd5fed7198a",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "atm-bff": {
+        "ID": "bafa75476adc",
+        "Image": "banco-legacy/atm-bff:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:3225fe5608b25e80163535e90ed8c395f342ee10fdff55bdd3c6e9d46dd52bda",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "auth-server": {
+        "ID": "953001a634eb",
+        "Image": "banco-legacy/auth-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:6103e386f4d6e7b894210c0921aa5239e796910f5ad02ae147323d13b699bdf0",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "batch": {
+        "ID": "6f5d54e0bb0e",
+        "Image": "banco-legacy/batch:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:88d9d2e25ff9fe669df64df6ad70de894a9a8327e97dfbbf774a95703016993d",
+        "tlsMount": ""
+      },
+      "config-server": {
+        "ID": "8bfd19d31b3a",
+        "Image": "banco-legacy/config-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:285a8592d91f36a4c2ee827c249c0c35a03d79a7a34ebe8afb24c276978e81c4",
+        "tlsMount": ""
+      },
+      "customer-service": {
+        "ID": "1096c4882f29",
+        "Image": "banco-legacy/customer-service:eft",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:66022ece367a5ab38fe93e810e266611bdd20cbe4986d50bacc432f4f1d1d385",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "discovery-server": {
+        "ID": "514ad287ab4c",
+        "Image": "banco-legacy/discovery-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:25d8c0dde6cc97e63630ebf44e473db7789cfcafab781db659460b446269210b",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "kafka": {
+        "ID": "24a2824025ea",
+        "Image": "apache/kafka:3.8.0",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:c89f315cff967322c5d2021434b32271393cb193aa7ec1d43e97341924e57069",
+        "tlsMount": ""
+      },
+      "mobile-bff": {
+        "ID": "bf9316e7ad44",
+        "Image": "banco-legacy/mobile-bff:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:944d211a7dbfd284b07709e18f56427cc57a1582410c8645ed84d0f49f5776b2",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "payment-service": {
+        "ID": "67b68b4dcef8",
+        "Image": "banco-legacy/payment-service:eft",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:efb500c443d7e96698de07f4906d3588839019e09aebb84cfb87dd3b28c1733d",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "postgres": {
+        "ID": "f336084a4910",
+        "Image": "postgres:16.4",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:e62fbf9d3e2b49816a32c400ed2dba83e3b361e6833e624024309c35d334b412",
+        "tlsMount": ""
+      },
+      "web-bff": {
+        "ID": "4bbcb35d2b2f",
+        "Image": "banco-legacy/web-bff:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:67cf50075d874c1f5f3f38b6660826cb36a2b6c0087d0285e9135bcf03b92b02",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      }
+    },
+    "unrelatedContainerIdsPreserved": true,
+    "tlsMaterialPreserved": true,
+    "bff": {
+      "web": {
+        "certificate": {
+          "sha256": "0fa02588c1bfe85712639d2a98164ab6ebb3b0c0a77358b0af611d394090fd9c",
+          "subject": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "issuer": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "version": 3,
+          "serialNumber": "E0C3377D7BF063ED",
+          "notBefore": "Oct  4 21:04:37 2026 GMT",
+          "notAfter": "Oct  4 21:04:37 2027 GMT",
+          "subjectAltName": [
+            [
+              "DNS",
+              "localhost"
+            ],
+            [
+              "DNS",
+              "auth-server"
+            ],
+            [
+              "DNS",
+              "account-service"
+            ],
+            [
+              "DNS",
+              "web-bff"
+            ],
+            [
+              "DNS",
+              "mobile-bff"
+            ],
+            [
+              "DNS",
+              "atm-bff"
+            ],
+            [
+              "DNS",
+              "customer-service"
+            ],
+            [
+              "DNS",
+              "payment-service"
+            ],
+            [
+              "IP Address",
+              "127.0.0.1"
+            ]
+          ],
+          "protocol": "TLSv1.3",
+          "hostnameVerified": true
+        },
+        "health": {
+          "url": "https://localhost:8081/actuator/health",
+          "status": 200,
+          "response": {
+            "status": "UP"
+          },
+          "certificateAndHostnameVerified": true
+        }
+      },
+      "mobile": {
+        "certificate": {
+          "sha256": "0fa02588c1bfe85712639d2a98164ab6ebb3b0c0a77358b0af611d394090fd9c",
+          "subject": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "issuer": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "version": 3,
+          "serialNumber": "E0C3377D7BF063ED",
+          "notBefore": "Oct  4 21:04:37 2026 GMT",
+          "notAfter": "Oct  4 21:04:37 2027 GMT",
+          "subjectAltName": [
+            [
+              "DNS",
+              "localhost"
+            ],
+            [
+              "DNS",
+              "auth-server"
+            ],
+            [
+              "DNS",
+              "account-service"
+            ],
+            [
+              "DNS",
+              "web-bff"
+            ],
+            [
+              "DNS",
+              "mobile-bff"
+            ],
+            [
+              "DNS",
+              "atm-bff"
+            ],
+            [
+              "DNS",
+              "customer-service"
+            ],
+            [
+              "DNS",
+              "payment-service"
+            ],
+            [
+              "IP Address",
+              "127.0.0.1"
+            ]
+          ],
+          "protocol": "TLSv1.3",
+          "hostnameVerified": true
+        },
+        "health": {
+          "url": "https://localhost:8082/actuator/health",
+          "status": 200,
+          "response": {
+            "status": "UP"
+          },
+          "certificateAndHostnameVerified": true
+        }
+      },
+      "atm": {
+        "certificate": {
+          "sha256": "0fa02588c1bfe85712639d2a98164ab6ebb3b0c0a77358b0af611d394090fd9c",
+          "subject": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "issuer": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "version": 3,
+          "serialNumber": "E0C3377D7BF063ED",
+          "notBefore": "Oct  4 21:04:37 2026 GMT",
+          "notAfter": "Oct  4 21:04:37 2027 GMT",
+          "subjectAltName": [
+            [
+              "DNS",
+              "localhost"
+            ],
+            [
+              "DNS",
+              "auth-server"
+            ],
+            [
+              "DNS",
+              "account-service"
+            ],
+            [
+              "DNS",
+              "web-bff"
+            ],
+            [
+              "DNS",
+              "mobile-bff"
+            ],
+            [
+              "DNS",
+              "atm-bff"
+            ],
+            [
+              "DNS",
+              "customer-service"
+            ],
+            [
+              "DNS",
+              "payment-service"
+            ],
+            [
+              "IP Address",
+              "127.0.0.1"
+            ]
+          ],
+          "protocol": "TLSv1.3",
+          "hostnameVerified": true
+        },
+        "health": {
+          "url": "https://localhost:8083/actuator/health",
+          "status": 200,
+          "response": {
+            "status": "UP"
+          },
+          "certificateAndHostnameVerified": true
+        }
+      }
+    }
+  }
+}

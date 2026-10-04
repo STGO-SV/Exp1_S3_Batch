@@ -1,0 +1,543 @@
+{
+  "capturedAt": "2026-10-04T21:54:47.267552+00:00",
+  "data": {
+    "containers": {
+      "account-service": {
+        "ID": "b0a57ea5f1ac",
+        "Image": "banco-legacy/account-service:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:30c5b9093da74ae0f80edf9031461a43ebda9004e3b82774b3b6fde9e5e72555",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "anomaly-service": {
+        "ID": "f411cc0facb3",
+        "Image": "banco-legacy/anomaly-service:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:0dc49cb05280bc1ef2bd7432495d403dad6485602491a02a480d1cd5fed7198a",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "atm-bff": {
+        "ID": "6a28bae5237a",
+        "Image": "sha256:a598a281873a7d38549de52c9dac7b31597fb0432cf9f24e8b1b2d2f0ed6bec6",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:a598a281873a7d38549de52c9dac7b31597fb0432cf9f24e8b1b2d2f0ed6bec6",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "auth-server": {
+        "ID": "953001a634eb",
+        "Image": "banco-legacy/auth-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:6103e386f4d6e7b894210c0921aa5239e796910f5ad02ae147323d13b699bdf0",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "batch": {
+        "ID": "6f5d54e0bb0e",
+        "Image": "banco-legacy/batch:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:88d9d2e25ff9fe669df64df6ad70de894a9a8327e97dfbbf774a95703016993d",
+        "tlsMount": ""
+      },
+      "config-server": {
+        "ID": "8bfd19d31b3a",
+        "Image": "banco-legacy/config-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:285a8592d91f36a4c2ee827c249c0c35a03d79a7a34ebe8afb24c276978e81c4",
+        "tlsMount": ""
+      },
+      "customer-service": {
+        "ID": "1096c4882f29",
+        "Image": "banco-legacy/customer-service:eft",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:66022ece367a5ab38fe93e810e266611bdd20cbe4986d50bacc432f4f1d1d385",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "discovery-server": {
+        "ID": "514ad287ab4c",
+        "Image": "banco-legacy/discovery-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:25d8c0dde6cc97e63630ebf44e473db7789cfcafab781db659460b446269210b",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "kafka": {
+        "ID": "24a2824025ea",
+        "Image": "apache/kafka:3.8.0",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:c89f315cff967322c5d2021434b32271393cb193aa7ec1d43e97341924e57069",
+        "tlsMount": ""
+      },
+      "mobile-bff": {
+        "ID": "9e094b5690e1",
+        "Image": "sha256:6abe9d78b95722161ab19bf91ce92015f0223fb4fca790c09ad2b8fe99543a6e",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:6abe9d78b95722161ab19bf91ce92015f0223fb4fca790c09ad2b8fe99543a6e",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "payment-service": {
+        "ID": "67b68b4dcef8",
+        "Image": "banco-legacy/payment-service:eft",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:efb500c443d7e96698de07f4906d3588839019e09aebb84cfb87dd3b28c1733d",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      },
+      "postgres": {
+        "ID": "f336084a4910",
+        "Image": "postgres:16.4",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:e62fbf9d3e2b49816a32c400ed2dba83e3b361e6833e624024309c35d334b412",
+        "tlsMount": ""
+      },
+      "web-bff": {
+        "ID": "5005c120b9a9",
+        "Image": "sha256:7d3f46aa3d109b4d35eb6cee2fa60815692f3fe3a6412370bd92fe9a9e92bfa9",
+        "State": "running",
+        "Health": "healthy",
+        "imageId": "sha256:7d3f46aa3d109b4d35eb6cee2fa60815692f3fe3a6412370bd92fe9a9e92bfa9",
+        "tlsMount": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose -> /run/banco-legacy (RW=false)"
+      }
+    },
+    "currentMaterial": {
+      "sha256": "0fa02588c1bfe85712639d2a98164ab6ebb3b0c0a77358b0af611d394090fd9c",
+      "subject": [
+        [
+          [
+            "countryName",
+            "CL"
+          ]
+        ],
+        [
+          [
+            "localityName",
+            "Santiago"
+          ]
+        ],
+        [
+          [
+            "organizationName",
+            "DUOC"
+          ]
+        ],
+        [
+          [
+            "organizationalUnitName",
+            "Semana 8"
+          ]
+        ],
+        [
+          [
+            "commonName",
+            "Banco Legacy Local"
+          ]
+        ]
+      ],
+      "issuer": [
+        [
+          [
+            "countryName",
+            "CL"
+          ]
+        ],
+        [
+          [
+            "localityName",
+            "Santiago"
+          ]
+        ],
+        [
+          [
+            "organizationName",
+            "DUOC"
+          ]
+        ],
+        [
+          [
+            "organizationalUnitName",
+            "Semana 8"
+          ]
+        ],
+        [
+          [
+            "commonName",
+            "Banco Legacy Local"
+          ]
+        ]
+      ],
+      "version": 3,
+      "serialNumber": "E0C3377D7BF063ED",
+      "notBefore": "Oct  4 21:04:37 2026 GMT",
+      "notAfter": "Oct  4 21:04:37 2027 GMT",
+      "subjectAltName": [
+        [
+          "DNS",
+          "localhost"
+        ],
+        [
+          "DNS",
+          "auth-server"
+        ],
+        [
+          "DNS",
+          "account-service"
+        ],
+        [
+          "DNS",
+          "web-bff"
+        ],
+        [
+          "DNS",
+          "mobile-bff"
+        ],
+        [
+          "DNS",
+          "atm-bff"
+        ],
+        [
+          "DNS",
+          "customer-service"
+        ],
+        [
+          "DNS",
+          "payment-service"
+        ],
+        [
+          "IP Address",
+          "127.0.0.1"
+        ]
+      ]
+    },
+    "bff": {
+      "web": {
+        "servedCertificate": {
+          "sha256": "69e205ef60524eb442d117b536a21abf65637b69949b0f4cb209774e6e5a1502",
+          "subject": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "issuer": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "version": 3,
+          "serialNumber": "40ED95BFC589AAA3",
+          "notBefore": "Oct  2 18:37:30 2026 GMT",
+          "notAfter": "Oct  2 18:37:30 2027 GMT",
+          "subjectAltName": [
+            [
+              "DNS",
+              "localhost"
+            ],
+            [
+              "DNS",
+              "auth-server"
+            ],
+            [
+              "DNS",
+              "account-service"
+            ],
+            [
+              "DNS",
+              "web-bff"
+            ],
+            [
+              "DNS",
+              "mobile-bff"
+            ],
+            [
+              "DNS",
+              "atm-bff"
+            ],
+            [
+              "IP Address",
+              "127.0.0.1"
+            ]
+          ],
+          "protocol": "TLSv1.3",
+          "hostnameVerified": true
+        },
+        "trustedByCurrentMaterial": false,
+        "currentVerificationError": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1077)"
+      },
+      "mobile": {
+        "servedCertificate": {
+          "sha256": "69e205ef60524eb442d117b536a21abf65637b69949b0f4cb209774e6e5a1502",
+          "subject": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "issuer": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "version": 3,
+          "serialNumber": "40ED95BFC589AAA3",
+          "notBefore": "Oct  2 18:37:30 2026 GMT",
+          "notAfter": "Oct  2 18:37:30 2027 GMT",
+          "subjectAltName": [
+            [
+              "DNS",
+              "localhost"
+            ],
+            [
+              "DNS",
+              "auth-server"
+            ],
+            [
+              "DNS",
+              "account-service"
+            ],
+            [
+              "DNS",
+              "web-bff"
+            ],
+            [
+              "DNS",
+              "mobile-bff"
+            ],
+            [
+              "DNS",
+              "atm-bff"
+            ],
+            [
+              "IP Address",
+              "127.0.0.1"
+            ]
+          ],
+          "protocol": "TLSv1.3",
+          "hostnameVerified": true
+        },
+        "trustedByCurrentMaterial": false,
+        "currentVerificationError": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1077)"
+      },
+      "atm": {
+        "servedCertificate": {
+          "sha256": "69e205ef60524eb442d117b536a21abf65637b69949b0f4cb209774e6e5a1502",
+          "subject": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "issuer": [
+            [
+              [
+                "countryName",
+                "CL"
+              ]
+            ],
+            [
+              [
+                "localityName",
+                "Santiago"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "DUOC"
+              ]
+            ],
+            [
+              [
+                "organizationalUnitName",
+                "Semana 8"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Banco Legacy Local"
+              ]
+            ]
+          ],
+          "version": 3,
+          "serialNumber": "40ED95BFC589AAA3",
+          "notBefore": "Oct  2 18:37:30 2026 GMT",
+          "notAfter": "Oct  2 18:37:30 2027 GMT",
+          "subjectAltName": [
+            [
+              "DNS",
+              "localhost"
+            ],
+            [
+              "DNS",
+              "auth-server"
+            ],
+            [
+              "DNS",
+              "account-service"
+            ],
+            [
+              "DNS",
+              "web-bff"
+            ],
+            [
+              "DNS",
+              "mobile-bff"
+            ],
+            [
+              "DNS",
+              "atm-bff"
+            ],
+            [
+              "IP Address",
+              "127.0.0.1"
+            ]
+          ],
+          "protocol": "TLSv1.3",
+          "hostnameVerified": true
+        },
+        "trustedByCurrentMaterial": false,
+        "currentVerificationError": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1077)"
+      }
+    }
+  }
+}
