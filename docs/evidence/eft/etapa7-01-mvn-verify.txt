@@ -1,0 +1,87 @@
+Etapa 7 documental — mvn verify
+Fecha: 2026-10-05, America/Santiago
+Comando: ./scripts/test-eft-scale.ps1 -TestMode Verify -LogName etapa7-verify.log
+El helper ejecutó mvn verify con seis tests PostgreSQL habilitados.
+Tests de esta ejecución: 256; failures: 0; errors: 0; skipped: 0.
+Conteo por líneas Surefire de suites ejecutadas, no suma ciega de XML antiguos: existe un XML residual de prueba movida de paquete.
+Cuatro KafkaReal heredados retornan sin flag externo; broker real acreditado en Etapas 4/6.
+No se escalaron/reiniciaron servicios en esta etapa.
+
+com.duoc.banco_legacy.core.event.FinancialContractTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.core.http.ServiceTlsRequestFactoryTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.core.repository.LegacyAccountReadRepositoryTests: tests=5 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.core.repository.LegacyAccountWithdrawalRepositoryTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.core.service.LegacyAccountQueryServiceTests: tests=4 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.AnomalyOutboxTransactionTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.BancoLegacyBatchApplicationTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.BatchJobsIntegrationTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.BatchJobsRestartIntegrationTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.event.AnomalousTransactionEventMapperTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.listener.BatchJobMetricsListenerTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.outbox.AnomalyOutboxPublisherTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.outbox.AnomalyOutboxRepositoryTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.outbox.KafkaRealOutboxIntegrationTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.PartitionBenchmarkTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.PartitionExecutorConfigurationTests: tests=4 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.PartitioningUnitTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.PartitionReaderRestartTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.processor.ProcessorsTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.RetryPolicyIntegrationTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.Week3PartitionedJobsIntegrationTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy_batch.writer.AnomalyOutboxItemWriterTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.config.ConfigServerApplicationTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.discovery.DiscoveryServerApplicationTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.account.AccountFinancialTests: tests=13 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.account.AccountRegistryIntegrationTests: tests=10 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.account.AccountServiceIntegrationTests: tests=6 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.account.CustomerRegistryClientTests: tests=6 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.account.FinancialOutboxPostgresTests: tests=6 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.account.FinancialOutboxTests: tests=4 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.payment.AccountPostingClientTests: tests=5 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.payment.FinancialKafkaTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.payment.PaymentFinancialTests: tests=11 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.payment.PaymentServiceApplicationTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.scale.LoadBalancedRetryTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.customer.AccountRegistryClientTests: tests=5 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.customer.CustomerRegistryIntegrationTests: tests=8 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.customer.CustomerServiceApplicationTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.anomaly.KafkaConsumerIntegrationTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.anomaly.KafkaFailureHandlingIntegrationTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.anomaly.KafkaRealConsumerIntegrationTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.anomaly.KafkaRealFailureIntegrationTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.anomaly.listener.AnomalousTransactionListenerTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.anomaly.repository.ProcessedAnomalyEventRepositoryTests: tests=4 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.auth.AuthApplicationTests: tests=7 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.auth.DomainOperatorAuthorizationTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.auth.PaymentOperatorAuthorizationTests: tests=2 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.web.client.RemoteAccountServiceClientTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.web.WebBffApplicationTests: tests=4 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.web.WebJwtSecurityTests: tests=15 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.mobile.client.RemoteAccountServiceClientTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.mobile.MobileBffApplicationTests: tests=5 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.mobile.MobileConfigClientIntegrationTests: tests=1 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.mobile.MobileJwtSecurityTests: tests=15 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.mobile.MobileRemoteIntegrationTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.atm.AtmBffApplicationTests: tests=6 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.atm.AtmDataIntegrationTests: tests=17 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.atm.AtmJwtSecurityTests: tests=15 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.atm.client.RemoteAccountServiceClientTests: tests=3 failures=0 errors=0 skipped=0
+com.duoc.banco_legacy.atm.service.AtmWithdrawalServiceTests: tests=10 failures=0 errors=0 skipped=0
+
+[INFO] Reactor Summary for Banco Legacy 0.0.1-SNAPSHOT:
+[INFO] Banco Legacy ....................................... SUCCESS [  0.005 s]
+[INFO] banco-legacy-core .................................. SUCCESS [ 10.003 s]
+[INFO] banco-legacy-batch ................................. SUCCESS [ 21.894 s]
+[INFO] banco-legacy-config-server ......................... SUCCESS [  8.107 s]
+[INFO] banco-legacy-discovery-server ...................... SUCCESS [  9.050 s]
+[INFO] banco-legacy-account-service ....................... SUCCESS [ 22.144 s]
+[INFO] banco-legacy-payment-service ....................... SUCCESS [ 31.923 s]
+[INFO] banco-legacy-customer-service ...................... SUCCESS [ 15.628 s]
+[INFO] banco-legacy-anomaly-service ....................... SUCCESS [ 27.409 s]
+[INFO] banco-legacy-auth .................................. SUCCESS [  9.416 s]
+[INFO] banco-legacy-web-bff ............................... SUCCESS [ 12.182 s]
+[INFO] banco-legacy-mobile-bff ............................ SUCCESS [ 16.284 s]
+[INFO] banco-legacy-atm-bff ............................... SUCCESS [ 18.386 s]
+[INFO] BUILD SUCCESS
+[INFO] Total time:  03:23 min
+[INFO] Finished at: 2026-10-05T17:08:13-03:00

@@ -1,3 +1,5 @@
+> Estado vigente Etapa 7 (2026-10-05): implementación central y escala local validadas; documentación de entrega preparada. Las fases siguientes conservan historia del plan, no pendientes automáticamente vigentes. PDF/plantilla, cloud/docente, video y publicación permanecen abiertos; ver [gaps actuales](gaps-entrega.md).
+
 # EFT — plan de implementación
 
 Base: 76b9773. Rama: eft. Mantener commits pequeños, sin push/merge hasta revisión.
@@ -131,3 +133,9 @@ Run eft6-360e45c45f52: 25 postings/operaciones COMPLETED/outboxes PUBLISHED/audi
 Retorno al Compose base 1+1+1 saludable; BFF singleton con respuestas idénticas y Account host 8085 verificado. Focalizados 199 y verify final 256 reportados sin fallos/errores/skipped; seis tests PostgreSQL reales habilitados. KafkaReal heredados condicionados; broker Docker probado por runner.
 
 Informe informe-etapa-6-escalabilidad.md, auditoría auditoria-etapa-6-escalabilidad.md y procedimiento despliegue.md. Sin push/merge/cloud/borrado de volúmenes. Próximo alcance: preparación cloud real con PKI/secretos/migraciones/observabilidad antes de desplegar; integración BFF moderna/titularidad separadas.
+
+## Cierre documental Etapa 7
+
+Inventario completo, matriz C1–C8 sin puntajes inventados, readme.md/instrucciones.md/despliegue.md raíz, borrador de 23 secciones, tres diagramas Mermaid, selección de 20 evidencias y guion ~6 min. README Semana 8 preservado íntegro como README-semana-8.md por colisión de mayúsculas/minúsculas en Windows. Contratos actualizados a publisher Etapa 6 sin modificar APIs/código/configuración.
+
+mvn verify vía helper: BUILD SUCCESS, 256 tests actuales, 0 fallos/errores/skipped; seis PostgreSQL habilitados. Evidencia etapa7-01-mvn-verify.txt. No repetición de 2+2+2 ni detenciones funcionales. Sin push/merge/PDF/cloud. Confirmar pauta/puntajes oficiales, plantilla y requisito cloud; luego PDF/video/publicación autorizada y acceso al dataset académico.
