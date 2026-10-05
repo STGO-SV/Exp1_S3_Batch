@@ -111,7 +111,7 @@ Cierre Etapa 3: mvn verify BUILD SUCCESS, 245 tests reportados sin fallos/errore
 
 ## Cierre Etapa 4 — ejecución real
 
-Validado Compose/PostgreSQL16.4/HTTPS con certificado verificado/OAuth/Customer/Account/Payment/Kafka real.
+Validado Compose/PostgreSQL 16.4/HTTPS con certificado verificado/OAuth/Customer/Account/Payment/Kafka real.
 Imagen Account antigua corregida reconstruyéndola; SQL empaquetado y ocho tablas EFT inicializadas por servicios.
 Credencial financiera completada; secretos/JWT previos preservados. TLS regenerado solo porque faltaban SAN Customer/Payment.
 Flujos financieros, idempotencia, cierre/rollback,503/PENDING/recuperación HTTP y reconciliación Kafka ejecutados. Cinco postings/outboxes PUBLISHED/audits, sin duplicación.
@@ -119,3 +119,15 @@ DLT real y continuidad después de mensaje inválido confirmadas; retries transi
 mvn verify final BUILD SUCCESS:245 tests reportados,0 fallos/errores; cuatro KafkaReal heredados sin habilitar.
 Informe informe-etapa-4.md y evidencia docs/evidence/eft. BFF existentes no modificados: necesitan recargar certificado previo antes de su próxima validación HTTPS.
 Próxima etapa: recargar TLS/verificar BFF legacy y definir integración moderna; sin cloud/merge/push/escalado en Etapa4.
+
+## Cierre Etapas 5 y 6
+
+Etapa 5: BFF Web/Mobile/ATM recargaron TLS vigente, contratos 200, OAuth 401/403 y Mobile 200→503→200; verify 245. Informe informe-etapa-5-bff-tls.md.
+
+Etapa 6: Customer/Account/Payment 2+2+2 real con Eureka/IP únicos, HTTPS por identidad de servicio, PostgreSQL compartido, claims/lease outbox, routing y Kafka group compartido 2 consumidores/3 particiones/lag 0. Fallo real de caché corregido con cache LoadBalancer deshabilitada en override y Spring Retry idempotente Payment.
+
+Run eft6-360e45c45f52: 25 postings/operaciones COMPLETED/outboxes PUBLISHED/audits, sin duplicados lógicos; saldos 101/20. Failover individual de tres servicios y recuperación PENDING con mismo operationId/posting único. Filas previas de once tablas, volumen e infraestructura preservados.
+
+Retorno al Compose base 1+1+1 saludable; BFF singleton con respuestas idénticas y Account host 8085 verificado. Focalizados 199 y verify final 256 reportados sin fallos/errores/skipped; seis tests PostgreSQL reales habilitados. KafkaReal heredados condicionados; broker Docker probado por runner.
+
+Informe informe-etapa-6-escalabilidad.md, auditoría auditoria-etapa-6-escalabilidad.md y procedimiento despliegue.md. Sin push/merge/cloud/borrado de volúmenes. Próximo alcance: preparación cloud real con PKI/secretos/migraciones/observabilidad antes de desplegar; integración BFF moderna/titularidad separadas.

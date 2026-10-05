@@ -1,0 +1,47 @@
+# Despliegue local EFT: base y escala
+
+Procedimiento demostrado en Etapa 6. Docker Desktop activo y .env/.local/compose existentes. PostgreSQL usa volumen persistente banco-legacy_postgres-data. Conservar datos y state local del runner.
+
+## Validación antes de escalar
+
+Desde raíz, con PostgreSQL base en host 5433:
+
+```powershell
+./scripts/test-eft-scale.ps1 -TestMode Focused -LogName etapa6-focused.log
+./scripts/test-eft-scale.ps1 -TestMode Verify -LogName etapa6-verify-before.log
+docker compose build customer-service account-service payment-service web-bff mobile-bff atm-bff
+python -B scripts/validate-eft-scale.py config
+```
+
+El helper ejecuta Maven sin mostrar credenciales; habilita PostgreSQL usando .env, aísla datos en schemas temporales y restaura variables del proceso. Exigir BUILD SUCCESS antes del escenario horizontal.
+
+## Escenario 2+2+2
+
+```powershell
+docker compose -f docker-compose.yaml -f docker/compose.scale.yaml up -d --no-deps --wait --wait-timeout 240 --scale customer-service=2 --scale account-service=2 --scale payment-service=2 customer-service account-service payment-service web-bff mobile-bff atm-bff
+python -B scripts/validate-eft-scale.py ready
+python -B scripts/validate-eft-scale.py routing
+python -B scripts/validate-eft-scale.py flow
+python -B scripts/validate-eft-scale.py outbox
+python -B scripts/validate-eft-scale.py failover
+```
+
+El override escala solo negocios; elimina binding host Account por !reset y mantiene puertos internos. Reutiliza TLS vigente y configura discovery/IPs/caché/retry. BFF se recrean para cargar transporte, conservando una réplica. --no-deps evita reiniciar infraestructura no relacionada.
+
+El runner valida certificado/hostname, consulta Eureka y comprueba IP conectada. Access logs prueban atención por réplica sin modificar respuestas.
+
+flow crea fixtures una vez y exige ausencia de state previo. .local/etapa6-state.json evita repetir dinero accidentalmente. Con state existente conservar runId/keys y reutilizar fases de inspección; no borrar state para ocultar un fallo.
+
+failover detiene el contenedor individual y restaura en finally. Reutiliza keys financieras; el contador local se incrementa una vez por caso exitoso. No detener un servicio escalado completo con compose stop.
+
+## Regreso a base 1+1+1
+
+```powershell
+docker compose -f docker-compose.yaml up -d --no-deps --wait --wait-timeout 240 --scale customer-service=1 --scale account-service=1 --scale payment-service=1 customer-service account-service payment-service web-bff mobile-bff atm-bff
+python -B scripts/validate-eft-scale.py final
+./scripts/test-eft-scale.ps1 -TestMode Verify -LogName etapa6-verify-final.log
+```
+
+El base retira réplicas adicionales, restaura host 8085 y defaults de clientes. final comprueba filas anteriores, finanzas del run, Eureka singleton, health, lag, infraestructura preservada, BFF legacy y HTTPS host 8085.
+
+No ejecutar down -v, borrar volúmenes ni resetear datos. No push/merge/cloud en esta etapa. La preparación de nube es un pendiente técnico descrito en informe-etapa-6-escalabilidad.md; estos comandos son locales.
