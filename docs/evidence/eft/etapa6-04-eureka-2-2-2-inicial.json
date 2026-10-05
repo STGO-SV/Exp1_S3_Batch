@@ -1,0 +1,59 @@
+{
+  "capturedAt": "2026-10-04T23:54:05.593363+00:00",
+  "data": {
+    "customer-service": [
+      {
+        "instanceId": "banco-legacy-customer-service:c4f34ac219e3",
+        "hostname": "172.20.0.10",
+        "ip": "172.20.0.10",
+        "status": "UP",
+        "port": 8087,
+        "secure": true
+      },
+      {
+        "instanceId": "banco-legacy-customer-service:73ca404e014c",
+        "hostname": "172.20.0.6",
+        "ip": "172.20.0.6",
+        "status": "UP",
+        "port": 8087,
+        "secure": true
+      }
+    ],
+    "account-service": [
+      {
+        "instanceId": "banco-legacy-account-service:1bc02f50c148",
+        "hostname": "172.20.0.12",
+        "ip": "172.20.0.12",
+        "status": "UP",
+        "port": 8085,
+        "secure": true
+      },
+      {
+        "instanceId": "banco-legacy-account-service:1a2f026fc6b1",
+        "hostname": "172.20.0.7",
+        "ip": "172.20.0.7",
+        "status": "UP",
+        "port": 8085,
+        "secure": true
+      }
+    ],
+    "payment-service": [
+      {
+        "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+        "hostname": "172.20.0.17",
+        "ip": "172.20.0.17",
+        "status": "UP",
+        "port": 8086,
+        "secure": true
+      },
+      {
+        "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+        "hostname": "172.20.0.14",
+        "ip": "172.20.0.14",
+        "status": "UP",
+        "port": 8086,
+        "secure": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "capturedAt": "2026-10-05T00:18:58.758881+00:00",
+  "data": {
+    "before": {
+      "operation": {
+        "operation_id": "6aea58e7-7b58-4e21-94f0-f06ff6c814e7",
+        "idempotency_key": "eft6-360e45c45f52-failover-account-service",
+        "status": "PENDING",
+        "created_at": "2026-10-04T23:59:06.123459+00:00"
+      },
+      "postingCount": "0",
+      "sqlReadOnly": true
+    },
+    "after": {
+      "operation_id": "6aea58e7-7b58-4e21-94f0-f06ff6c814e7",
+      "idempotency_key": "eft6-360e45c45f52-failover-account-service",
+      "status": "COMPLETED"
+    },
+    "postingCount": 1,
+    "sameOperationId": true,
+    "sqlReadOnly": true
+  }
+}

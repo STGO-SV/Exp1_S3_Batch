@@ -1,0 +1,105 @@
+{
+  "capturedAt": "2026-10-05T00:18:10.767416+00:00",
+  "data": {
+    "stoppedContainer": {
+      "ID": "d2f4b4fdeb95",
+      "Name": "banco-legacy-payment-service-1",
+      "Service": "payment-service",
+      "Image": "banco-legacy/payment-service:eft",
+      "State": "running",
+      "Health": "healthy",
+      "restartCount": 0
+    },
+    "discoveryConvergenceSeconds": 29.42,
+    "survivingInstances": [
+      {
+        "instanceId": "banco-legacy-payment-service:5d45da48842c",
+        "hostname": "172.20.0.16",
+        "ip": "172.20.0.16",
+        "status": "UP",
+        "port": 8086,
+        "secure": true
+      }
+    ],
+    "response": {
+      "method": "GET",
+      "url": "https://payment-service:8086/api/payments/operations/eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+      "instance": {
+        "instanceId": "banco-legacy-payment-service:5d45da48842c",
+        "hostname": "172.20.0.16",
+        "ip": "172.20.0.16",
+        "status": "UP",
+        "port": 8086,
+        "secure": true
+      },
+      "connectedIp": "172.20.0.16",
+      "status": 200,
+      "request": null,
+      "response": {
+        "operationId": "eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791158116942,
+        "amount": 100,
+        "status": "COMPLETED",
+        "createdAt": "2026-10-04T23:55:19.687382Z",
+        "result": {
+          "operationId": "eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 100.0,
+          "status": "COMPLETED",
+          "sourceBalanceAfter": null,
+          "targetBalanceAfter": 100.0,
+          "completedAt": "2026-10-04T23:55:20.043635019Z"
+        },
+        "failureCode": null
+      },
+      "idempotencyKey": null,
+      "certificateAndServiceHostnameVerified": true
+    },
+    "financialOperation": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "instance": {
+        "instanceId": "banco-legacy-payment-service:5d45da48842c",
+        "hostname": "172.20.0.16",
+        "ip": "172.20.0.16",
+        "status": "UP",
+        "port": 8086,
+        "secure": true
+      },
+      "connectedIp": "172.20.0.16",
+      "status": 201,
+      "request": {
+        "accountId": 1791158116942,
+        "amount": 1
+      },
+      "response": {
+        "operationId": "21a7a0dd-18fe-439a-9d07-98afb692106b",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791158116942,
+        "amount": 1,
+        "status": "COMPLETED",
+        "createdAt": "2026-10-05T00:18:06.414384Z",
+        "result": {
+          "operationId": "21a7a0dd-18fe-439a-9d07-98afb692106b",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1.0,
+          "status": "COMPLETED",
+          "sourceBalanceAfter": null,
+          "targetBalanceAfter": 101.0,
+          "completedAt": "2026-10-05T00:18:06.437403161Z"
+        },
+        "failureCode": null
+      },
+      "idempotencyKey": "eft6-360e45c45f52-failover-payment-service",
+      "certificateAndServiceHostnameVerified": true
+    },
+    "consumerGroup": "\nGROUP                   TOPIC                            PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                         HOST            CLIENT-ID\nfinancial-payment-audit banco.operaciones.completadas.v1 1          8               8               0               5d45da48842c-0-ace1b31e-e9b3-4729-8f11-389971ed285a /172.20.0.16    5d45da48842c-0\nfinancial-payment-audit banco.operaciones.completadas.v1 2          13              13              0               5d45da48842c-0-ace1b31e-e9b3-4729-8f11-389971ed285a /172.20.0.16    5d45da48842c-0\nfinancial-payment-audit banco.operaciones.completadas.v1 0          13              13              0               5d45da48842c-0-ace1b31e-e9b3-4729-8f11-389971ed285a /172.20.0.16    5d45da48842c-0"
+  }
+}

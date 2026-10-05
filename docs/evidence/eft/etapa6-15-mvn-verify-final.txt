@@ -1,0 +1,89 @@
+PostgreSQL real enabled; six coordination tests execute in isolated temporary schemas.
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.166 s -- in com.duoc.banco_legacy.core.event.FinancialContractTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.748 s -- in com.duoc.banco_legacy.core.http.ServiceTlsRequestFactoryTests
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.521 s -- in com.duoc.banco_legacy.core.repository.LegacyAccountReadRepositoryTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.327 s -- in com.duoc.banco_legacy.core.repository.LegacyAccountWithdrawalRepositoryTests
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.083 s -- in com.duoc.banco_legacy.core.service.LegacyAccountQueryServiceTests
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.671 s -- in com.duoc.banco_legacy_batch.AnomalyOutboxTransactionTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in com.duoc.banco_legacy_batch.BancoLegacyBatchApplicationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.318 s -- in com.duoc.banco_legacy_batch.BatchJobsIntegrationTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.153 s -- in com.duoc.banco_legacy_batch.BatchJobsRestartIntegrationTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s -- in com.duoc.banco_legacy_batch.event.AnomalousTransactionEventMapperTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.duoc.banco_legacy_batch.listener.BatchJobMetricsListenerTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.726 s -- in com.duoc.banco_legacy_batch.outbox.AnomalyOutboxPublisherTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.170 s -- in com.duoc.banco_legacy_batch.outbox.AnomalyOutboxRepositoryTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.112 s -- in com.duoc.banco_legacy_batch.outbox.KafkaRealOutboxIntegrationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.411 s -- in com.duoc.banco_legacy_batch.PartitionBenchmarkTests
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in com.duoc.banco_legacy_batch.PartitionExecutorConfigurationTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.119 s -- in com.duoc.banco_legacy_batch.PartitioningUnitTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in com.duoc.banco_legacy_batch.PartitionReaderRestartTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.duoc.banco_legacy_batch.processor.ProcessorsTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 s -- in com.duoc.banco_legacy_batch.RetryPolicyIntegrationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.697 s -- in com.duoc.banco_legacy_batch.Week3PartitionedJobsIntegrationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in com.duoc.banco_legacy_batch.writer.AnomalyOutboxItemWriterTests
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.065 s -- in com.duoc.banco_legacy.config.ConfigServerApplicationTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.436 s -- in com.duoc.banco_legacy.discovery.DiscoveryServerApplicationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.17 s -- in com.duoc.banco_legacy.account.AccountFinancialTests
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.585 s -- in com.duoc.banco_legacy.account.AccountRegistryIntegrationTests
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.487 s -- in com.duoc.banco_legacy.account.AccountServiceIntegrationTests
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.122 s -- in com.duoc.banco_legacy.account.CustomerRegistryClientTests
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.452 s -- in com.duoc.banco_legacy.account.FinancialOutboxPostgresTests
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.892 s -- in com.duoc.banco_legacy.account.FinancialOutboxTests
+[INFO] Tests run: 45, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.045 s -- in com.duoc.banco_legacy.payment.AccountPostingClientTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.08 s -- in com.duoc.banco_legacy.payment.FinancialKafkaTests
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.213 s -- in com.duoc.banco_legacy.payment.PaymentFinancialTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.954 s -- in com.duoc.banco_legacy.payment.PaymentServiceApplicationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.702 s -- in com.duoc.banco_legacy.scale.LoadBalancedRetryTests
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.816 s -- in com.duoc.banco_legacy.customer.AccountRegistryClientTests
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.93 s -- in com.duoc.banco_legacy.customer.CustomerRegistryIntegrationTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.833 s -- in com.duoc.banco_legacy.customer.CustomerServiceApplicationTests
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.78 s -- in com.duoc.banco_legacy.anomaly.KafkaConsumerIntegrationTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.91 s -- in com.duoc.banco_legacy.anomaly.KafkaFailureHandlingIntegrationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.327 s -- in com.duoc.banco_legacy.anomaly.KafkaRealConsumerIntegrationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.940 s -- in com.duoc.banco_legacy.anomaly.KafkaRealFailureIntegrationTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.duoc.banco_legacy.anomaly.listener.AnomalousTransactionListenerTests
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.425 s -- in com.duoc.banco_legacy.anomaly.repository.ProcessedAnomalyEventRepositoryTests
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.858 s -- in com.duoc.banco_legacy.auth.AuthApplicationTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.303 s -- in com.duoc.banco_legacy.auth.DomainOperatorAuthorizationTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.154 s -- in com.duoc.banco_legacy.auth.PaymentOperatorAuthorizationTests
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.828 s -- in com.duoc.banco_legacy.web.client.RemoteAccountServiceClientTests
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.19 s -- in com.duoc.banco_legacy.web.WebBffApplicationTests
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.559 s -- in com.duoc.banco_legacy.web.WebJwtSecurityTests
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.862 s -- in com.duoc.banco_legacy.mobile.client.RemoteAccountServiceClientTests
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.08 s -- in com.duoc.banco_legacy.mobile.MobileBffApplicationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.185 s -- in com.duoc.banco_legacy.mobile.MobileConfigClientIntegrationTests
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.786 s -- in com.duoc.banco_legacy.mobile.MobileJwtSecurityTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 s -- in com.duoc.banco_legacy.mobile.MobileRemoteIntegrationTests
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.22 s -- in com.duoc.banco_legacy.atm.AtmBffApplicationTests
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.686 s -- in com.duoc.banco_legacy.atm.AtmDataIntegrationTests
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.449 s -- in com.duoc.banco_legacy.atm.AtmJwtSecurityTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.153 s -- in com.duoc.banco_legacy.atm.client.RemoteAccountServiceClientTests
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in com.duoc.banco_legacy.atm.service.AtmWithdrawalServiceTests
+[INFO] Tests run: 51, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Banco Legacy ....................................... SUCCESS [  0.005 s]
+[INFO] banco-legacy-core .................................. SUCCESS [  8.537 s]
+[INFO] banco-legacy-batch ................................. SUCCESS [ 20.864 s]
+[INFO] banco-legacy-config-server ......................... SUCCESS [  7.920 s]
+[INFO] banco-legacy-discovery-server ...................... SUCCESS [  9.231 s]
+[INFO] banco-legacy-account-service ....................... SUCCESS [ 21.792 s]
+[INFO] banco-legacy-payment-service ....................... SUCCESS [ 30.742 s]
+[INFO] banco-legacy-customer-service ...................... SUCCESS [ 16.166 s]
+[INFO] banco-legacy-anomaly-service ....................... SUCCESS [ 28.061 s]
+[INFO] banco-legacy-auth .................................. SUCCESS [  9.461 s]
+[INFO] banco-legacy-web-bff ............................... SUCCESS [ 13.199 s]
+[INFO] banco-legacy-mobile-bff ............................ SUCCESS [ 17.439 s]
+[INFO] banco-legacy-atm-bff ............................... SUCCESS [ 19.199 s]
+[INFO] BUILD SUCCESS
+[INFO] Total time:  03:23 min
+[INFO] Finished at: 2026-10-04T21:26:36-03:00

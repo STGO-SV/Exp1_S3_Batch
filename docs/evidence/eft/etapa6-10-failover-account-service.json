@@ -1,0 +1,95 @@
+{
+  "capturedAt": "2026-10-05T00:17:06.993848+00:00",
+  "data": {
+    "stoppedContainer": {
+      "ID": "28e09dae1a23",
+      "Name": "banco-legacy-account-service-1",
+      "Service": "account-service",
+      "Image": "banco-legacy/account-service:semana-8",
+      "State": "running",
+      "Health": "healthy",
+      "restartCount": 0
+    },
+    "discoveryConvergenceSeconds": 25.62,
+    "survivingInstances": [
+      {
+        "instanceId": "banco-legacy-account-service:833dd5da93f0",
+        "hostname": "172.20.0.6",
+        "ip": "172.20.0.6",
+        "status": "UP",
+        "port": 8085,
+        "secure": true
+      }
+    ],
+    "response": {
+      "method": "GET",
+      "url": "https://account-service:8085/api/accounts/1791158116942",
+      "instance": {
+        "instanceId": "banco-legacy-account-service:833dd5da93f0",
+        "hostname": "172.20.0.6",
+        "ip": "172.20.0.6",
+        "status": "UP",
+        "port": 8085,
+        "secure": true
+      },
+      "connectedIp": "172.20.0.6",
+      "status": 200,
+      "request": null,
+      "response": {
+        "accountId": 1791158116942,
+        "accountType": "ahorro",
+        "status": "ACTIVE",
+        "version": 23,
+        "customerIds": [
+          "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+        ],
+        "balance": 99.0,
+        "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+      },
+      "idempotencyKey": null,
+      "certificateAndServiceHostnameVerified": true
+    },
+    "financialOperation": {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "instance": {
+        "instanceId": "banco-legacy-payment-service:5d45da48842c",
+        "hostname": "172.20.0.16",
+        "ip": "172.20.0.16",
+        "status": "UP",
+        "port": 8086,
+        "secure": true
+      },
+      "connectedIp": "172.20.0.16",
+      "status": 200,
+      "request": {
+        "accountId": 1791158116942,
+        "amount": 1
+      },
+      "response": {
+        "operationId": "6aea58e7-7b58-4e21-94f0-f06ff6c814e7",
+        "type": "DEPOSIT",
+        "sourceAccountId": null,
+        "targetAccountId": 1791158116942,
+        "amount": 1,
+        "status": "COMPLETED",
+        "createdAt": "2026-10-04T23:59:06.123459Z",
+        "result": {
+          "operationId": "6aea58e7-7b58-4e21-94f0-f06ff6c814e7",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1.0,
+          "status": "COMPLETED",
+          "sourceBalanceAfter": null,
+          "targetBalanceAfter": 100.0,
+          "completedAt": "2026-10-05T00:17:06.800709152Z"
+        },
+        "failureCode": null
+      },
+      "idempotencyKey": "eft6-360e45c45f52-failover-account-service",
+      "certificateAndServiceHostnameVerified": true
+    },
+    "consumerGroup": null
+  }
+}

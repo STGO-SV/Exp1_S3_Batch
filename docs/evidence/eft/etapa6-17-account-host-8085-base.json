@@ -1,0 +1,19 @@
+{
+  "capturedAt": "2026-10-05T00:23:08.195853+00:00",
+  "data": {
+    "url": "https://localhost:8085/api/accounts/1791158116942",
+    "status": 200,
+    "response": {
+      "accountId": 1791158116942,
+      "accountType": "ahorro",
+      "status": "ACTIVE",
+      "version": 25,
+      "customerIds": [
+        "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+      ],
+      "balance": 101.0,
+      "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+    },
+    "certificateAndHostnameVerified": true
+  }
+}

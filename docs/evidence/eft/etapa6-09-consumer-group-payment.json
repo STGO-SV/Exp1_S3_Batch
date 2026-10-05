@@ -1,0 +1,10 @@
+{
+  "capturedAt": "2026-10-04T23:55:54.125594+00:00",
+  "data": {
+    "describe": "\nGROUP                   TOPIC                            PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                         HOST            CLIENT-ID\nfinancial-payment-audit banco.operaciones.completadas.v1 1          8               8               0               3a3f6b69b992-0-db9096a7-08e8-42a0-922f-400edabb725f /172.20.0.17    3a3f6b69b992-0\nfinancial-payment-audit banco.operaciones.completadas.v1 0          12              12              0               3a3f6b69b992-0-db9096a7-08e8-42a0-922f-400edabb725f /172.20.0.17    3a3f6b69b992-0\nfinancial-payment-audit banco.operaciones.completadas.v1 2          12              12              0               b839eebd6cc3-0-d372e497-bbfc-410d-9cfc-c67348969934 /172.20.0.14    b839eebd6cc3-0",
+    "consumers": "\nGROUP                   CONSUMER-ID                                         HOST            CLIENT-ID       #PARTITIONS     ASSIGNMENT\nfinancial-payment-audit 3a3f6b69b992-0-db9096a7-08e8-42a0-922f-400edabb725f /172.20.0.17    3a3f6b69b992-0  2               (0,1)\nfinancial-payment-audit b839eebd6cc3-0-d372e497-bbfc-410d-9cfc-c67348969934 /172.20.0.14    b839eebd6cc3-0  1               (2)\n",
+    "partitions": 3,
+    "distinctMembers": 2,
+    "finalLag": 0
+  }
+}

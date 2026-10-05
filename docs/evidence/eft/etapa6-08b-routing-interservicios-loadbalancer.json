@@ -1,0 +1,40 @@
+{
+  "capturedAt": "2026-10-04T23:56:02.328304+00:00",
+  "data": {
+    "banco-legacy-account-service-1": [
+      "[04/Oct/2026:23:55:20 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:22 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:22 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:22 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201"
+    ],
+    "banco-legacy-account-service-2": [
+      "[04/Oct/2026:23:55:20 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:21 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:22 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:22 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:22 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:22 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201",
+      "[04/Oct/2026:23:55:23 +0000] POST /internal/accounts/postings 201"
+    ],
+    "banco-legacy-customer-service-1": [
+      "[04/Oct/2026:23:55:18 +0000] GET /api/customers/5aa4893c-105b-4b4e-a6d6-29ee01eb58b6 200"
+    ],
+    "banco-legacy-customer-service-2": [
+      "[04/Oct/2026:23:55:17 +0000] GET /api/customers/5aa4893c-105b-4b4e-a6d6-29ee01eb58b6 200"
+    ],
+    "banco-legacy-payment-service-1": [],
+    "banco-legacy-payment-service-2": []
+  }
+}

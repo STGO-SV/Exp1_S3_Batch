@@ -1,0 +1,15 @@
+{
+  "capturedAt": "2026-10-05T00:22:52.116053+00:00",
+  "data": {
+    "status": 200,
+    "client": "banco-payment-operator",
+    "requestedScopes": "payments.read payments.write accounts.post accounts.post.read",
+    "response": {
+      "access_token": "[REDACTED]",
+      "scope": "payments.write accounts.post.read payments.read accounts.post",
+      "token_type": "Bearer",
+      "expires_in": 299
+    },
+    "tlsCertificateAndHostnameVerified": true
+  }
+}

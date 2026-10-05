@@ -1,0 +1,599 @@
+{
+  "capturedAt": "2026-10-05T00:23:08.145102+00:00",
+  "data": {
+    "web": {
+      "success": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "status": 200,
+        "response": {
+          "accountId": 101,
+          "holderName": "Charlie Green",
+          "accountType": "prestamo",
+          "originalBalance": 8000.0,
+          "appliedRate": 0.02,
+          "processedBalance": 8160.0,
+          "movements": [
+            {
+              "date": "2024-12-22",
+              "type": "deposito",
+              "amount": 2500.0,
+              "description": "Ingreso navideño"
+            },
+            {
+              "date": "2024-11-23",
+              "type": "compra",
+              "amount": 1500.0,
+              "description": "Compra en tienda"
+            },
+            {
+              "date": "2024-11-11",
+              "type": "compra",
+              "amount": 1000.0,
+              "description": "Ingreso navideño"
+            },
+            {
+              "date": "2024-10-16",
+              "type": "deposito",
+              "amount": -100.0,
+              "description": "Retiro parcial"
+            },
+            {
+              "date": "2024-10-06",
+              "type": "deposito",
+              "amount": 1500.0,
+              "description": "Ingreso mensual"
+            },
+            {
+              "date": "2024-09-25",
+              "type": "deposito",
+              "amount": 2500.0,
+              "description": "Ingreso mensual"
+            },
+            {
+              "date": "2024-09-05",
+              "type": "deposito",
+              "amount": 2500.0,
+              "description": "Ingreso extra"
+            },
+            {
+              "date": "2024-08-04",
+              "type": "compra",
+              "amount": 2000.0,
+              "description": "Compra en tienda"
+            },
+            {
+              "date": "2024-08-01",
+              "type": "retiro",
+              "amount": 2000.0,
+              "description": "Ingreso extra"
+            },
+            {
+              "date": "2024-07-20",
+              "type": "retiro",
+              "amount": 2000.0,
+              "description": "Compra en tienda"
+            },
+            {
+              "date": "2024-07-16",
+              "type": "retiro",
+              "amount": 2500.0,
+              "description": "Ingreso navideño"
+            },
+            {
+              "date": "2024-07-09",
+              "type": "retiro",
+              "amount": -1000.0,
+              "description": "Ingreso mensual"
+            },
+            {
+              "date": "2024-06-30",
+              "type": "deposito",
+              "amount": 1500.0,
+              "description": "Ingreso extra"
+            },
+            {
+              "date": "2024-06-12",
+              "type": "deposito",
+              "amount": 2000.0,
+              "description": "Ingreso extra"
+            },
+            {
+              "date": "2024-06-03",
+              "type": "deposito",
+              "amount": 2000.0,
+              "description": "Compra en tienda"
+            },
+            {
+              "date": "2024-05-25",
+              "type": "deposito",
+              "amount": -100.0,
+              "description": "Ingreso mensual"
+            },
+            {
+              "date": "2024-04-29",
+              "type": "deposito",
+              "amount": 3000.0,
+              "description": "Ingreso extra"
+            },
+            {
+              "date": "2024-04-26",
+              "type": "compra",
+              "amount": 1500.0,
+              "description": "Ingreso extra"
+            },
+            {
+              "date": "2024-04-22",
+              "type": "compra",
+              "amount": 2500.0,
+              "description": "Ingreso mensual"
+            },
+            {
+              "date": "2024-04-20",
+              "type": "compra",
+              "amount": -100.0,
+              "description": "Ingreso navideño"
+            }
+          ],
+          "recentAnomalies": [
+            {
+              "transactionId": 144,
+              "date": "2024-12-30",
+              "type": "debito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 850,
+              "date": "2024-12-20",
+              "type": "credito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 151,
+              "date": "2024-12-18",
+              "type": "credito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 265,
+              "date": "2024-12-16",
+              "type": "debito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 162,
+              "date": "2024-12-11",
+              "type": "debito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 206,
+              "date": "2024-11-20",
+              "type": "debito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 142,
+              "date": "2024-11-19",
+              "type": "debito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 489,
+              "date": "2024-11-15",
+              "type": "debito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 609,
+              "date": "2024-11-14",
+              "type": "credito",
+              "amount": 3000.0
+            },
+            {
+              "transactionId": 93,
+              "date": "2024-11-07",
+              "type": "debito",
+              "amount": 3000.0
+            }
+          ]
+        },
+        "certificateAndHostnameVerified": true
+      },
+      "withoutToken": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "status": 401,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      },
+      "wrongRole": {
+        "url": "https://localhost:8081/api/web/accounts/101/dashboard",
+        "status": 403,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      },
+      "servedCertificate": {
+        "sha256": "0fa02588c1bfe85712639d2a98164ab6ebb3b0c0a77358b0af611d394090fd9c",
+        "subject": [
+          [
+            [
+              "countryName",
+              "CL"
+            ]
+          ],
+          [
+            [
+              "localityName",
+              "Santiago"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "DUOC"
+            ]
+          ],
+          [
+            [
+              "organizationalUnitName",
+              "Semana 8"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "Banco Legacy Local"
+            ]
+          ]
+        ],
+        "issuer": [
+          [
+            [
+              "countryName",
+              "CL"
+            ]
+          ],
+          [
+            [
+              "localityName",
+              "Santiago"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "DUOC"
+            ]
+          ],
+          [
+            [
+              "organizationalUnitName",
+              "Semana 8"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "Banco Legacy Local"
+            ]
+          ]
+        ],
+        "version": 3,
+        "serialNumber": "E0C3377D7BF063ED",
+        "notBefore": "Oct  4 21:04:37 2026 GMT",
+        "notAfter": "Oct  4 21:04:37 2027 GMT",
+        "subjectAltName": [
+          [
+            "DNS",
+            "localhost"
+          ],
+          [
+            "DNS",
+            "auth-server"
+          ],
+          [
+            "DNS",
+            "account-service"
+          ],
+          [
+            "DNS",
+            "web-bff"
+          ],
+          [
+            "DNS",
+            "mobile-bff"
+          ],
+          [
+            "DNS",
+            "atm-bff"
+          ],
+          [
+            "DNS",
+            "customer-service"
+          ],
+          [
+            "DNS",
+            "payment-service"
+          ],
+          [
+            "IP Address",
+            "127.0.0.1"
+          ]
+        ],
+        "protocol": "TLSv1.3",
+        "hostnameVerified": true
+      },
+      "identicalToStage5Contract": true
+    },
+    "mobile": {
+      "success": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "status": 200,
+        "response": {
+          "accountId": 101,
+          "balance": 8160.0,
+          "accountType": "prestamo"
+        },
+        "certificateAndHostnameVerified": true
+      },
+      "withoutToken": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "status": 401,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      },
+      "wrongRole": {
+        "url": "https://localhost:8082/api/mobile/accounts/101/summary",
+        "status": 403,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      },
+      "servedCertificate": {
+        "sha256": "0fa02588c1bfe85712639d2a98164ab6ebb3b0c0a77358b0af611d394090fd9c",
+        "subject": [
+          [
+            [
+              "countryName",
+              "CL"
+            ]
+          ],
+          [
+            [
+              "localityName",
+              "Santiago"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "DUOC"
+            ]
+          ],
+          [
+            [
+              "organizationalUnitName",
+              "Semana 8"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "Banco Legacy Local"
+            ]
+          ]
+        ],
+        "issuer": [
+          [
+            [
+              "countryName",
+              "CL"
+            ]
+          ],
+          [
+            [
+              "localityName",
+              "Santiago"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "DUOC"
+            ]
+          ],
+          [
+            [
+              "organizationalUnitName",
+              "Semana 8"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "Banco Legacy Local"
+            ]
+          ]
+        ],
+        "version": 3,
+        "serialNumber": "E0C3377D7BF063ED",
+        "notBefore": "Oct  4 21:04:37 2026 GMT",
+        "notAfter": "Oct  4 21:04:37 2027 GMT",
+        "subjectAltName": [
+          [
+            "DNS",
+            "localhost"
+          ],
+          [
+            "DNS",
+            "auth-server"
+          ],
+          [
+            "DNS",
+            "account-service"
+          ],
+          [
+            "DNS",
+            "web-bff"
+          ],
+          [
+            "DNS",
+            "mobile-bff"
+          ],
+          [
+            "DNS",
+            "atm-bff"
+          ],
+          [
+            "DNS",
+            "customer-service"
+          ],
+          [
+            "DNS",
+            "payment-service"
+          ],
+          [
+            "IP Address",
+            "127.0.0.1"
+          ]
+        ],
+        "protocol": "TLSv1.3",
+        "hostnameVerified": true
+      },
+      "identicalToStage5Contract": true
+    },
+    "atm": {
+      "success": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "status": 200,
+        "response": {
+          "accountId": 101,
+          "availableBalance": 8160.0
+        },
+        "certificateAndHostnameVerified": true
+      },
+      "withoutToken": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "status": 401,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      },
+      "wrongRole": {
+        "url": "https://localhost:8083/api/atm/accounts/101/balance",
+        "status": 403,
+        "response": "",
+        "certificateAndHostnameVerified": true
+      },
+      "servedCertificate": {
+        "sha256": "0fa02588c1bfe85712639d2a98164ab6ebb3b0c0a77358b0af611d394090fd9c",
+        "subject": [
+          [
+            [
+              "countryName",
+              "CL"
+            ]
+          ],
+          [
+            [
+              "localityName",
+              "Santiago"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "DUOC"
+            ]
+          ],
+          [
+            [
+              "organizationalUnitName",
+              "Semana 8"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "Banco Legacy Local"
+            ]
+          ]
+        ],
+        "issuer": [
+          [
+            [
+              "countryName",
+              "CL"
+            ]
+          ],
+          [
+            [
+              "localityName",
+              "Santiago"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "DUOC"
+            ]
+          ],
+          [
+            [
+              "organizationalUnitName",
+              "Semana 8"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "Banco Legacy Local"
+            ]
+          ]
+        ],
+        "version": 3,
+        "serialNumber": "E0C3377D7BF063ED",
+        "notBefore": "Oct  4 21:04:37 2026 GMT",
+        "notAfter": "Oct  4 21:04:37 2027 GMT",
+        "subjectAltName": [
+          [
+            "DNS",
+            "localhost"
+          ],
+          [
+            "DNS",
+            "auth-server"
+          ],
+          [
+            "DNS",
+            "account-service"
+          ],
+          [
+            "DNS",
+            "web-bff"
+          ],
+          [
+            "DNS",
+            "mobile-bff"
+          ],
+          [
+            "DNS",
+            "atm-bff"
+          ],
+          [
+            "DNS",
+            "customer-service"
+          ],
+          [
+            "DNS",
+            "payment-service"
+          ],
+          [
+            "IP Address",
+            "127.0.0.1"
+          ]
+        ],
+        "protocol": "TLSv1.3",
+        "hostnameVerified": true
+      },
+      "identicalToStage5Contract": true
+    }
+  }
+}

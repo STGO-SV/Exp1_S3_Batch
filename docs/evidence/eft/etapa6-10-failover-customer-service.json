@@ -1,0 +1,49 @@
+{
+  "capturedAt": "2026-10-05T00:16:06.779468+00:00",
+  "data": {
+    "stoppedContainer": {
+      "ID": "57570c1c0ab0",
+      "Name": "banco-legacy-customer-service-1",
+      "Service": "customer-service",
+      "Image": "banco-legacy/customer-service:eft",
+      "State": "running",
+      "Health": "healthy",
+      "restartCount": 0
+    },
+    "discoveryConvergenceSeconds": 12.82,
+    "survivingInstances": [
+      {
+        "instanceId": "banco-legacy-customer-service:813eebb19f99",
+        "hostname": "172.20.0.10",
+        "ip": "172.20.0.10",
+        "status": "UP",
+        "port": 8087,
+        "secure": true
+      }
+    ],
+    "response": {
+      "method": "GET",
+      "url": "https://customer-service:8087/api/customers/5aa4893c-105b-4b4e-a6d6-29ee01eb58b6",
+      "instance": {
+        "instanceId": "banco-legacy-customer-service:813eebb19f99",
+        "hostname": "172.20.0.10",
+        "ip": "172.20.0.10",
+        "status": "UP",
+        "port": 8087,
+        "secure": true
+      },
+      "connectedIp": "172.20.0.10",
+      "status": 200,
+      "request": null,
+      "response": {
+        "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6",
+        "name": "Prueba escalabilidad EFT 6",
+        "version": 0
+      },
+      "idempotencyKey": null,
+      "certificateAndServiceHostnameVerified": true
+    },
+    "financialOperation": null,
+    "consumerGroup": null
+  }
+}

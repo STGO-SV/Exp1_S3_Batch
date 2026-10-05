@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-10-04T23:55:19.504205+00:00",
+  "data": [
+    {
+      "method": "GET",
+      "url": "https://customer-service:8087/api/customers/5aa4893c-105b-4b4e-a6d6-29ee01eb58b6",
+      "instance": {
+        "instanceId": "banco-legacy-customer-service:73ca404e014c",
+        "hostname": "172.20.0.6",
+        "ip": "172.20.0.6",
+        "status": "UP",
+        "port": 8087,
+        "secure": true
+      },
+      "connectedIp": "172.20.0.6",
+      "status": 401,
+      "request": null,
+      "response": null,
+      "idempotencyKey": null,
+      "certificateAndServiceHostnameVerified": true
+    },
+    {
+      "method": "POST",
+      "url": "https://payment-service:8086/api/payments/deposits",
+      "instance": {
+        "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+        "hostname": "172.20.0.17",
+        "ip": "172.20.0.17",
+        "status": "UP",
+        "port": 8086,
+        "secure": true
+      },
+      "connectedIp": "172.20.0.17",
+      "status": 403,
+      "request": {
+        "accountId": 1791158116942,
+        "amount": 1
+      },
+      "response": null,
+      "idempotencyKey": "eft6-360e45c45f52-denied",
+      "certificateAndServiceHostnameVerified": true
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "capturedAt": "2026-10-05T00:28:52.788810+00:00",
+  "data": {
+    "initialServices": [
+      "customer-service",
+      "account-service",
+      "payment-service",
+      "web-bff",
+      "mobile-bff",
+      "atm-bff"
+    ],
+    "initialBuildTail": [
+      "#125 exporting manifest list sha256:0af333f127d3d0e9ec8f78e0f7faf72c24b7a8c7314cb562b24cdab034d0af9a 0.0s done",
+      "#125 naming to docker.io/banco-legacy/payment-service:eft done",
+      "#125 unpacking to docker.io/banco-legacy/payment-service:eft",
+      "#125 unpacking to docker.io/banco-legacy/payment-service:eft 0.6s done",
+      "#125 DONE 4.2s",
+      "",
+      "#127 [payment-service] resolving provenance for metadata file",
+      "#127 DONE 0.0s",
+      " Image banco-legacy/web-bff:semana-8 Built ",
+      " Image banco-legacy/mobile-bff:semana-8 Built ",
+      " Image banco-legacy/atm-bff:semana-8 Built ",
+      " Image banco-legacy/account-service:semana-8 Built ",
+      " Image banco-legacy/customer-service:eft Built ",
+      " Image banco-legacy/payment-service:eft Built "
+    ],
+    "retryFixRebuiltOnlyPayment": true,
+    "retryBuildTail": [
+      "#41 exporting manifest list sha256:f8c1f0bea2dd915b5aba95748bc5ba0c5744faeeee6bd460741d0b1f8fcad9c0 0.0s done",
+      "#41 naming to docker.io/banco-legacy/payment-service:eft done",
+      "#41 unpacking to docker.io/banco-legacy/payment-service:eft",
+      "#41 unpacking to docker.io/banco-legacy/payment-service:eft 0.6s done",
+      "#41 DONE 4.7s",
+      "",
+      "#42 resolving provenance for metadata file",
+      "#42 DONE 0.0s",
+      " Image banco-legacy/payment-service:eft Built "
+    ]
+  }
+}

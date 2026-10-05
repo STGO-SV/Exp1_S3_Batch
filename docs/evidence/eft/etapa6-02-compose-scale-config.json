@@ -1,0 +1,143 @@
+{
+  "capturedAt": "2026-10-05T00:09:21.100727+00:00",
+  "data": {
+    "customer-service": {
+      "ports": [],
+      "container_name": null,
+      "expose": [
+        "8087"
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose",
+          "target": "/run/banco-legacy",
+          "read_only": true,
+          "bind": {}
+        }
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD",
+          "curl",
+          "--fail",
+          "--silent",
+          "--cacert",
+          "/run/banco-legacy/banco-legacy-docker.crt",
+          "https://localhost:8087/actuator/health"
+        ],
+        "timeout": "5s",
+        "interval": "10s",
+        "retries": 30,
+        "start_period": "15s"
+      },
+      "environment": {
+        "BANKING_HTTP_TLS_SERVICE_NAME": "account-service",
+        "EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS": "5",
+        "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE": "http://discovery-server:8761/eureka/",
+        "EUREKA_INSTANCE_HEALTH_CHECK_URL": "https://customer-service:8087/actuator/health",
+        "EUREKA_INSTANCE_HOSTNAME": "customer-service",
+        "EUREKA_INSTANCE_INSTANCE_ID": "$${spring.application.name}:$${HOSTNAME}",
+        "EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS": "15",
+        "EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS": "5",
+        "EUREKA_INSTANCE_PREFER_IP_ADDRESS": "true",
+        "EUREKA_INSTANCE_STATUS_PAGE_URL": "https://customer-service:8087/actuator/info",
+        "SPRING_CLOUD_LOADBALANCER_CACHE_ENABLED": "false"
+      }
+    },
+    "account-service": {
+      "ports": [],
+      "container_name": null,
+      "expose": [],
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose",
+          "target": "/run/banco-legacy",
+          "read_only": true,
+          "bind": {}
+        }
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD",
+          "curl",
+          "--fail",
+          "--silent",
+          "--cacert",
+          "/run/banco-legacy/banco-legacy-docker.crt",
+          "https://localhost:8085/actuator/health"
+        ],
+        "timeout": "5s",
+        "interval": "10s",
+        "retries": 30,
+        "start_period": "15s"
+      },
+      "environment": {
+        "BANKING_HTTP_TLS_SERVICE_NAME": "customer-service",
+        "BANKING_KAFKA_OUTBOX_BATCH_SIZE": "1",
+        "BANKING_KAFKA_OUTBOX_DELAY_MS": "300",
+        "EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS": "5",
+        "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE": "http://discovery-server:8761/eureka/",
+        "EUREKA_INSTANCE_HEALTH_CHECK_URL": "https://account-service:8085/actuator/health",
+        "EUREKA_INSTANCE_HOSTNAME": "account-service",
+        "EUREKA_INSTANCE_INSTANCE_ID": "$${spring.application.name}:$${HOSTNAME}",
+        "EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS": "15",
+        "EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS": "5",
+        "EUREKA_INSTANCE_PREFER_IP_ADDRESS": "true",
+        "EUREKA_INSTANCE_STATUS_PAGE_URL": "https://account-service:8085/actuator/info",
+        "SPRING_CLOUD_LOADBALANCER_CACHE_ENABLED": "false"
+      }
+    },
+    "payment-service": {
+      "ports": [],
+      "container_name": null,
+      "expose": [
+        "8086"
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "C:\\Dev\\Duoc\\DBE3\\banco-legacy-batch\\.local\\compose",
+          "target": "/run/banco-legacy",
+          "read_only": true,
+          "bind": {}
+        }
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD",
+          "curl",
+          "--fail",
+          "--silent",
+          "--cacert",
+          "/run/banco-legacy/banco-legacy-docker.crt",
+          "https://localhost:8086/actuator/health"
+        ],
+        "timeout": "5s",
+        "interval": "10s",
+        "retries": 30,
+        "start_period": "15s"
+      },
+      "environment": {
+        "BANKING_HTTP_TLS_SERVICE_NAME": "account-service",
+        "EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS": "5",
+        "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE": "http://discovery-server:8761/eureka/",
+        "EUREKA_INSTANCE_HEALTH_CHECK_URL": "https://payment-service:8086/actuator/health",
+        "EUREKA_INSTANCE_HOSTNAME": "payment-service",
+        "EUREKA_INSTANCE_INSTANCE_ID": "$${spring.application.name}:$${HOSTNAME}",
+        "EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS": "15",
+        "EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS": "5",
+        "EUREKA_INSTANCE_PREFER_IP_ADDRESS": "true",
+        "EUREKA_INSTANCE_STATUS_PAGE_URL": "https://payment-service:8086/actuator/info",
+        "SPRING_CLOUD_LOADBALANCER_CACHE_ENABLED": "false",
+        "SPRING_CLOUD_LOADBALANCER_RETRY_ENABLED": "true",
+        "SPRING_CLOUD_LOADBALANCER_RETRY_MAX_RETRIES_ON_NEXT_SERVICE_INSTANCE": "1",
+        "SPRING_CLOUD_LOADBALANCER_RETRY_MAX_RETRIES_ON_SAME_SERVICE_INSTANCE": "0",
+        "SPRING_CLOUD_LOADBALANCER_RETRY_RETRYABLE_STATUS_CODES": "503",
+        "SPRING_CLOUD_LOADBALANCER_RETRY_RETRY_ON_ALL_OPERATIONS": "true",
+        "SPRING_KAFKA_CONSUMER_CLIENT_ID": "$${HOSTNAME}"
+      }
+    }
+  }
+}

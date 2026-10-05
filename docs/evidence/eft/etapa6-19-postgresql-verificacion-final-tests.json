@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-10-05T00:28:53.333583+00:00",
+  "data": {
+    "version": "PostgreSQL 16.4 (Debian 16.4-1.pgdg120+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit",
+    "maxConnections": "100",
+    "connections": 66,
+    "pendingRunOperations": 0,
+    "nonPublishedRunOutboxes": 0,
+    "temporaryTestSchemas": 0
+  }
+}

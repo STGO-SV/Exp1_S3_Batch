@@ -1,0 +1,20 @@
+{
+  "capturedAt": "2026-10-04T23:33:14.637004+00:00",
+  "data": {
+    "tables": {
+      "eft_customer": 1,
+      "eft_account": 2,
+      "eft_account_holder": 2,
+      "eft_account_balance": 2,
+      "eft_account_posting": 5,
+      "eft_payment_operation": 7,
+      "eft_payment_event_audit": 5,
+      "eft_financial_outbox": 5,
+      "interes_procesado": 282,
+      "movimiento_anual_procesado": 642,
+      "transaccion_procesada": 401
+    },
+    "postgresVolume": "banco-legacy_postgres-data",
+    "sqlReadOnly": true
+  }
+}

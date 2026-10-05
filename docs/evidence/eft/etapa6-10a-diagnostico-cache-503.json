@@ -1,0 +1,27 @@
+{
+  "capturedAt": "2026-10-04T23:59:08.281968+00:00",
+  "data": {
+    "method": "POST",
+    "url": "https://payment-service:8086/api/payments/deposits",
+    "instance": {
+      "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+      "hostname": "172.20.0.17",
+      "ip": "172.20.0.17",
+      "status": "UP",
+      "port": 8086,
+      "secure": true
+    },
+    "connectedIp": "172.20.0.17",
+    "status": 503,
+    "request": {
+      "accountId": 1791158116942,
+      "amount": 1
+    },
+    "response": {
+      "code": "ACCOUNT_UNAVAILABLE",
+      "message": "ACCOUNT_UNAVAILABLE"
+    },
+    "idempotencyKey": "eft6-360e45c45f52-failover-account-service",
+    "certificateAndServiceHostnameVerified": true
+  }
+}

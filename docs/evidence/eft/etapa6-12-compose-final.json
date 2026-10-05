@@ -1,0 +1,262 @@
+{
+  "capturedAt": "2026-10-05T00:23:10.415972+00:00",
+  "data": {
+    "infrastructureIdsPreserved": true,
+    "postgresVolumePreserved": "banco-legacy_postgres-data",
+    "containers": [
+      {
+        "ID": "c12806836fde",
+        "Name": "banco-legacy-account-service-1",
+        "Service": "account-service",
+        "Image": "banco-legacy/account-service:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "0.0.0.0:8085->8085/tcp, [::]:8085->8085/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "f411cc0facb3",
+        "Name": "banco-legacy-anomaly-service-1",
+        "Service": "anomaly-service",
+        "Image": "banco-legacy/anomaly-service:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "",
+        "restartCount": 0
+      },
+      {
+        "ID": "83daadb4dd0c",
+        "Name": "banco-legacy-atm-bff-1",
+        "Service": "atm-bff",
+        "Image": "banco-legacy/atm-bff:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "0.0.0.0:8083->8083/tcp, [::]:8083->8083/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "953001a634eb",
+        "Name": "banco-legacy-auth-server-1",
+        "Service": "auth-server",
+        "Image": "banco-legacy/auth-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "0.0.0.0:8084->8084/tcp, [::]:8084->8084/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "6f5d54e0bb0e",
+        "Name": "banco-legacy-batch-1",
+        "Service": "batch",
+        "Image": "banco-legacy/batch:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "",
+        "restartCount": 0
+      },
+      {
+        "ID": "8bfd19d31b3a",
+        "Name": "banco-legacy-config-server-1",
+        "Service": "config-server",
+        "Image": "banco-legacy/config-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "6801940f9260",
+        "Name": "banco-legacy-customer-service-1",
+        "Service": "customer-service",
+        "Image": "banco-legacy/customer-service:eft",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "8087/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "514ad287ab4c",
+        "Name": "banco-legacy-discovery-server-1",
+        "Service": "discovery-server",
+        "Image": "banco-legacy/discovery-server:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "0.0.0.0:8761->8761/tcp, [::]:8761->8761/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "24a2824025ea",
+        "Name": "banco-legacy-kafka-1",
+        "Service": "kafka",
+        "Image": "apache/kafka:3.8.0",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "9092/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "0dd8920831c0",
+        "Name": "banco-legacy-mobile-bff-1",
+        "Service": "mobile-bff",
+        "Image": "banco-legacy/mobile-bff:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "0.0.0.0:8082->8082/tcp, [::]:8082->8082/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "877b48be68ca",
+        "Name": "banco-legacy-payment-service-1",
+        "Service": "payment-service",
+        "Image": "banco-legacy/payment-service:eft",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "8086/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "f336084a4910",
+        "Name": "banco-legacy-postgres-1",
+        "Service": "postgres",
+        "Image": "postgres:16.4",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp",
+        "restartCount": 0
+      },
+      {
+        "ID": "31b8d13099a8",
+        "Name": "banco-legacy-web-bff-1",
+        "Service": "web-bff",
+        "Image": "banco-legacy/web-bff:semana-8",
+        "State": "running",
+        "Health": "healthy",
+        "Ports": "0.0.0.0:8081->8081/tcp, [::]:8081->8081/tcp",
+        "restartCount": 0
+      }
+    ],
+    "eureka": {
+      "customer-service": [
+        {
+          "instanceId": "banco-legacy-customer-service:8095ad12-404c-4f91-822a-fa5c8526248f",
+          "hostname": "customer-service",
+          "ip": "172.20.0.7",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        }
+      ],
+      "account-service": [
+        {
+          "instanceId": "c12806836fde:banco-legacy-account-service:8085",
+          "hostname": "account-service",
+          "ip": "172.20.0.6",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        }
+      ],
+      "payment-service": [
+        {
+          "instanceId": "banco-legacy-payment-service:059caf12-75e3-466e-9058-ab323e3fdccd",
+          "hostname": "payment-service",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        }
+      ]
+    },
+    "modernResponses": [
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/5aa4893c-105b-4b4e-a6d6-29ee01eb58b6",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:8095ad12-404c-4f91-822a-fa5c8526248f",
+          "hostname": "customer-service",
+          "ip": "172.20.0.7",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.7",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6",
+          "name": "Prueba escalabilidad EFT 6",
+          "version": 0
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791158116942",
+        "instance": {
+          "instanceId": "c12806836fde:banco-legacy-account-service:8085",
+          "hostname": "account-service",
+          "ip": "172.20.0.6",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.6",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791158116942,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 25,
+          "customerIds": [
+            "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+          ],
+          "balance": 101.0,
+          "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://payment-service:8086/api/payments/operations/eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:059caf12-75e3-466e-9058-ab323e3fdccd",
+          "hostname": "payment-service",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 200,
+        "request": null,
+        "response": {
+          "operationId": "eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 100,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:19.687382Z",
+          "result": {
+            "operationId": "eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 100.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 100.0,
+            "completedAt": "2026-10-04T23:55:20.043635019Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      }
+    ],
+    "kafkaConsumerGroup": "\nGROUP                   TOPIC                            PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                             HOST            CLIENT-ID\nfinancial-payment-audit banco.operaciones.completadas.v1 1          8               8               0               consumer-financial-payment-audit-1-fe51f58c-17fe-4d8c-86f5-a087d2e889cf /172.20.0.14    consumer-financial-payment-audit-1\nfinancial-payment-audit banco.operaciones.completadas.v1 2          13              13              0               consumer-financial-payment-audit-1-fe51f58c-17fe-4d8c-86f5-a087d2e889cf /172.20.0.14    consumer-financial-payment-audit-1\nfinancial-payment-audit banco.operaciones.completadas.v1 0          13              13              0               consumer-financial-payment-audit-1-fe51f58c-17fe-4d8c-86f5-a087d2e889cf /172.20.0.14    consumer-financial-payment-audit-1"
+  }
+}

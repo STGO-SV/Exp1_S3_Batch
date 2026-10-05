@@ -1,0 +1,1044 @@
+{
+  "capturedAt": "2026-10-04T23:55:23.933483+00:00",
+  "data": {
+    "runId": "eft6-360e45c45f52",
+    "records": [
+      {
+        "method": "PUT",
+        "url": "https://customer-service:8087/api/customers/5aa4893c-105b-4b4e-a6d6-29ee01eb58b6",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:c4f34ac219e3",
+          "hostname": "172.20.0.10",
+          "ip": "172.20.0.10",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.10",
+        "status": 201,
+        "request": {
+          "name": "Prueba escalabilidad EFT 6"
+        },
+        "response": {
+          "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6",
+          "name": "Prueba escalabilidad EFT 6",
+          "version": 0
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "PUT",
+        "url": "https://account-service:8085/api/accounts/1791158116942",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:1bc02f50c148",
+          "hostname": "172.20.0.12",
+          "ip": "172.20.0.12",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.12",
+        "status": 201,
+        "request": {
+          "accountType": "ahorro",
+          "customerIds": [
+            "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+          ]
+        },
+        "response": {
+          "accountId": 1791158116942,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 0,
+          "customerIds": [
+            "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+          ],
+          "balance": 0.0,
+          "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "PUT",
+        "url": "https://account-service:8085/api/accounts/1791158116943",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:1a2f026fc6b1",
+          "hostname": "172.20.0.7",
+          "ip": "172.20.0.7",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.7",
+        "status": 201,
+        "request": {
+          "accountType": "ahorro",
+          "customerIds": [
+            "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+          ]
+        },
+        "response": {
+          "accountId": 1791158116943,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 0,
+          "customerIds": [
+            "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+          ],
+          "balance": 0.0,
+          "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 100
+        },
+        "response": {
+          "operationId": "eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 100,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:19.687382Z",
+          "result": {
+            "operationId": "eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 100.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 100.0,
+            "completedAt": "2026-10-04T23:55:20.043635019Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-deposit",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/transfers",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "sourceAccountId": 1791158116942,
+          "targetAccountId": 1791158116943,
+          "amount": 20
+        },
+        "response": {
+          "operationId": "fd25e499-54e8-4016-b227-ab4c4db5e7e1",
+          "type": "TRANSFER",
+          "sourceAccountId": 1791158116942,
+          "targetAccountId": 1791158116943,
+          "amount": 20,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:20.680178Z",
+          "result": {
+            "operationId": "fd25e499-54e8-4016-b227-ab4c4db5e7e1",
+            "type": "TRANSFER",
+            "sourceAccountId": 1791158116942,
+            "targetAccountId": 1791158116943,
+            "amount": 20.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": 80.0,
+            "targetBalanceAfter": 20.0,
+            "completedAt": "2026-10-04T23:55:20.724191308Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-transfer",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "sourceAccountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "5b26a510-f1b5-45c0-aea7-f3fa6e7e65ba",
+          "type": "PAYMENT",
+          "sourceAccountId": 1791158116942,
+          "targetAccountId": null,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:21.377989Z",
+          "result": {
+            "operationId": "5b26a510-f1b5-45c0-aea7-f3fa6e7e65ba",
+            "type": "PAYMENT",
+            "sourceAccountId": 1791158116942,
+            "targetAccountId": null,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": 79.0,
+            "targetBalanceAfter": null,
+            "completedAt": "2026-10-04T23:55:21.396529140Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-payment",
+        "certificateAndServiceHostnameVerified": true
+      }
+    ],
+    "concurrentDeposits": [
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "788376d1-c35d-4d85-ad13-7bd02514d585",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.456689Z",
+          "result": {
+            "operationId": "788376d1-c35d-4d85-ad13-7bd02514d585",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 84.0,
+            "completedAt": "2026-10-04T23:55:22.964447087Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-0",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "02cb753e-43c3-4ace-8e4c-c88f1305bdf7",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.446282Z",
+          "result": {
+            "operationId": "02cb753e-43c3-4ace-8e4c-c88f1305bdf7",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 80.0,
+            "completedAt": "2026-10-04T23:55:22.475925071Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-1",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "a128af7b-9410-4746-94a7-a8fe4403959e",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.449924Z",
+          "result": {
+            "operationId": "a128af7b-9410-4746-94a7-a8fe4403959e",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 85.0,
+            "completedAt": "2026-10-04T23:55:22.972242675Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-2",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "cad442c5-0bbb-4753-954f-c9a84c478e7d",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.474173Z",
+          "result": {
+            "operationId": "cad442c5-0bbb-4753-954f-c9a84c478e7d",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 82.0,
+            "completedAt": "2026-10-04T23:55:22.537865188Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-3",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "e3754e3f-96be-4def-a3f8-7aab871fe215",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.449265Z",
+          "result": {
+            "operationId": "e3754e3f-96be-4def-a3f8-7aab871fe215",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 81.0,
+            "completedAt": "2026-10-04T23:55:22.486542352Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-4",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "0f192f39-4c8a-4634-b188-7cb2a4075a84",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.449902Z",
+          "result": {
+            "operationId": "0f192f39-4c8a-4634-b188-7cb2a4075a84",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 88.0,
+            "completedAt": "2026-10-04T23:55:23.005777952Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-5",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "22924d55-a76f-4944-90e3-ea5784192787",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.827072Z",
+          "result": {
+            "operationId": "22924d55-a76f-4944-90e3-ea5784192787",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 86.0,
+            "completedAt": "2026-10-04T23:55:22.982086468Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-6",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "2c8fb2bb-579f-45b1-9a1c-0cc5028f3b4c",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.842927Z",
+          "result": {
+            "operationId": "2c8fb2bb-579f-45b1-9a1c-0cc5028f3b4c",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 83.0,
+            "completedAt": "2026-10-04T23:55:22.864445711Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-7",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "da7fa0eb-e1d2-4e2a-b586-df64937f92e7",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:22.876879Z",
+          "result": {
+            "operationId": "da7fa0eb-e1d2-4e2a-b586-df64937f92e7",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 87.0,
+            "completedAt": "2026-10-04T23:55:22.993782229Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-8",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "b043d93b-9c88-41c4-8c72-f236b23bcccd",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.221346Z",
+          "result": {
+            "operationId": "b043d93b-9c88-41c4-8c72-f236b23bcccd",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 89.0,
+            "completedAt": "2026-10-04T23:55:23.240960425Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-9",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "304c5e86-dc23-4854-bb3e-b2e574e60bb9",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.356966Z",
+          "result": {
+            "operationId": "304c5e86-dc23-4854-bb3e-b2e574e60bb9",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 90.0,
+            "completedAt": "2026-10-04T23:55:23.381183405Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-10",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "f199b5a6-3b84-4313-bef9-11af08965c57",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.383347Z",
+          "result": {
+            "operationId": "f199b5a6-3b84-4313-bef9-11af08965c57",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 94.0,
+            "completedAt": "2026-10-04T23:55:23.425038986Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-11",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "83926a4d-7d6c-4af6-a856-986de82fb8bd",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.382765Z",
+          "result": {
+            "operationId": "83926a4d-7d6c-4af6-a856-986de82fb8bd",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 93.0,
+            "completedAt": "2026-10-04T23:55:23.415760053Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-12",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "568b8fcc-cd35-40fa-8f98-432c456d5d67",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.367440Z",
+          "result": {
+            "operationId": "568b8fcc-cd35-40fa-8f98-432c456d5d67",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 91.0,
+            "completedAt": "2026-10-04T23:55:23.393260375Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-13",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "6b2c1588-7fa1-4f37-abd4-680acf917ac3",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.382691Z",
+          "result": {
+            "operationId": "6b2c1588-7fa1-4f37-abd4-680acf917ac3",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 92.0,
+            "completedAt": "2026-10-04T23:55:23.407795412Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-14",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "f404bdf9-2756-4291-9664-5a815b587b64",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.582267Z",
+          "result": {
+            "operationId": "f404bdf9-2756-4291-9664-5a815b587b64",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 95.0,
+            "completedAt": "2026-10-04T23:55:23.609366880Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-15",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "c03e5591-9b7c-4cc9-9054-09a5aa9b87a6",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.725828Z",
+          "result": {
+            "operationId": "c03e5591-9b7c-4cc9-9054-09a5aa9b87a6",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 96.0,
+            "completedAt": "2026-10-04T23:55:23.745153491Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-16",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "96d63ea1-78b1-4c87-81c8-601ec5834c56",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.761182Z",
+          "result": {
+            "operationId": "96d63ea1-78b1-4c87-81c8-601ec5834c56",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 98.0,
+            "completedAt": "2026-10-04T23:55:23.786289463Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-17",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:3a3f6b69b992",
+          "hostname": "172.20.0.17",
+          "ip": "172.20.0.17",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.17",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "1e6da03a-828f-45ed-a9df-6c49a6223285",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.749341Z",
+          "result": {
+            "operationId": "1e6da03a-828f-45ed-a9df-6c49a6223285",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 97.0,
+            "completedAt": "2026-10-04T23:55:23.773499265Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-18",
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "POST",
+        "url": "https://payment-service:8086/api/payments/deposits",
+        "instance": {
+          "instanceId": "banco-legacy-payment-service:b839eebd6cc3",
+          "hostname": "172.20.0.14",
+          "ip": "172.20.0.14",
+          "status": "UP",
+          "port": 8086,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.14",
+        "status": 201,
+        "request": {
+          "accountId": 1791158116942,
+          "amount": 1
+        },
+        "response": {
+          "operationId": "93034ffb-2540-41c9-8e47-12c608c35651",
+          "type": "DEPOSIT",
+          "sourceAccountId": null,
+          "targetAccountId": 1791158116942,
+          "amount": 1,
+          "status": "COMPLETED",
+          "createdAt": "2026-10-04T23:55:23.767971Z",
+          "result": {
+            "operationId": "93034ffb-2540-41c9-8e47-12c608c35651",
+            "type": "DEPOSIT",
+            "sourceAccountId": null,
+            "targetAccountId": 1791158116942,
+            "amount": 1.0,
+            "status": "COMPLETED",
+            "sourceBalanceAfter": null,
+            "targetBalanceAfter": 99.0,
+            "completedAt": "2026-10-04T23:55:23.791870327Z"
+          },
+          "failureCode": null
+        },
+        "idempotencyKey": "eft6-360e45c45f52-burst-19",
+        "certificateAndServiceHostnameVerified": true
+      }
+    ]
+  }
+}

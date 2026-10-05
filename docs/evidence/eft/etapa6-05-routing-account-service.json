@@ -1,0 +1,250 @@
+{
+  "capturedAt": "2026-10-05T00:15:40.149782+00:00",
+  "data": {
+    "mechanism": "Eureka UP + round-robin runner + curl --resolve (DNS TLS identity, selected replica IP)",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791148331085",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:28e09dae1a23",
+          "hostname": "172.20.0.12",
+          "ip": "172.20.0.12",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.12",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 5,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 79.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791148331085",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:833dd5da93f0",
+          "hostname": "172.20.0.6",
+          "ip": "172.20.0.6",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.6",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 5,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 79.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791148331085",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:28e09dae1a23",
+          "hostname": "172.20.0.12",
+          "ip": "172.20.0.12",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.12",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 5,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 79.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791148331085",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:833dd5da93f0",
+          "hostname": "172.20.0.6",
+          "ip": "172.20.0.6",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.6",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 5,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 79.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791148331085",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:28e09dae1a23",
+          "hostname": "172.20.0.12",
+          "ip": "172.20.0.12",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.12",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 5,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 79.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791148331085",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:833dd5da93f0",
+          "hostname": "172.20.0.6",
+          "ip": "172.20.0.6",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.6",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 5,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 79.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791148331085",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:28e09dae1a23",
+          "hostname": "172.20.0.12",
+          "ip": "172.20.0.12",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.12",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 5,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 79.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://account-service:8085/api/accounts/1791148331085",
+        "instance": {
+          "instanceId": "banco-legacy-account-service:833dd5da93f0",
+          "hostname": "172.20.0.6",
+          "ip": "172.20.0.6",
+          "status": "UP",
+          "port": 8085,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.6",
+        "status": 200,
+        "request": null,
+        "response": {
+          "accountId": 1791148331085,
+          "accountType": "ahorro",
+          "status": "ACTIVE",
+          "version": 5,
+          "customerIds": [
+            "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+          ],
+          "balance": 79.0,
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad"
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      }
+    ],
+    "containerAccessLogs": [
+      {
+        "container": "banco-legacy-account-service-1",
+        "requests": [
+          "[05/Oct/2026:00:15:30 +0000] GET /api/accounts/1791148331085 200",
+          "[05/Oct/2026:00:15:31 +0000] GET /api/accounts/1791148331085 200"
+        ]
+      },
+      {
+        "container": "banco-legacy-account-service-2",
+        "requests": [
+          "[05/Oct/2026:00:15:30 +0000] GET /api/accounts/1791148331085 200",
+          "[05/Oct/2026:00:15:31 +0000] GET /api/accounts/1791148331085 200",
+          "[05/Oct/2026:00:15:32 +0000] GET /api/accounts/1791148331085 200",
+          "[05/Oct/2026:00:15:32 +0000] GET /api/accounts/1791148331085 200"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,469 @@
+{
+  "capturedAt": "2026-10-05T00:23:05.987962+00:00",
+  "data": {
+    "sqlReadOnly": true,
+    "preserved": {
+      "eft_customer": {
+        "beforeRows": 1,
+        "afterRows": 2,
+        "previousRowsPreserved": true
+      },
+      "eft_account": {
+        "beforeRows": 2,
+        "afterRows": 4,
+        "previousRowsPreserved": true
+      },
+      "eft_account_holder": {
+        "beforeRows": 2,
+        "afterRows": 4,
+        "previousRowsPreserved": true
+      },
+      "eft_account_balance": {
+        "beforeRows": 2,
+        "afterRows": 4,
+        "previousRowsPreserved": true
+      },
+      "eft_account_posting": {
+        "beforeRows": 5,
+        "afterRows": 30,
+        "previousRowsPreserved": true
+      },
+      "eft_payment_operation": {
+        "beforeRows": 7,
+        "afterRows": 32,
+        "previousRowsPreserved": true
+      },
+      "eft_payment_event_audit": {
+        "beforeRows": 5,
+        "afterRows": 30,
+        "previousRowsPreserved": true
+      },
+      "eft_financial_outbox": {
+        "beforeRows": 5,
+        "afterRows": 30,
+        "previousRowsPreserved": true
+      },
+      "interes_procesado": {
+        "beforeRows": 282,
+        "afterRows": 282,
+        "previousRowsPreserved": true
+      },
+      "movimiento_anual_procesado": {
+        "beforeRows": 642,
+        "afterRows": 642,
+        "previousRowsPreserved": true
+      },
+      "transaccion_procesada": {
+        "beforeRows": 401,
+        "afterRows": 401,
+        "previousRowsPreserved": true
+      }
+    },
+    "run": {
+      "runId": "eft6-360e45c45f52",
+      "customerId": "5aa4893c-105b-4b4e-a6d6-29ee01eb58b6",
+      "source": 1791158116942,
+      "target": 1791158116943,
+      "deposit": {
+        "key": "eft6-360e45c45f52-deposit",
+        "path": "/api/payments/deposits",
+        "body": {
+          "accountId": 1791158116942,
+          "amount": 100
+        },
+        "operationId": "eb22c480-9f0d-4d9a-a452-c5bb77abffeb"
+      },
+      "transfer": {
+        "key": "eft6-360e45c45f52-transfer",
+        "path": "/api/payments/transfers",
+        "body": {
+          "sourceAccountId": 1791158116942,
+          "targetAccountId": 1791158116943,
+          "amount": 20
+        },
+        "operationId": "fd25e499-54e8-4016-b227-ab4c4db5e7e1"
+      },
+      "payment": {
+        "key": "eft6-360e45c45f52-payment",
+        "path": "/api/payments",
+        "body": {
+          "sourceAccountId": 1791158116942,
+          "amount": 1
+        },
+        "operationId": "5b26a510-f1b5-45c0-aea7-f3fa6e7e65ba"
+      },
+      "expectedSource": 101,
+      "expectedTarget": 20,
+      "postings": 25,
+      "failoverOperations": [
+        "account-service",
+        "payment-service"
+      ]
+    },
+    "financial": {
+      "outboxes": [
+        {
+          "event_id": "06da7517-94a8-4491-95f2-fc6ef21e98e2",
+          "operation_id": "21a7a0dd-18fe-439a-9d07-98afb692106b",
+          "payload": "{\"eventId\":\"06da7517-94a8-4491-95f2-fc6ef21e98e2\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"21a7a0dd-18fe-439a-9d07-98afb692106b\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":101.00,\"completedAt\":\"2026-10-05T00:18:06.437403161Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-05T00:18:06.855759+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:28e09dae1a23:1c98432a-4457-4429-ad74-959830f6bbb0",
+          "claim_token": "c4952a0c-098c-4aef-ae91-978c7deca085",
+          "claimed_at": "2026-10-05T00:18:06.608724+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "17e2b3ab-2ce3-48ef-bd6f-52c54719dd4b",
+          "operation_id": "6aea58e7-7b58-4e21-94f0-f06ff6c814e7",
+          "payload": "{\"eventId\":\"17e2b3ab-2ce3-48ef-bd6f-52c54719dd4b\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"6aea58e7-7b58-4e21-94f0-f06ff6c814e7\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":100.00,\"completedAt\":\"2026-10-05T00:17:06.800709152Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-05T00:17:07.29943+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:833dd5da93f0:b0db44b5-8638-4ca8-8ba6-6ba3f14c50dd",
+          "claim_token": "7a03177c-684b-4fca-baa0-a4ba95977ebc",
+          "claimed_at": "2026-10-05T00:17:07.035632+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "1acfe286-9099-435d-afa6-6d8fdc20deb1",
+          "operation_id": "02cb753e-43c3-4ace-8e4c-c88f1305bdf7",
+          "payload": "{\"eventId\":\"1acfe286-9099-435d-afa6-6d8fdc20deb1\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"02cb753e-43c3-4ace-8e4c-c88f1305bdf7\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":80.00,\"completedAt\":\"2026-10-04T23:55:22.475925071Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:22.65113+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "c61bb1e0-1a3f-4188-9b35-28228fe3ac66",
+          "claimed_at": "2026-10-04T23:55:22.643554+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "1ec85580-b886-4e7a-af88-69cd87e9db48",
+          "operation_id": "568b8fcc-cd35-40fa-8f98-432c456d5d67",
+          "payload": "{\"eventId\":\"1ec85580-b886-4e7a-af88-69cd87e9db48\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"568b8fcc-cd35-40fa-8f98-432c456d5d67\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":91.00,\"completedAt\":\"2026-10-04T23:55:23.393260375Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:23.451024+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "f66f7d27-9ffc-4de4-97a0-decd37d25dcc",
+          "claimed_at": "2026-10-04T23:55:23.438736+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "21b9b1c4-20be-497e-802f-f2149e4cbd05",
+          "operation_id": "b043d93b-9c88-41c4-8c72-f236b23bcccd",
+          "payload": "{\"eventId\":\"21b9b1c4-20be-497e-802f-f2149e4cbd05\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"b043d93b-9c88-41c4-8c72-f236b23bcccd\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":89.00,\"completedAt\":\"2026-10-04T23:55:23.240960425Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:23.292494+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "2dd042f2-50ac-49b5-b8fe-f657a0b0feb0",
+          "claimed_at": "2026-10-04T23:55:23.273798+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "22ab2f26-d0c7-402a-9af1-b198a024accb",
+          "operation_id": "fd25e499-54e8-4016-b227-ab4c4db5e7e1",
+          "payload": "{\"eventId\":\"22ab2f26-d0c7-402a-9af1-b198a024accb\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"14d39003103765da2affbee6f26ca00a81de675a7b96763d399168c69e95a41c\",\"result\":{\"operationId\":\"fd25e499-54e8-4016-b227-ab4c4db5e7e1\",\"type\":\"TRANSFER\",\"sourceAccountId\":1791158116942,\"targetAccountId\":1791158116943,\"amount\":20.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":80.00,\"targetBalanceAfter\":20.00,\"completedAt\":\"2026-10-04T23:55:20.724191308Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:20.824727+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "5bf5dfaa-2345-43f9-beb7-07f05f8e25e7",
+          "claimed_at": "2026-10-04T23:55:20.816612+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "316adac9-9f5e-49e3-8494-7ee94ea32c76",
+          "operation_id": "0f192f39-4c8a-4634-b188-7cb2a4075a84",
+          "payload": "{\"eventId\":\"316adac9-9f5e-49e3-8494-7ee94ea32c76\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"0f192f39-4c8a-4634-b188-7cb2a4075a84\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":88.00,\"completedAt\":\"2026-10-04T23:55:23.005777952Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:23.607922+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "45abf30e-ba9b-4055-83ce-82317efec4d8",
+          "claimed_at": "2026-10-04T23:55:23.597262+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "35df3fdc-f6ca-4678-b339-db1783130b3f",
+          "operation_id": "e3754e3f-96be-4def-a3f8-7aab871fe215",
+          "payload": "{\"eventId\":\"35df3fdc-f6ca-4678-b339-db1783130b3f\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"e3754e3f-96be-4def-a3f8-7aab871fe215\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":81.00,\"completedAt\":\"2026-10-04T23:55:22.486542352Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:23.134242+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "75fa417c-305c-4874-8319-ad4685b1a277",
+          "claimed_at": "2026-10-04T23:55:22.747404+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "43a7a751-5226-4f7c-81f0-a758197c40a4",
+          "operation_id": "f199b5a6-3b84-4313-bef9-11af08965c57",
+          "payload": "{\"eventId\":\"43a7a751-5226-4f7c-81f0-a758197c40a4\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"f199b5a6-3b84-4313-bef9-11af08965c57\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":94.00,\"completedAt\":\"2026-10-04T23:55:23.425038986Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:23.763874+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "7b9c147d-456f-464e-a8c2-de8b0ee9f09c",
+          "claimed_at": "2026-10-04T23:55:23.754764+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "48b8aa7b-df8f-47c8-94c8-51ccb5b333f5",
+          "operation_id": "da7fa0eb-e1d2-4e2a-b586-df64937f92e7",
+          "payload": "{\"eventId\":\"48b8aa7b-df8f-47c8-94c8-51ccb5b333f5\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"da7fa0eb-e1d2-4e2a-b586-df64937f92e7\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":87.00,\"completedAt\":\"2026-10-04T23:55:22.993782229Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:23.918719+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "de42db5c-a10a-4a4b-aca8-04c3e5ff194b",
+          "claimed_at": "2026-10-04T23:55:23.911914+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "557f5279-c964-4a28-9d6d-1409d56115ce",
+          "operation_id": "304c5e86-dc23-4854-bb3e-b2e574e60bb9",
+          "payload": "{\"eventId\":\"557f5279-c964-4a28-9d6d-1409d56115ce\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"304c5e86-dc23-4854-bb3e-b2e574e60bb9\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":90.00,\"completedAt\":\"2026-10-04T23:55:23.381183405Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:24.074727+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "948f2ca4-a733-41e2-b38d-dbcb180a9da8",
+          "claimed_at": "2026-10-04T23:55:24.067604+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "61844008-43a8-433d-96bd-6b79bcc67734",
+          "operation_id": "22924d55-a76f-4944-90e3-ea5784192787",
+          "payload": "{\"eventId\":\"61844008-43a8-433d-96bd-6b79bcc67734\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"22924d55-a76f-4944-90e3-ea5784192787\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":86.00,\"completedAt\":\"2026-10-04T23:55:22.982086468Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:24.22929+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "0d35a37d-b83d-4eba-a0b5-d3be65dcf878",
+          "claimed_at": "2026-10-04T23:55:24.221819+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "6aadd729-e052-4158-aa29-9181221d2788",
+          "operation_id": "1e6da03a-828f-45ed-a9df-6c49a6223285",
+          "payload": "{\"eventId\":\"6aadd729-e052-4158-aa29-9181221d2788\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"1e6da03a-828f-45ed-a9df-6c49a6223285\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":97.00,\"completedAt\":\"2026-10-04T23:55:23.773499265Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:24.384646+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "75b1e63e-672c-4827-b2ae-cae3e1068215",
+          "claimed_at": "2026-10-04T23:55:24.378333+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "79934733-2cc4-477f-90c5-e1164423d889",
+          "operation_id": "93034ffb-2540-41c9-8e47-12c608c35651",
+          "payload": "{\"eventId\":\"79934733-2cc4-477f-90c5-e1164423d889\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"93034ffb-2540-41c9-8e47-12c608c35651\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":99.00,\"completedAt\":\"2026-10-04T23:55:23.791870327Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:24.539195+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "2cd6460d-7614-40b9-970f-7efd82574e49",
+          "claimed_at": "2026-10-04T23:55:24.532523+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "852a9b33-0bdd-4571-bbbf-51ae049ff9ef",
+          "operation_id": "96d63ea1-78b1-4c87-81c8-601ec5834c56",
+          "payload": "{\"eventId\":\"852a9b33-0bdd-4571-bbbf-51ae049ff9ef\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"96d63ea1-78b1-4c87-81c8-601ec5834c56\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":98.00,\"completedAt\":\"2026-10-04T23:55:23.786289463Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:24.694551+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "548a86b7-087f-4eee-bec9-1a7eb8d70d99",
+          "claimed_at": "2026-10-04T23:55:24.687642+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "8b5d62a6-45c6-4b4a-ba9a-4bbacdf1b2e0",
+          "operation_id": "83926a4d-7d6c-4af6-a856-986de82fb8bd",
+          "payload": "{\"eventId\":\"8b5d62a6-45c6-4b4a-ba9a-4bbacdf1b2e0\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"83926a4d-7d6c-4af6-a856-986de82fb8bd\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":93.00,\"completedAt\":\"2026-10-04T23:55:23.415760053Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:24.84821+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "429e59a6-84d5-49b7-9147-d88951c88c67",
+          "claimed_at": "2026-10-04T23:55:24.842364+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "8ccd37b2-e52c-4494-aeb9-c919b6b79928",
+          "operation_id": "6b2c1588-7fa1-4f37-abd4-680acf917ac3",
+          "payload": "{\"eventId\":\"8ccd37b2-e52c-4494-aeb9-c919b6b79928\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"6b2c1588-7fa1-4f37-abd4-680acf917ac3\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":92.00,\"completedAt\":\"2026-10-04T23:55:23.407795412Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:25.00476+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "4c96a625-a239-43fb-b5b4-1f1745bde889",
+          "claimed_at": "2026-10-04T23:55:24.997662+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "94ef38de-72df-42c0-8495-2873077562ba",
+          "operation_id": "cad442c5-0bbb-4753-954f-c9a84c478e7d",
+          "payload": "{\"eventId\":\"94ef38de-72df-42c0-8495-2873077562ba\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"cad442c5-0bbb-4753-954f-c9a84c478e7d\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":82.00,\"completedAt\":\"2026-10-04T23:55:22.537865188Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:22.966837+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "94f7d1e6-c1a2-40fd-bc11-15c077c11782",
+          "claimed_at": "2026-10-04T23:55:22.954481+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "9f3e2bbe-8838-41ee-9b28-d49a5e407325",
+          "operation_id": "c03e5591-9b7c-4cc9-9054-09a5aa9b87a6",
+          "payload": "{\"eventId\":\"9f3e2bbe-8838-41ee-9b28-d49a5e407325\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"c03e5591-9b7c-4cc9-9054-09a5aa9b87a6\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":96.00,\"completedAt\":\"2026-10-04T23:55:23.745153491Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:25.15765+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "17e48be4-4af9-4f64-97ff-f3e9d4c5a30f",
+          "claimed_at": "2026-10-04T23:55:25.151105+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "ad7b99d3-9c3e-4235-8033-6d9c92dc42f9",
+          "operation_id": "eb22c480-9f0d-4d9a-a452-c5bb77abffeb",
+          "payload": "{\"eventId\":\"ad7b99d3-9c3e-4235-8033-6d9c92dc42f9\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"ed3959195c3b094818ab577cfe2416108e3f5b877b355d1f340f4624c63edcda\",\"result\":{\"operationId\":\"eb22c480-9f0d-4d9a-a452-c5bb77abffeb\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":100.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":100.00,\"completedAt\":\"2026-10-04T23:55:20.043635019Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:20.512012+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "fb973428-873f-48a8-b935-35d8fe61348d",
+          "claimed_at": "2026-10-04T23:55:20.231633+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "b6c2a016-8db3-49f1-8df7-7af8ab582048",
+          "operation_id": "f404bdf9-2756-4291-9664-5a815b587b64",
+          "payload": "{\"eventId\":\"b6c2a016-8db3-49f1-8df7-7af8ab582048\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"f404bdf9-2756-4291-9664-5a815b587b64\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":95.00,\"completedAt\":\"2026-10-04T23:55:23.609366880Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:25.313733+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "4a43f149-78c9-4830-b7be-f484933b94b9",
+          "claimed_at": "2026-10-04T23:55:25.307308+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "c096a221-ad04-4b8f-89d9-d67477083d9c",
+          "operation_id": "a128af7b-9410-4746-94a7-a8fe4403959e",
+          "payload": "{\"eventId\":\"c096a221-ad04-4b8f-89d9-d67477083d9c\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"a128af7b-9410-4746-94a7-a8fe4403959e\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":85.00,\"completedAt\":\"2026-10-04T23:55:22.972242675Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:25.467507+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "8c24ad45-4bc0-4e4b-bc2f-9d9c25638c9d",
+          "claimed_at": "2026-10-04T23:55:25.460677+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "d610de2e-0de4-4e26-b600-a61ce97b456e",
+          "operation_id": "2c8fb2bb-579f-45b1-9a1c-0cc5028f3b4c",
+          "payload": "{\"eventId\":\"d610de2e-0de4-4e26-b600-a61ce97b456e\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"2c8fb2bb-579f-45b1-9a1c-0cc5028f3b4c\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":83.00,\"completedAt\":\"2026-10-04T23:55:22.864445711Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:25.622287+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1bc02f50c148:0856fefb-8de3-4034-b370-f5b4832b78b2",
+          "claim_token": "0bbe79a5-f4ec-42f4-b71b-8371e7f49d8d",
+          "claimed_at": "2026-10-04T23:55:25.616541+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "d94607d4-55d3-435d-80b7-3472fcc4f605",
+          "operation_id": "788376d1-c35d-4d85-ad13-7bd02514d585",
+          "payload": "{\"eventId\":\"d94607d4-55d3-435d-80b7-3472fcc4f605\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"936b604b02053ac0c5a7ea9e7daa5c24c4e7c65e42702d5d193c0b7fe2ed4863\",\"result\":{\"operationId\":\"788376d1-c35d-4d85-ad13-7bd02514d585\",\"type\":\"DEPOSIT\",\"sourceAccountId\":null,\"targetAccountId\":1791158116942,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":null,\"targetBalanceAfter\":84.00,\"completedAt\":\"2026-10-04T23:55:22.964447087Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:25.776862+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "11e3621d-a8d2-4e31-a580-950b2278c67f",
+          "claimed_at": "2026-10-04T23:55:25.77003+00:00",
+          "lease_until": null,
+          "retry_at": null
+        },
+        {
+          "event_id": "f20cdc96-7335-492e-a5d8-80b12823668e",
+          "operation_id": "5b26a510-f1b5-45c0-aea7-f3fa6e7e65ba",
+          "payload": "{\"eventId\":\"f20cdc96-7335-492e-a5d8-80b12823668e\",\"version\":1,\"actor\":\"banco-payment-operator\",\"requestHash\":\"d63fda69a6760142339eab8b8ca64e98ab1134448e2ad3ba57ce0594e57f9513\",\"result\":{\"operationId\":\"5b26a510-f1b5-45c0-aea7-f3fa6e7e65ba\",\"type\":\"PAYMENT\",\"sourceAccountId\":1791158116942,\"targetAccountId\":null,\"amount\":1.00,\"status\":\"COMPLETED\",\"sourceBalanceAfter\":79.00,\"targetBalanceAfter\":null,\"completedAt\":\"2026-10-04T23:55:21.396529140Z\"}}",
+          "status": "PUBLISHED",
+          "attempts": 1,
+          "published_at": "2026-10-04T23:55:21.436104+00:00",
+          "last_error": null,
+          "claim_owner": "banco-legacy-account-service:1a2f026fc6b1:714f221f-0e13-4fd9-b3dc-9468556becfa",
+          "claim_token": "7ead6073-a13d-4998-a131-92e129135e43",
+          "claimed_at": "2026-10-04T23:55:21.429317+00:00",
+          "lease_until": null,
+          "retry_at": null
+        }
+      ],
+      "audits": 25,
+      "balances": [
+        {
+          "account_id": 1791158116942,
+          "balance": 101.0
+        },
+        {
+          "account_id": 1791158116943,
+          "balance": 20.0
+        }
+      ]
+    }
+  }
+}

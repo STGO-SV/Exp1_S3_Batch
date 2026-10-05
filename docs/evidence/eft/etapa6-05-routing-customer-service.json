@@ -1,0 +1,204 @@
+{
+  "capturedAt": "2026-10-05T00:15:30.357407+00:00",
+  "data": {
+    "mechanism": "Eureka UP + round-robin runner + curl --resolve (DNS TLS identity, selected replica IP)",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:813eebb19f99",
+          "hostname": "172.20.0.10",
+          "ip": "172.20.0.10",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.10",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+          "name": "Prueba EFT 4 actualizada",
+          "version": 1
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:57570c1c0ab0",
+          "hostname": "172.20.0.7",
+          "ip": "172.20.0.7",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.7",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+          "name": "Prueba EFT 4 actualizada",
+          "version": 1
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:813eebb19f99",
+          "hostname": "172.20.0.10",
+          "ip": "172.20.0.10",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.10",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+          "name": "Prueba EFT 4 actualizada",
+          "version": 1
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:57570c1c0ab0",
+          "hostname": "172.20.0.7",
+          "ip": "172.20.0.7",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.7",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+          "name": "Prueba EFT 4 actualizada",
+          "version": 1
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:813eebb19f99",
+          "hostname": "172.20.0.10",
+          "ip": "172.20.0.10",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.10",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+          "name": "Prueba EFT 4 actualizada",
+          "version": 1
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:57570c1c0ab0",
+          "hostname": "172.20.0.7",
+          "ip": "172.20.0.7",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.7",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+          "name": "Prueba EFT 4 actualizada",
+          "version": 1
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:813eebb19f99",
+          "hostname": "172.20.0.10",
+          "ip": "172.20.0.10",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.10",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+          "name": "Prueba EFT 4 actualizada",
+          "version": 1
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      },
+      {
+        "method": "GET",
+        "url": "https://customer-service:8087/api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+        "instance": {
+          "instanceId": "banco-legacy-customer-service:57570c1c0ab0",
+          "hostname": "172.20.0.7",
+          "ip": "172.20.0.7",
+          "status": "UP",
+          "port": 8087,
+          "secure": true
+        },
+        "connectedIp": "172.20.0.7",
+        "status": 200,
+        "request": null,
+        "response": {
+          "customerId": "d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad",
+          "name": "Prueba EFT 4 actualizada",
+          "version": 1
+        },
+        "idempotencyKey": null,
+        "certificateAndServiceHostnameVerified": true
+      }
+    ],
+    "containerAccessLogs": [
+      {
+        "container": "banco-legacy-customer-service-1",
+        "requests": [
+          "[05/Oct/2026:00:15:21 +0000] GET /api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad 200",
+          "[05/Oct/2026:00:15:21 +0000] GET /api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad 200",
+          "[05/Oct/2026:00:15:22 +0000] GET /api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad 200",
+          "[05/Oct/2026:00:15:22 +0000] GET /api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad 200"
+        ]
+      },
+      {
+        "container": "banco-legacy-customer-service-2",
+        "requests": [
+          "[05/Oct/2026:00:15:20 +0000] GET /api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad 200",
+          "[05/Oct/2026:00:15:21 +0000] GET /api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad 200",
+          "[05/Oct/2026:00:15:22 +0000] GET /api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad 200",
+          "[05/Oct/2026:00:15:22 +0000] GET /api/customers/d4d5cf63-c6c8-4cb5-b6cc-5154ac3a95ad 200"
+        ]
+      }
+    ]
+  }
+}
