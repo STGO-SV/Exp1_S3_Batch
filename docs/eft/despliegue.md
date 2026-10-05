@@ -1,4 +1,4 @@
-# Despliegue local EFT: base y escala
+# Procedimiento técnico interno: despliegue local EFT
 
 Procedimiento demostrado en Etapa 6. Docker Desktop activo y .env/.local/compose existentes. PostgreSQL usa volumen persistente banco-legacy_postgres-data. Conservar datos y state local del runner.
 
@@ -45,3 +45,7 @@ python -B scripts/validate-eft-scale.py final
 El base retira réplicas adicionales, restaura host 8085 y defaults de clientes. final comprueba filas anteriores, finanzas del run, Eureka singleton, health, lag, infraestructura preservada, BFF legacy y HTTPS host 8085.
 
 No ejecutar down -v, borrar volúmenes ni resetear datos. No push/merge/cloud en esta etapa. La preparación de nube es un pendiente técnico descrito en informe-etapa-6-escalabilidad.md; estos comandos son locales.
+
+## Entregable consolidado
+
+La versión para evaluación está en [despliegue.md de raíz](../../despliegue.md), con preparación cloud explícitamente pendiente de confirmación docente. Este procedimiento interno conserva los comandos probados de Etapa 6. Las fases flow/outbox tienen precondiciones de state y escenario inicial: consultar la guía de raíz antes de reproducir sobre la instancia ya validada.

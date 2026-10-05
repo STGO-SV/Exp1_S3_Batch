@@ -1,8 +1,8 @@
-> Contrato vigente al cierre de Etapa 3; reemplaza las propuestas financieras anteriores.
+> Contrato vigente actualizado al cierre de Etapa 6. Etapas 4–6 validaron runtime/TLS y coordinación horizontal sin cambiar las APIs. El título Etapa 2 conserva procedencia histórica.
 
 # EFT Etapa 2 — contratos de servicios
 
-Diseño previo a implementación. Maestros registrales nuevos; operaciones financieras Payment solo propuestas.
+Maestros registrales y operaciones financieras implementados y validados. Las propuestas iniciales se conservan en el modelo de dominio histórico; este documento describe las APIs vigentes.
 JSON, Authorization: Bearer JWT válido (issuer/audience/firma/tiempo + roles), scopes de operación.
 Errores JSON de dominio: {"code":"...","message":"..."}; OAuth2 401/403 conserva mecanismo Resource Server.
 Nunca interpretar customerId o sub técnico como autenticación de cliente final.
@@ -92,10 +92,10 @@ Tipo semántico derivado de result.type: DepositCompleted / TransferCompleted / 
 No incluye JWT, claves OAuth ni PII inventada. actor es cliente técnico.
 
 eft_financial_outbox se inserta en la misma transacción de saldo/comprobante.
-Publicador Account consulta hasta100 PENDING cada2s, espera ack hasta5s, aumenta attempts; solo ack exitoso permite PUBLISHED/published_at.
-Error deja PENDING y last_error con clase de excepción; siguiente ciclo reintenta.
-Entrega al menos una vez: un ack perdido o caída antes de marcar publicado permite duplicados con mismo eventId.
-Publicador pensado para instancia única en esta etapa; antes de escalar requiere coordinación de filas/leases y validación real.
+Publicador Account reclama una fila mediante PostgreSQL FOR UPDATE SKIP LOCKED y UPDATE RETURNING. Estado PROCESSING, owner/token y lease de 30s; recupera claims vencidos. Base: hasta 20 claims por ciclo cada 2s; escala: uno cada 300ms. Espera ack hasta 5s; solo ownership/lease vigente tras ack permite PUBLISHED/published_at.
+Error devuelve el claim propio a PENDING con retry diferido de 2s. No mantiene la transacción DB abierta durante Kafka. Un token obsoleto no puede confirmar un claim recuperado.
+Entrega al menos una vez: ack perdido o caída antes del update permite duplicados con mismo eventId; deduplicación Payment mantiene auditoría lógica única. No garantiza exactly-once físico.
+Dos publishers simultáneos validados en Etapa 6. Véase [informe de escala](informe-etapa-6-escalabilidad.md).
 
 Payment consume con grupo financial-payment-audit: valida estructura, hash, comprobante y correlación actor/request con operación existente.
 Persiste auditoría eft_payment_event_audit deduplicada por eventId y reconcilia PENDING dentro de una transacción local.

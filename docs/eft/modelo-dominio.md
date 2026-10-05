@@ -1,3 +1,5 @@
+> Lectura final: las propuestas de Etapas 1/2 son históricas. El dominio operacional se consolidó en Etapa 3; validación real y coordinación de publishers se acreditan en Etapas 4–6. APIs vigentes: [contratos-servicios.md](contratos-servicios.md); síntesis: [borrador técnico](borrador-informe-tecnico.md).
+
 > Documento evolutivo: Etapas 1/2 describen estado histórico. Las decisiones vigentes de Etapa 3 al final sustituyen las propuestas pendientes de saldo y Payment.
 
 # EFT Etapa 2 — modelo de dominio mínimo
