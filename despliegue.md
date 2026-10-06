@@ -52,9 +52,9 @@ Se restaura host 8085, defaults y singleton. final requiere state/snapshot de su
 
 Resultado ejecutado Etapa 6: seis registros Eureka UP, routing en dos réplicas por servicio, failover individual, publishers coordinados, grupo de dos consumidores/3 particiones/lag 0 y retorno a 13 healthy. Ver [informe](docs/eft/informe-etapa-6-escalabilidad.md) y [estado final](docs/evidence/eft/etapa6-12-compose-final.json). Etapa 7 no volvió a ejecutar escalado.
 
-## B. Preparación para despliegue en nube — pendiente de confirmación docente
+## B. Despliegue cloud — pendiente de ejecución en laboratorio docente
 
-**Procedimiento propuesto; no ejecutado todavía.** Cloud/AWS real: PENDIENTE DOCENTE. No se han creado recursos, publicado imágenes en registry cloud ni validado DNS externo. Esta preparación no sustituye evidencia de despliegue real si la pauta finalmente lo exige.
+**Procedimiento conceptual propuesto; no ejecutado todavía.** Despliegue cloud: **PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE**. Se recibió invitación a un laboratorio nuevo para despliegue real de contenedores. La sección conceptual AWS se conserva como referencia; será sustituida/complementada con el procedimiento efectivamente ejecutado y sus evidencias. No se han creado recursos, publicado imágenes cloud ni validado DNS externo. Esta corrección documental no diseña ni ejecuta recursos.
 
 | Área | Preparación necesaria | Mapeo AWS conceptual, sin recursos existentes |
 |---|---|---|
@@ -75,6 +75,6 @@ Resultado ejecutado Etapa 6: seis registros Eureka UP, routing en dos réplicas 
 | Rollback | Volver al digest previo compatible, preservar datos; no deshacer columnas aditivas mientras consumidores las requieran | Revisión previa de servicio/pipeline |
 | Red | Subredes privadas, security groups mínimos, salida controlada, auth de broker/DB, acceso de administración auditado | VPC / security groups / IAM |
 
-Decisiones antes de ejecutar: respuesta docente, proveedor y presupuesto, región real, dominio/issuer, PKI interna, migraciones, políticas de identidad y backups. Definir IaC/pipeline solo tras acordar esas decisiones; este documento no contiene comandos AWS ni ARNs/IDs inventados.
+Antes de una ejecución posterior autorizada: revisar las instrucciones/recursos del laboratorio docente, sus restricciones y parámetros reales. No se fijan aquí recursos, región, IDs, ARNs, dominio o costos. La guía de laboratorio y los resultados reales determinarán el procedimiento final; esta sección no contiene comandos AWS ejecutados.
 
 La inyección de secretos desde Secrets Manager/Parameter Store se documenta en [Amazon ECS: datos sensibles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html). La separación de seguridad de red, certificados del listener y cifrado hacia contenedores se apoya en [Amazon ECS: seguridad de red](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-network.html). Estas referencias sustentan la preparación conceptual, no una validación del proyecto en AWS.

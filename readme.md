@@ -14,7 +14,7 @@ Tecnologías: Java 21, Maven, Spring Boot 3.3.4, Spring Cloud 2023.0.6, Spring B
 - [Instrucciones](instrucciones.md), [despliegue](despliegue.md), [borrador técnico](docs/eft/borrador-informe-tecnico.md), [matriz de rúbrica](docs/eft/matriz-rubrica-evidencias.md).
 - [Evidencias priorizadas](docs/eft/indice-evidencias-finales.md); archivos en `docs/evidence/eft/` y Batch histórico en `docs/evidence/semana-8/`.
 - Prueba principal desde raíz: `mvn verify`. Con PostgreSQL Compose preparado: `./scripts/test-eft-scale.ps1 -TestMode Verify -LogName evaluacion-verify.log` habilita también los seis tests PostgreSQL aislados.
-- Validado: HTTPS/OAuth, operaciones/idempotencia, Kafka/DLT, resiliencia y 2+2+2; entorno restaurado a 1+1+1. Cloud real y plantilla PDF: pendientes docentes; video: pendiente entrega.
+- Validado: HTTPS/OAuth, operaciones/idempotencia, Kafka/DLT, resiliencia y 2+2+2; entorno restaurado a 1+1+1. Cloud: PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE disponible; plantilla PDF: pendiente de localizar; PDF/video: pendientes de entrega. Pauta e instrucciones oficiales conocidas (100 puntos).
 
 Secretos, `.env`, claves privadas y `.local/` no están versionados. El inicializador crea/reutiliza material local; no publicar tokens ni logs crudos.
 

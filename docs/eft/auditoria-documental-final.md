@@ -1,23 +1,23 @@
 # Auditoría documental final EFT — Etapa 7
 
-Fecha: 5 de octubre de 2026, America/Santiago. Rama eft; base local a31c798, status inicialmente limpio. Sin push/merge/cloud/PDF/video. Alcance: inventario físico, lectura de documentación, contraste con fuentes/contratos/runners y selección de pruebas registradas. No se atribuye ejecución nueva a capturas históricas.
+Fecha: 5 de octubre de 2026, America/Santiago; corrección contra pauta oficial: 6 de octubre de 2026. Rama eft; base local a31c798, status inicialmente limpio. Sin push/merge/cloud/PDF/video. Alcance: inventario físico, lectura de documentación, contraste con fuentes/contratos/runners y selección de pruebas registradas. No se atribuye ejecución nueva a capturas históricas.
 
 ## Hallazgos y decisiones
 
 1. README.md raíz era Semana 8, con 10 módulos/9 imágenes/11 servicios. EFT tiene 12 módulos y 13 servicios base. Windows no permite mantener README.md y readme.md como archivos distintos por mayúsculas/minúsculas: se conserva íntegro el histórico como [README-semana-8.md](../../README-semana-8.md) y se crea [readme.md final](../../readme.md). El histórico no se convierte en informe final.
 2. Informes Etapas 1–6 preservan decisiones/estado de cada fecha. Etapas 1–3 sin Docker y Etapa 4 con BFF TLS pendiente no describen el estado posterior. Los avisos actuales en plan/modelo evitan leer propuestas como pendientes vigentes.
 3. contratos-servicios.md decía Payment solo propuesto y publisher financiero singleton; incoherente con código/Etapas 3–6. Se corrigió únicamente texto a contratos implementados y claim/lease vigente. No cambió código/configuración/API.
-4. El despliegue interno solo cubría escala local. Raíz despliegue.md consolida entrega local y separa preparación cloud pendiente docente; documento interno preservado y enlazado.
+4. El despliegue interno solo cubría escala local. Raíz despliegue.md consolida entrega local y separa procedimiento conceptual cloud y ejecución pendiente en laboratorio docente; documento interno preservado y enlazado.
 5. No existían instrucciones finales, matriz de ocho criterios, borrador integral, índice priorizado, guion ni gaps de cierre. Se prepararon esos documentos sin PDF/plantilla ficticia.
 6. Runners no son demos genéricas: baseline sobrescribe state; regression BFF compara IDs de Etapa 5; flow scale rechaza state previo y outbox asume la captura inicial. Las instrucciones explican reproducción en copia preparada y conservación de la ejecución actual.
 7. Evidencia EFT incluye snapshots JSON/TXT, no todos son capturas gráficas. Batch runtime principal procede de Semana 8 y se etiqueta histórico. Tests vigentes cubren Batch/restart; no afirmar restart PostgreSQL multiworker o remote partitioning.
-8. La pauta íntegra/puntajes máximos no están en los materiales recibidos. La matriz usa la transcripción del usuario y marca puntajes PENDIENTE DOCENTE. C6 cloud, plantilla PDF, video/publicación y disponibilidad del dataset están separados en gaps.
+8. La pauta oficial y las instrucciones específicas (forma A) están disponibles y fueron leídas. Puntajes máximos C1–C8: 10/15/15/15/15/10/10/10, total 100. La matriz corrige C1 a los cinco procesos oficiales. Plantilla PDF pendiente de localizar; laboratorio docente cloud disponible, aún sin ejecutar. Video/publicación y dataset se separan en gaps.
 9. Verificación Etapa 7: mvn verify BUILD SUCCESS, 256 casos actuales, cero fallos/errores/skipped, seis PostgreSQL habilitados. Conteo de log vigente excluye un XML residual de prueba movida. Cuatro KafkaReal externos heredados no se habilitaron; Kafka Docker real tiene evidencia Etapas 4/6.
 10. Solo lectura adicional: trece servicios healthy y cuatro health HTTPS con CA/hostname vigentes. No recreación, escalado, importación Batch ni solicitudes financieras nuevas en Etapa 7.
 
 ## Fuentes normativas y límites de auditoría
 
-Requisitos proporcionados por el usuario: C1–C8, entrega readme/instrucciones/despliegue, video cuatro puntos/5–7 min. No se recibió archivo oficial de rúbrica o plantilla. AWS y formato PDF siguen consultas independientes pendientes. No afirmar puntaje ni cumplimiento cloud.
+Fuentes oficiales: PBY2203_EFT_S9_Pauta_de_evaluación_EFT.docx y PBY2203_EFT_S9_Instrucciones_específicas (forma A).docx, disponibles en la carpeta académica S9-EFT. C1–C8 y máximos 100 conocidos; los máximos no constituyen una nota asignada. Instrucciones: readme/enlace GitHub, informe PDF en plantilla oficial, instrucciones y despliegue cloud, junto al video MP4 5–7 min con webcam/evidencias y cuatro puntos en una misma carpeta. Falta localizar PBY2203_EFT_S9_plantilla_PDF; cloud PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE, sin afirmar ejecución.
 
 Documentos raíz constituyen entregables Markdown listos para revisión; informe PDF y video todavía no están entregados. SHA remoto final se registrará tras autorización de publicación; las referencias remotas locales no contienen origin/eft. No se hizo consulta destructiva o push.
 
@@ -44,7 +44,7 @@ Propósito, vigencia y tratamiento individual. Duplicación: informes/capturas p
 | [docker/Dockerfile](../../docker/Dockerfile) | Build parametrizado por módulo | Vigente | Referenciar |
 | [docs/benchmark-results.csv](../benchmark-results.csv) | Arquitectura/operación/benchmark de semana previa | Histórica; no refleja todo EFT | Conservar/referenciar según alcance; no consolidar logs masivos |
 | [docs/eft/auditoria-etapa-6-escalabilidad.md](auditoria-etapa-6-escalabilidad.md) | Bloqueos antes de escala | Histórica previa a correcciones | Conservar como trazabilidad |
-| [docs/eft/auditoria-inicial.md](auditoria-inicial.md) | Diagnóstico previo / cinco procesos / revisión Batch | Histórica Etapa 1, útil para límites Batch | Conservar y referenciar; no interpretar pendientes antiguos como actuales |
+| [docs/eft/auditoria-inicial.md](auditoria-inicial.md) | Diagnóstico previo / clasificación funcional histórica / revisión Batch | Histórica Etapa 1, útil para límites Batch | Conservar y referenciar; no interpretar pendientes antiguos como actuales |
 | [docs/eft/borrador-informe-tecnico.md](borrador-informe-tecnico.md) | Síntesis de 23 secciones para plantilla | Preparado; no PDF final | Consolidar en plantilla al recibirla |
 | [docs/eft/contratos-servicios.md](contratos-servicios.md) | APIs actuales / scopes / errores / persistencia | Vigente, publisher actualizado Etapa 6 | Conservar y referenciar |
 | [docs/eft/datos-legacy-etapa2.json](datos-legacy-etapa2.json) | Agregados de inspección CSV sin inferir identidad | Histórica Etapa 2 | Conservar evidencia del diseño |
@@ -59,7 +59,7 @@ Propósito, vigencia y tratamiento individual. Duplicación: informes/capturas p
 | [docs/eft/informe-etapa-4.md](informe-etapa-4.md) | Cierre y evidencia de etapa específica | Histórica por etapa; última complementa estado actual | Conservar íntegro, consolidar hallazgos en borrador |
 | [docs/eft/informe-etapa-5-bff-tls.md](informe-etapa-5-bff-tls.md) | Cierre y evidencia de etapa específica | Histórica por etapa; última complementa estado actual | Conservar íntegro, consolidar hallazgos en borrador |
 | [docs/eft/informe-etapa-6-escalabilidad.md](informe-etapa-6-escalabilidad.md) | Cierre y evidencia de etapa específica | Histórica por etapa; última complementa estado actual | Conservar íntegro, consolidar hallazgos en borrador |
-| [docs/eft/matriz-rubrica-evidencias.md](matriz-rubrica-evidencias.md) | C1–C8 → requisito/implementación/evidencia/documento | Vigente; puntajes oficiales pendientes | Conservar y contrastar pauta antes de entregar |
+| [docs/eft/matriz-rubrica-evidencias.md](matriz-rubrica-evidencias.md) | C1–C8 → requisito/implementación/evidencia/documento | Vigente Etapa 7.1; puntajes oficiales 10/15/15/15/15/10/10/10 | Conservar; contraste con pauta oficial completado |
 | [docs/eft/modelo-dominio.md](modelo-dominio.md) | Fuentes reales y decisiones evolutivas | Histórica + cierre operacional Etapa 3, referencias actuales | Conservar; no usar propuesta antigua como estado final |
 | [docs/eft/persistencia-operacion-etapa2.md](persistencia-operacion-etapa2.md) | Operación del diseño registral inicial | Histórica Etapa 2 | Solo referencia histórica, consolidar ejecución en guías raíz |
 | [docs/eft/plan-implementacion.md](plan-implementacion.md) | Historia del plan y estado vigente | Vigente por aviso/cierre Etapa 7 | Conservar y referenciar; fases iniciales son historia |
@@ -204,8 +204,10 @@ Inventariados 163 archivos relevantes más este documento. No incluye secretos l
 - LoadBalancedRetryTests: POST idempotente ante réplica 503; no extrapolar a cualquier operación no idempotente.
 - Semana 7 contiene arquitectura/eventos previos; diagramas actuales consolidan relaciones legacy y modernas sin eliminar antecedentes.
 
-## Entregables preparados / pendientes
+## Entregables preparados / pendientes — estado Etapa 7.1
 
 Raíz: readme.md, instrucciones.md, despliegue.md. Internos: matriz, borrador 23 secciones, diagramas, selección de 20 evidencias, guion ~6 minutos, gaps. Evidencia nueva: etapa7-01-mvn-verify.txt. [Gaps clasificados](gaps-entrega.md) mantienen bloqueantes de entrega, límites y consultas docentes.
 
 Se verifican enlaces locales y ausencia de secretos/JWT en cambios antes de commits. Código productivo, POM, SQL y configuración Docker/Config no se modificaron. Pendientes operacionales antiguos resueltos no se presentan como fallos actuales; límites Batch/BFF/cloud sí se explicitan.
+
+C7: readme/instrucciones preparados; despliegue preparado parcialmente (local validado, cloud real por incorporar); borrador preparado y PDF pendiente de plantilla. C8: guion preparado, video por grabar. La clasificación transacciones/intereses/movimientos/cuentas/clientes se conserva solo como funcional, no como C1. Se corrigió los fences Mermaid segundo y tercero sin alterar arquitectura.

@@ -1,6 +1,6 @@
 # Banco XYZ — borrador del informe técnico EFT
 
-**Markdown preparatorio. No PDF final, no plantilla inventada.** Fecha de consolidación: 5 de octubre de 2026. Basado en código y evidencia Etapas 1–6; ver [matriz](matriz-rubrica-evidencias.md), [índice principal](indice-evidencias-finales.md) y [gaps](gaps-entrega.md).
+**Markdown preparatorio. No PDF final, no plantilla inventada.** Fecha de consolidación: 5 de octubre de 2026; corrección contra pauta oficial: 6 de octubre de 2026. Basado en código y evidencia Etapas 1–6; ver [matriz](matriz-rubrica-evidencias.md), [índice principal](indice-evidencias-finales.md) y [gaps](gaps-entrega.md).
 
 ## 1. Portada placeholder
 
@@ -10,11 +10,13 @@
 
 Se modernizó el dominio operativo sobre la base Batch validada de Semana 8. Los tres BFF conservan contratos y datos históricos; Customer registra identidades declaradas, Account mantiene cuentas/saldos y Payment coordina depósito, transferencia y pago académico. PostgreSQL aporta transacciones locales; OAuth2/HTTPS protegen el acceso técnico; outbox/Kafka permiten auditoría y reconciliación.
 
-La validación real cubrió Docker, TLS, OAuth, datos, idempotencia, fallback, DLT y seis réplicas de negocio simultáneas. El entorno volvió a 13 servicios healthy con Customer/Account/Payment 1+1+1. Etapa 7 añade documentación y verify, no una nueva demostración funcional. Cloud y PDF dependen de respuestas docentes.
+La validación real cubrió Docker, TLS, OAuth, datos, idempotencia, fallback, DLT y seis réplicas de negocio simultáneas. El entorno volvió a 13 servicios healthy con Customer/Account/Payment 1+1+1. Etapa 7 añade documentación y verify, no una nueva demostración funcional. Pauta e instrucciones oficiales disponibles; cloud pendiente de ejecución en laboratorio docente y PDF pendiente de localizar plantilla oficial.
 
 ## 3. Contexto legacy
 
 Los CSV contienen intereses, movimientos anuales y transacciones. No proporcionan identidad inequívoca de clientes, moneda, comercio ni contrapartes de transferencia. Nombres contradictorios impiden inferir titulares. La última salida de intereses sostiene el saldo legacy; ATM mantiene su retiro transaccional sobre ese dominio. Modernizar no permite reinterpretar automáticamente esos resultados como maestros operacionales.
+
+Los procesos funcionales/dominios modernizados se agrupan en transacciones, intereses, movimientos anuales, cuentas/pagos y clientes/titularidad. Esta clasificación contextual no es la lista oficial de C1.
 
 Fuente: [modelo de dominio](modelo-dominio.md). El job anual persiste movimientos; no genera por sí mismo un documento anual final.
 
@@ -24,17 +26,17 @@ Preservar tres jobs y tres canales; separar gestión Customer/Account/Payment; e
 
 No se incluyen login de personas, autorización por titularidad, migración automática de legacy, adquirente externo o cloud ejecutado.
 
-## 5. Cinco procesos críticos de migración — C1
+## 5. Cinco procesos críticos oficiales de migración — C1 (10 puntos)
 
-| Proceso | Motivo de prioridad | Implementación / límite |
-|---|---|---|
-| Transacciones diarias | Calidad/trazabilidad y detección de anomalías | Batch + outbox + Anomaly; CSV no contiene cuenta |
-| Intereses mensuales | Reglas y conciliación de aceptados/rechazados | Job existente; sin periodo natural de lote |
-| Movimientos anuales | Historia para estados de cuenta | Job de persistencia, no documento anual completo |
-| Cuentas y pagos por canal | Operación financiera/control de duplicación | Account/Payment nuevos; BFF preservados legacy |
-| Clientes y vínculo a cuentas | Identidad explícita y ownership del registro | Customer UUID y titulares declarados; sin IAM de personas |
+| Proceso oficial | Implementación y evidencia del proyecto |
+|---|---|
+| Migración de Procesos Batch a Spring Batch | Tres jobs: transaccionesDiariasJob, interesesMensualesJob y estadosCuentaAnualesJob; readers/processors/writers, errores, particiones y restart probado |
+| División del Sistema Monolítico en Microservicios | Customer, Account y Payment con ownership lógico y servicios de plataforma; validación real y seis réplicas UP |
+| Implementación del Patrón Backend for Frontend (BFF) | Web/Mobile/ATM independientes con payloads diferenciados, token relay y contratos históricos preservados |
+| Implementación de Seguridad Distribuida con Spring Cloud Security | OAuth2/Spring Security, JWT verificado, HTTPS, roles por canal y scopes operacionales; no equivale a autorización de personas por titularidad |
+| Integración de Mensajería Asíncrona con Apache Kafka | Anomalías Batch/Anomaly y eventos financieros: outbox Account, auditoría/reconciliación Payment, deduplicación, retry y DLT |
 
-Selección argumentada según las capacidades y requisitos transcritos; no afirmar que esta sea una enumeración oficial de la pauta.
+Corresponde a los cinco procesos nombrados por la pauta oficial. La clasificación funcional del contexto (§3) no sustituye C1. Evidencias concretas: [matriz](matriz-rubrica-evidencias.md) e [índice](indice-evidencias-finales.md).
 
 ## 6. Tres requerimientos clave — C2
 
@@ -110,7 +112,7 @@ Dockerfile parametrizado construye módulos; base 13 servicios. Override escala 
 
 Failover individual mantuvo GET 200 y operación financiera 200/201. Se restauró cada contenedor y finalmente base 1+1+1 con host Account 8085. Datos/volumen/IDs de infraestructura preservados.
 
-[DIAGRAMA ESCALABILIDAD] Fuente: [diagramas.md §3](diagramas.md#3-escalado-local-222). Procedimiento: [despliegue raíz](../../despliegue.md). Cloud se considera por separado como pendiente docente.
+[DIAGRAMA ESCALABILIDAD] Fuente: [diagramas.md §3](diagramas.md#3-escalado-local-222). Procedimiento: [despliegue raíz](../../despliegue.md). Cloud queda PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE; la escala local no acredita despliegue cloud.
 
 ## 16. Validación real
 
@@ -136,17 +138,17 @@ Imagen Account antigua no incluía SQL nuevo: reconstrucción dirigida. BFF aún
 
 ## 19. Limitaciones
 
-Pauta/puntajes completos y plantilla ausentes; cloud sin ejecutar; PDF/video/publicación pendientes. Batch local con idempotencia de nuevos lotes pendiente. BFF/ATM permanecen legacy sin autorización por titularidad; DB compartida y servicios de infraestructura singleton. Ningún benchmark limitado prueba capacidad ilimitada. Claims abandonados comprobados en tests reales, no captura runtime de la ventana exacta de muerte.
+Pauta e instrucciones oficiales conocidas, con máximo 100 puntos. Plantilla PDF pendiente de localizar; laboratorio cloud disponible pero sin ejecutar; PDF/video/publicación pendientes. Batch local con idempotencia de nuevos lotes pendiente. BFF/ATM permanecen legacy sin autorización por titularidad; DB compartida y servicios de infraestructura singleton. Ningún benchmark limitado prueba capacidad ilimitada. Claims abandonados comprobados en tests reales, no captura runtime de la ventana exacta de muerte.
 
 ## 20. Preparación cloud
 
-**Preparación para despliegue en nube — pendiente de confirmación docente. Procedimiento propuesto; no ejecutado todavía.**
+**Despliegue cloud — pendiente de ejecución en laboratorio docente. Procedimiento conceptual propuesto; no ejecutado todavía.**
 
-Imágenes/registry, orquestación, secretos/PKI, PostgreSQL y Kafka gestionados, Config/discovery, ingress, health, logs, migraciones exclusivas, variables, escala, backups/rollback y red se detallan en [despliegue.md B](../../despliegue.md). AWS es mapeo conceptual; no recursos, IDs o resultados inventados. No extrapolar el inicializador local a arranques concurrentes productivos.
+Imágenes/registry, orquestación, secretos/PKI, PostgreSQL y Kafka gestionados, Config/discovery, ingress, health, logs, migraciones exclusivas, variables, escala, backups/rollback y red se detallan en [despliegue.md B](../../despliegue.md). Existe una invitación a laboratorio docente para despliegue real. Los pasos conceptuales AWS se conservarán como referencia y se sustituirán/complementarán con el procedimiento efectivamente ejecutado. No hay recursos, IDs o resultados inventados; no se diseña ni ejecuta cloud en Etapa 7.1. No extrapolar el inicializador local a arranques concurrentes productivos.
 
 ## 21. Mejoras futuras
 
-Cerrar plantilla/pauta/cloud; preparar PDF/video y publicación autorizada. Si se exige despliegue, diseñar PKI/secretos/migraciones/observabilidad y recursos reales. Integración BFF moderna, identidad por titularidad, identidad natural de lotes y HA/benchmark requieren alcance propio; no añadirlos para inflar la evaluación.
+Localizar plantilla, ejecutar laboratorio cloud en una etapa autorizada y completar procedimiento/evidencias reales; preparar PDF/video y publicación autorizada. Integración BFF moderna, identidad por titularidad, identidad natural de lotes y HA/benchmark requieren alcance propio; no añadirlos para inflar la evaluación.
 
 ## 22. Conclusiones
 
@@ -156,4 +158,6 @@ La modernización preserva el funcionamiento legacy y añade un dominio financie
 
 [20 evidencias principales](indice-evidencias-finales.md); [matriz C1–C8](matriz-rubrica-evidencias.md); [auditoría documental](auditoria-documental-final.md); [gaps](gaps-entrega.md); [diagramas](diagramas.md); [guion video](guion-video.md). Informes de etapas conservan detalles y fechas, no se copian íntegros.
 
-Fuentes técnicas primarias para claims, TLS, retries y preparación cloud se citan en los informes de escala y despliegue. Pauta íntegra/plantilla docente: PENDIENTE; anexarlas y ajustar la estructura cuando se reciban.
+Fuentes técnicas primarias para claims, TLS, retries y preparación cloud se citan en los informes de escala y despliegue. Fuentes oficiales leídas: PBY2203_EFT_S9_Pauta_de_evaluación_EFT y PBY2203_EFT_S9_Instrucciones_específicas (forma A). Plantilla PBY2203_EFT_S9_plantilla_PDF pendiente de localizar; adaptar/exportar después.
+
+Requisitos C7/C8 conocidos: readme.md, informe PDF, instrucciones.md y despliegue.md junto al video **MP4, 5–7 minutos, webcam y evidencias, cuatro puntos**, en una misma carpeta. No se han generado ni grabado las piezas finales.

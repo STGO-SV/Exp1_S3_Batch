@@ -1,6 +1,6 @@
 # Guion del video EFT — preparación, sin grabación
 
-Objetivo: **6 minutos**, rango permitido **5–7**. Cuatro puntos exactos; no añadir una demo extensa. Texto aproximado más pausas/transiciones; ensayar con cronómetro antes de grabar. La duración estimada no certifica un video existente.
+Formato oficial: **MP4 con webcam y evidencias del trabajo**. Objetivo: **6 minutos**, rango permitido **5–7**. Cuatro puntos exactos; no añadir una demo extensa. Texto aproximado más pausas/transiciones; ensayar con cronómetro antes de grabar. La duración estimada no certifica un video existente.
 
 Preparar pantalla ampliada sin .env/JWT, logs masivos ni nombres personales. Abrir resultados registrados; no ejecutar money fixtures, escalado o detenciones en vivo. Afirmaciones en pasado se refieren a las pruebas reales Etapas 4–6, no a una ejecución nueva durante el video.
 
@@ -62,7 +62,7 @@ Finalmente, el failover detectó una ruta obsoleta en Payment por una segunda ca
 
 “La verificación final reportó doscientas cincuenta y seis pruebas, sin fallos ni errores, y BUILD SUCCESS. Se habilitaron las seis pruebas PostgreSQL aisladas. Algunos tests Kafka externos heredados no se activan por defecto: la integración con el broker real está acreditada por las pruebas Docker anteriores, no por ese conteo.
 
-Antes de entregar falta recibir la plantilla PDF y confirmar con el docente si cloud exige ejecución real o preparación. Tenemos un borrador técnico, instrucciones, matriz de rúbrica, diagramas y evidencias priorizadas. Este video y el PDF deben cerrarse con el formato exigido; la rama y el commit se publicarán únicamente al autorizarse.
+Antes de entregar falta localizar la plantilla oficial PDF. Está disponible un laboratorio docente para realizar el despliegue cloud; esa validación se realizará antes de la entrega final. La pauta y los requisitos ya son conocidos. Tenemos un borrador técnico, instrucciones, matriz de rúbrica, diagramas y evidencias priorizadas. Este video y el PDF deben cerrarse con el formato exigido; la rama y el commit se publicarán únicamente al autorizarse.
 
 La preparación cloud identifica registry, secretos gestionados, certificados, base de datos, Kafka, observabilidad, backups y migraciones coordinadas. Es una propuesta y no un despliegue AWS realizado.
 
@@ -76,4 +76,4 @@ Como evolución técnica, quedan la integración de los BFF con maestros moderno
 - Mantener exactamente los cuatro puntos anteriores, con transiciones y pantallas preparadas.
 - Verificar que recortes/texto sean legibles y no revelen credenciales/tokens/PII.
 - Distinguir histórico, prueba EFT real, estado final y procedimiento propuesto.
-- Al grabar, añadir ubicación/URL reales y duración verificada a readme/entrega; actualmente PENDIENTE ENTREGA.
+- Grabar MP4 con webcam y evidencias; comprobar 5–7 minutos y los cuatro puntos. Al cerrar, añadir ubicación/URL reales y empaquetar video y cuatro entregables en una misma carpeta; actualmente PENDIENTE ENTREGA.

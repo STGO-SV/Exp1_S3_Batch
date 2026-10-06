@@ -48,4 +48,4 @@ No ejecutar down -v, borrar volúmenes ni resetear datos. No push/merge/cloud en
 
 ## Entregable consolidado
 
-La versión para evaluación está en [despliegue.md de raíz](../../despliegue.md), con preparación cloud explícitamente pendiente de confirmación docente. Este procedimiento interno conserva los comandos probados de Etapa 6. Las fases flow/outbox tienen precondiciones de state y escenario inicial: consultar la guía de raíz antes de reproducir sobre la instancia ya validada.
+La versión para evaluación está en [despliegue.md de raíz](../../despliegue.md), con cloud explícitamente pendiente de ejecución en el laboratorio docente disponible; el procedimiento real se incorporará después de ejecutarlo. Este procedimiento interno conserva los comandos probados de Etapa 6. Las fases flow/outbox tienen precondiciones de state y escenario inicial: consultar la guía de raíz antes de reproducir sobre la instancia ya validada.

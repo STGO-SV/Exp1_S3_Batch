@@ -1,4 +1,4 @@
-> Estado vigente Etapa 7 (2026-10-05): implementación central y escala local validadas; documentación de entrega preparada. Las fases siguientes conservan historia del plan, no pendientes automáticamente vigentes. PDF/plantilla, cloud/docente, video y publicación permanecen abiertos; ver [gaps actuales](gaps-entrega.md).
+> Estado vigente Etapa 7.1 (2026-10-06): pauta e instrucciones oficiales disponibles, máximo 100 puntos; C1 alineado a los cinco procesos oficiales. Documentación de entrega preparada; PDF pendiente de localizar plantilla, cloud pendiente de ejecución en laboratorio docente disponible, video/publicación pendientes. Fases anteriores conservan historia; ver [gaps actuales](gaps-entrega.md).
 
 # EFT — plan de implementación
 
@@ -7,7 +7,7 @@ AWS y plantilla PDF no se presuponen. No producir aún PDF/video.
 
 ## Fase 1 — auditoría y base técnica (esta etapa)
 
-- Matriz trazable, cinco procesos críticos propuestos y brechas por dominio.
+- Matriz inicial histórica, clasificación de procesos funcionales/dominios y brechas. C1 vigente usa cinco procesos oficiales, no esta clasificación.
 - Payment/Customer en reactor con Config/Eureka/JWT/HTTPS/health y tests; sin negocio inventado.
 - Validación de paralelismo Batch y pruebas reales de rollback/restart.
 - Compose opcional para scaffolding y puertos efímeros; base Semana 8 intacta.
@@ -138,4 +138,8 @@ Informe informe-etapa-6-escalabilidad.md, auditoría auditoria-etapa-6-escalabil
 
 Inventario completo, matriz C1–C8 sin puntajes inventados, readme.md/instrucciones.md/despliegue.md raíz, borrador de 23 secciones, tres diagramas Mermaid, selección de 20 evidencias y guion ~6 min. README Semana 8 preservado íntegro como README-semana-8.md por colisión de mayúsculas/minúsculas en Windows. Contratos actualizados a publisher Etapa 6 sin modificar APIs/código/configuración.
 
-mvn verify vía helper: BUILD SUCCESS, 256 tests actuales, 0 fallos/errores/skipped; seis PostgreSQL habilitados. Evidencia etapa7-01-mvn-verify.txt. No repetición de 2+2+2 ni detenciones funcionales. Sin push/merge/PDF/cloud. Confirmar pauta/puntajes oficiales, plantilla y requisito cloud; luego PDF/video/publicación autorizada y acceso al dataset académico.
+mvn verify vía helper: BUILD SUCCESS, 256 tests actuales, 0 fallos/errores/skipped; seis PostgreSQL habilitados. Evidencia etapa7-01-mvn-verify.txt. No repetición de 2+2+2 ni detenciones funcionales. Sin push/merge/PDF/cloud. Ese cierre se corrige en Etapa 7.1: pauta/puntajes conocidos; localizar plantilla y ejecutar posteriormente laboratorio cloud antes de completar PDF/video/publicación autorizada y acceso al dataset.
+
+## Corrección documental Etapa 7.1
+
+Pauta e instrucciones (forma A) leídas: C1–C8 = 10/15/15/15/15/10/10/10, máximo 100. C1: Batch a Spring Batch, división monolito en microservicios, BFF, seguridad distribuida Spring Cloud Security y Kafka. C6 local completo, cloud PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE. C7 entregables preparados/parciales y PDF pendiente de plantilla; C8 guion conocido, video MP4 5–7 min con webcam/evidencias pendiente. Cuatro componentes y video juntos en una carpeta. Corrección de fences Mermaid segundo y tercero. Sin código/configuración, escalado, cloud, PDF, push ni merge.

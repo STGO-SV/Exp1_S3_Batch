@@ -1,6 +1,6 @@
 # Instrucciones de ejecución y evaluación EFT
 
-Guía del estado `eft` al 5 de octubre de 2026. Comandos reutilizados de Etapas 4–6 o de Semana 8; no se ejecutaron nuevamente los escenarios funcionales durante la auditoría documental. Los endpoints modernos se prueban desde la red Compose: Customer y Payment no publican puertos al host. Ejecutar desde la raíz del repositorio en PowerShell 7.
+Guía del estado `eft` al 5 de octubre de 2026; alineación documental con fuentes oficiales el 6 de octubre de 2026. Comandos reutilizados de Etapas 4–6 o de Semana 8; no se ejecutaron nuevamente los escenarios funcionales durante la auditoría documental. Los endpoints modernos se prueban desde la red Compose: Customer y Payment no publican puertos al host. Ejecutar desde la raíz del repositorio en PowerShell 7.
 
 ## 1. Requisitos previos
 
@@ -167,3 +167,11 @@ Esto restaura réplicas/configuración, **no borra fixtures**. Conservar `banco-
 | Runner no satisface precondiciones | Consultar su state/captura y evidencia histórica; no eliminar artefactos para saltar guards |
 
 Para alcance, límites y entregas pendientes, consultar [auditoría final](docs/eft/auditoria-documental-final.md).
+
+## Entrega oficial conocida — corrección Etapa 7.1
+
+Pauta e instrucciones oficiales disponibles. C1–C8: máximos 10/15/15/15/15/10/10/10 = 100. Entregar readme.md con enlace GitHub, informe PDF en plantilla PBY2203_EFT_S9_plantilla_PDF, instrucciones.md y despliegue.md cloud, **en una misma carpeta junto al video MP4 de 5–7 min con webcam/evidencias y cuatro puntos**. Plantilla pendiente de localizar; no se genera PDF en esta corrección.
+
+Laboratorio docente para contenedores cloud disponible: despliegue real PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE, sin ejecutar ni diseñar recursos todavía. El procedimiento efectivamente ejecutado se incorporará a despliegue.md.
+
+La fuente académica de datos indicada en las instrucciones oficiales es el repositorio KariVillagran/fin_legacy_data. El proyecto validado utiliza el árbol sibling bank_legacy_data; comprobar acceso/correspondencia al preparar la entrega, sin descargar, reemplazar ni reimportar datos durante Etapa 7.1.

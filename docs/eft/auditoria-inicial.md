@@ -1,3 +1,5 @@
+> Nota documental Etapa 7.1 (2026-10-06): este diagnóstico conserva el estado inicial. La clasificación funcional siguiente no responde a C1; la lista oficial y los puntajes están en [matriz vigente](matriz-rubrica-evidencias.md). Pauta/instrucciones disponibles; laboratorio cloud pendiente de ejecución y plantilla PDF pendiente de localizar.
+
 # EFT — auditoría técnica inicial
 
 Fecha: 4 de octubre de 2026. Proyecto: banco-legacy-batch.
@@ -9,10 +11,10 @@ Rama de trabajo: eft. Sin push, merge ni despliegue cloud.
 
 Auditoría del código, configuración, esquema SQL, tests, documentación/evidencia de semanas anteriores y encabezados de los nueve CSV de bank_legacy_data/data/semana_1..3.
 No se inspeccionaron filas de una base productiva ni se atribuye a esta ejecución la evidencia histórica de Semana 8.
-No se recibió la pauta oficial completa: la matriz utiliza los requisitos transcritos por el usuario; la calificación máxima sigue siendo decisión docente.
+La matriz inicial se elaboró usando la transcripción de requisitos; queda como diagnóstico histórico, sustituido para evaluación por la matriz vigente alineada con la pauta oficial.
 AWS/despliegue real y plantilla PDF son dos consultas independientes pendientes. Ninguna bloquea esta auditoría ni el scaffolding. No se creó PDF ni video.
 
-## Cinco procesos críticos de modernización
+## Cinco procesos funcionales y dominios modernizados — clasificación histórica
 
 1. Procesamiento de transacciones diarias: validar datos y detectar anomalías con trazabilidad; evitar pérdida al publicar eventos.
 2. Cálculo mensual de intereses: aplicar reglas existentes sobre cuentas y saldos; reconciliar aceptados/rechazados y recuperar fallos.
@@ -20,7 +22,7 @@ AWS/despliegue real y plantilla PDF son dos consultas independientes pendientes.
 4. Operación de cuentas y pagos por canal: mantener consultas Web/Mobile/ATM, evolucionar apertura/cierre/mantenimiento y pagos/transferencias/depósitos con atomicidad e idempotencia.
 5. Gestión del cliente y su relación con cuentas: establecer identidad, titularidad y perfil para autorización por recurso y actualización de información personal.
 
-Son una propuesta basada en las capacidades existentes y requisitos transcritos, no una lista oficial inventada de la pauta.
+Son una clasificación funcional de las capacidades existentes; no corresponden a los cinco procesos de modernización oficiales de C1.
 
 ## Matriz EFT
 

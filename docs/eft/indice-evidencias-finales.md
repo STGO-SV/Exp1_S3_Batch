@@ -6,7 +6,7 @@
 
 | # | Evidencia | Archivo | Qué demuestra / límites | Criterios |
 |---|---|---|---|---|
-| 1 | Validación vigente | [etapa7-01-mvn-verify.txt](../evidence/eft/etapa7-01-mvn-verify.txt) | 256 reportadas, seis PostgreSQL reales, BUILD SUCCESS; caveat KafkaReal. | C3/C7 |
+| 1 | Validación vigente | [etapa7-1-01-mvn-verify.txt](../evidence/eft/etapa7-1-01-mvn-verify.txt) | 256 reportadas, seis PostgreSQL reales, BUILD SUCCESS; caveat KafkaReal. | C3/C7 |
 | 2 | Tres jobs Batch | [semana-8.evidencia-batch-3-jobs-status-COMPLETED.png](../evidence/semana-8/semana-8.evidencia-batch-3-jobs-status-COMPLETED.png) | Captura histórica Semana 8; complementar restart/paralelismo con tests. | C1/C3 |
 | 3 | Tres BFF vigentes | [etapa6-16-bff-legacy-regresion-final.json](../evidence/eft/etapa6-16-bff-legacy-regresion-final.json) | Web/Mobile/ATM 200 y mismas respuestas completas legacy tras escala. | C4 |
 | 4 | TLS BFF | [etapa5-02-tls-vigente-https-health.json](../evidence/eft/etapa5-02-tls-vigente-https-health.json) | Certificado/SAN/validez/hostname/health de los tres. | C4 |

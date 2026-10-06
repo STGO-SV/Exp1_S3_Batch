@@ -43,7 +43,8 @@ No representa bases separadas físicamente ni autorización por titularidad impl
 
 ## 2. Payment → Account → Kafka → auditoría/reconciliación
 
-```sequenceDiagram
+```mermaid
+sequenceDiagram
     participant O as Operador técnico
     participant P as Payment
     participant A as Account
@@ -73,7 +74,8 @@ La respuesta HTTP y el evento pueden competir. Si se pierde la respuesta, Paymen
 
 ## 3. Escalado local 2+2+2
 
-```flowchart TB
+```mermaid
+flowchart TB
     Discovery["Eureka: seis IDs/IPs distintos"]
     Client["Clientes LoadBalancer / runner discovery"]
     subgraph Customer["Customer x2"]
