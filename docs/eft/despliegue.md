@@ -44,8 +44,8 @@ python -B scripts/validate-eft-scale.py final
 
 El base retira réplicas adicionales, restaura host 8085 y defaults de clientes. final comprueba filas anteriores, finanzas del run, Eureka singleton, health, lag, infraestructura preservada, BFF legacy y HTTPS host 8085.
 
-No ejecutar down -v, borrar volúmenes ni resetear datos. No push/merge/cloud en esta etapa. La preparación de nube es un pendiente técnico descrito en informe-etapa-6-escalabilidad.md; estos comandos son locales.
+No ejecutar down -v, borrar volúmenes ni resetear datos. No push/merge/cloud en esta etapa. Estos comandos describen la validación local histórica de Etapa 6; la evidencia AWS posterior se documenta en la guía de raíz.
 
 ## Entregable consolidado
 
-La versión para evaluación está en [despliegue.md de raíz](../../despliegue.md), con cloud explícitamente pendiente de ejecución en el laboratorio docente disponible; el procedimiento real se incorporará después de ejecutarlo. Este procedimiento interno conserva los comandos probados de Etapa 6. Las fases flow/outbox tienen precondiciones de state y escenario inicial: consultar la guía de raíz antes de reproducir sobre la instancia ya validada.
+La versión para evaluación está en [despliegue.md de raíz](../../despliegue.md), con despliegue real AWS EC2 Amazon Linux 2023 + Docker Compose incorporado: [13 servicios base healthy](../evidence/eft/capturas/1_despliegue_contenedores_nube.png), [2+2+2/16 contenedores](../evidence/eft/capturas/aws-escalabilidad-horizontal-2x2x2.png) y [Eureka dos UP por negocio](../evidence/eft/capturas/aws-eureka-2x2x2-up.png). Failovers y recuperación se enlazan en el índice. Una única EC2; no HA multi-host/multi-AZ. Retorno final 1+1+1 informado por el usuario; sin captura consolidada de ese cierre. Este procedimiento interno conserva los comandos probados de Etapa 6. Las fases flow/outbox tienen precondiciones de state y escenario inicial: consultar la guía de raíz antes de reproducir sobre la instancia ya validada.

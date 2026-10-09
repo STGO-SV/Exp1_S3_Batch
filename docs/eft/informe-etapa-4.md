@@ -154,7 +154,7 @@ No limpiar directamente las tablas ni repetir fases a mitad de una ejecución ya
 TLS/hostname se validan; .env y stores locales quedan ignorados por Git.
 
 - docs/evidence/eft/01-entorno-inicializador.json
-- docs/evidence/eft/02-diagnostico-account.json
+- docs/evidence/historico/eft/02-diagnostico-account.json
 - docs/evidence/eft/03-compose-health-esquema.json
 - docs/evidence/eft/04-oauth-domain.json
 - docs/evidence/eft/04-oauth-payment.json
@@ -175,9 +175,9 @@ TLS/hostname se validan; .env y stores locales quedan ignorados por Git.
 - docs/evidence/eft/16-postgresql-final.json
 - docs/evidence/eft/17-compose-final-health.json
 - docs/evidence/eft/18-resilience-recomprobacion.json
-- docs/evidence/eft/19-bff-tls-fuera-alcance.json
+- docs/evidence/historico/eft/19-bff-tls-fuera-alcance.json
 - docs/evidence/eft/20-entorno-versiones.json
-- docs/evidence/eft/21-mvn-verify-final.txt
+- docs/evidence/historico/eft/21-mvn-verify-final.txt
 - docs/evidence/eft/22-postgresql-detalle.json
 
 ## Git

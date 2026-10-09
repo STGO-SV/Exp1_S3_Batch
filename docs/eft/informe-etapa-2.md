@@ -169,9 +169,9 @@ Lista completa respecto de 9c19005, incluyendo este informe:
 5. Interpretación de pago como débito académico, ledger y comprobante/reconciliación; moneda solo si se define.
 6. Autenticación final/delegación y autorización por titularidad; actual OAuth es técnico.
 7. Consumidor/proyección que justifique eventos nuevos.
-8. AWS y plantilla PDF según aclaraciones docentes previas.
+8. AWS según seguimiento de despliegue; plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx ya identificada y disponible. El PDF final y el DOCX editable ya están generados con la plantilla oficial. El video y el cierre/publicación son los pendientes de entrega.
 
 ## Siguiente etapa recomendada
 
 Revisar 1–6 antes de implementar Payment o migrar saldo; después validar migraciones y nuevos contratos con PostgreSQL/Docker local. Solo entonces implementar posting financiero/idempotencia/outbox y probar transferencia/rollback/insuficiencia.
-La etapa de escalado/cloud/PDF/video sigue posterior; no saltar a ella por disponer de scaffolding.
+Este cierre describe Etapa 2. Posteriormente se validó el escalado, se ejecutó AWS y se generó el PDF/DOCX; video y cierre/publicación siguen pendientes.

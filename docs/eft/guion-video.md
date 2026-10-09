@@ -2,7 +2,7 @@
 
 Formato oficial: **MP4 con webcam y evidencias del trabajo**. Objetivo: **6 minutos**, rango permitido **5–7**. Cuatro puntos exactos; no añadir una demo extensa. Texto aproximado más pausas/transiciones; ensayar con cronómetro antes de grabar. La duración estimada no certifica un video existente.
 
-Preparar pantalla ampliada sin .env/JWT, logs masivos ni nombres personales. Abrir resultados registrados; no ejecutar money fixtures, escalado o detenciones en vivo. Afirmaciones en pasado se refieren a las pruebas reales Etapas 4–6, no a una ejecución nueva durante el video.
+Preparar pantalla ampliada sin .env/JWT, logs masivos ni nombres personales. Abrir resultados registrados; no ejecutar money fixtures, escalado o detenciones en vivo. Afirmaciones en pasado se refieren a las pruebas reales Etapas 4–6 y las capturas AWS aportadas, no a una ejecución nueva durante el video.
 
 ## 1. Resumen ejecutivo — 00:00–00:55
 
@@ -14,7 +14,7 @@ Preparar pantalla ampliada sin .env/JWT, logs masivos ni nombres personales. Abr
 
 El objetivo fue separar responsabilidades y comprobar la integridad de las operaciones, la seguridad y la recuperación ante fallos. Utilizamos PostgreSQL, OAuth2, HTTPS, configuración centralizada, Eureka, Resilience4j y Kafka. Las cuentas modernas conviven con los contratos legacy: no inferimos identidades desde nombres de archivos históricos.
 
-La implementación se comprobó en Docker local. También demostramos dos réplicas simultáneas de cada servicio de negocio y después restauramos el entorno base. No se realizó despliegue en AWS.”
+La implementación se comprobó en Docker local y posteriormente en AWS EC2, con Amazon Linux 2023 y Docker Compose. En nube demostramos dos réplicas de cada negocio, dieciséis contenedores y Eureka con dos instancias UP por servicio. Es escala de contenedores sobre una única EC2; el cierre retornó a una réplica por negocio según la ejecución informada.”
 
 **Transición:** “Veamos qué resultados concretos permite comparar con el sistema anterior.” Cambiar al índice de evidencias; pausa breve.
 
@@ -56,17 +56,17 @@ Finalmente, el failover detectó una ruta obsoleta en Payment por una segunda ca
 
 ## 4. Mejoras y próximos pasos — 04:55–06:00
 
-**Pantallas:** evidencia Maven Etapa 7, gaps y sección cloud propuesta de despliegue.md.
+**Pantallas:** evidencia Maven Etapa 7, gaps y sección AWS EC2 ejecutada de despliegue.md; seleccionar base, Eureka y failover para evitar sobrecargar la presentación.
 
 **Texto hablado:**
 
 “La verificación final reportó doscientas cincuenta y seis pruebas, sin fallos ni errores, y BUILD SUCCESS. Se habilitaron las seis pruebas PostgreSQL aisladas. Algunos tests Kafka externos heredados no se activan por defecto: la integración con el broker real está acreditada por las pruebas Docker anteriores, no por ese conteo.
 
-Antes de entregar falta localizar la plantilla oficial PDF. Está disponible un laboratorio docente para realizar el despliegue cloud; esa validación se realizará antes de la entrega final. La pauta y los requisitos ya son conocidos. Tenemos un borrador técnico, instrucciones, matriz de rúbrica, diagramas y evidencias priorizadas. Este video y el PDF deben cerrarse con el formato exigido; la rama y el commit se publicarán únicamente al autorizarse.
+El informe técnico final ya fue generado utilizando la plantilla oficial y cuenta con PDF listo para revisión y DOCX editable. AWS ya se ejecutó: OAuth respondió 200, Customer y Account 201, y el dashboard Web 200. Los failovers mantuvieron Web 200, alta Customer 201 y depósito Payment COMPLETED con 201; las réplicas se recuperaron. Las capturas AWS y los diagramas renderizados están incorporados al informe. El único entregable principal pendiente es este video de 5–7 minutos; después corresponde el cierre y la publicación autorizada del repositorio.
 
-La preparación cloud identifica registry, secretos gestionados, certificados, base de datos, Kafka, observabilidad, backups y migraciones coordinadas. Es una propuesta y no un despliegue AWS realizado.
+Las capturas acreditan EC2 con Compose, no servicios gestionados como RDS, MSK o Kubernetes. La evolución hacia infraestructura distribuida y servicios gestionados queda como propuesta futura.
 
-Como evolución técnica, quedan la integración de los BFF con maestros modernos y autorización de personas, la identidad de los lotes Batch y la alta disponibilidad de infraestructura. Son alcances posteriores. El resultado actual es una modernización local comprobada, con operaciones trazables, recuperación controlada y escala real de tres servicios.”
+Como evolución técnica, quedan la integración de los BFF con maestros modernos y autorización de personas, la identidad de los lotes Batch y la alta disponibilidad de infraestructura. Son alcances posteriores. El resultado actual es una modernización comprobada localmente y en AWS EC2, con operaciones trazables, recuperación controlada y escala real de tres servicios.”
 
 **Cierre:** mantener resultado Maven/gaps visible unos segundos. No agregar promesas de cloud/SLA ni otra demo.
 
@@ -77,3 +77,5 @@ Como evolución técnica, quedan la integración de los BFF con maestros moderno
 - Verificar que recortes/texto sean legibles y no revelen credenciales/tokens/PII.
 - Distinguir histórico, prueba EFT real, estado final y procedimiento propuesto.
 - Grabar MP4 con webcam y evidencias; comprobar 5–7 minutos y los cuatro puntos. Al cerrar, añadir ubicación/URL reales y empaquetar video y cuatro entregables en una misma carpeta; actualmente PENDIENTE ENTREGA.
+
+Evidencias AWS para preparar pantallas: [base 13 healthy](../evidence/eft/capturas/1_despliegue_contenedores_nube.png), [Eureka 2+2+2](../evidence/eft/capturas/aws-eureka-2x2x2-up.png), [failover Account/Web 200](../evidence/eft/capturas/aws-failover-account-service-bff-200.png), [depósito COMPLETED/201](../evidence/eft/capturas/aws-payment-service-failover-completed-201.png). No afirmar validación estricta del certificado AWS: las requests capturadas usan curl -k. Distinguir recuperación 2+2+2 capturada y retorno 1+1+1 informado, sin mostrar la primera como evidencia del segundo.

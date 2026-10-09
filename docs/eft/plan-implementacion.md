@@ -1,9 +1,9 @@
-> Estado vigente Etapa 7.1 (2026-10-06): pauta e instrucciones oficiales disponibles, máximo 100 puntos; C1 alineado a los cinco procesos oficiales. Documentación de entrega preparada; PDF pendiente de localizar plantilla, cloud pendiente de ejecución en laboratorio docente disponible, video/publicación pendientes. Fases anteriores conservan historia; ver [gaps actuales](gaps-entrega.md).
+> Estado vigente (2026-10-09): La plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx fue localizada y utilizada. El informe técnico final PDF está generado y listo para revisión; existe una versión DOCX editable, según confirmación del usuario. AWS está ejecutado y documentado, con sus capturas incorporadas. El único entregable principal pendiente es el video MP4 de 5–7 minutos; después corresponde el cierre/publicación autorizado del repositorio. C6 cloud completo en una única EC2; sin HA multi-host/multi-AZ. Fases anteriores conservan historia. Ver [gaps actuales](gaps-entrega.md).
 
 # EFT — plan de implementación
 
 Base: 76b9773. Rama: eft. Mantener commits pequeños, sin push/merge hasta revisión.
-AWS y plantilla PDF no se presuponen. No producir aún PDF/video.
+El plan original no presuponía AWS ni plantilla PDF. Estado vigente: ambos pasos están completados; PDF y DOCX editable generados, video por grabar y posterior cierre/publicación. Esta corrección solo actualiza Markdown.
 
 ## Fase 1 — auditoría y base técnica (esta etapa)
 
@@ -86,8 +86,8 @@ Salida: evidencia local reproducible y tests end-to-end OAuth2/BFF/Kafka/Postgre
 - Mantener propuesta independiente de proveedor: datos persistentes, secretos, TLS, observabilidad, readiness, cuotas y HA.
 - Si docente confirma preparación únicamente: documentar decisiones y procedimiento, sin desplegar.
 - Si exige despliegue real: elaborar plan concreto y solicitar autorización de recursos/costos antes de ejecutar.
-- Esperar plantilla PDF o aclaración del docente para formato final.
-- Informe PDF y video solo después de completar negocio, pruebas y confirmar formato.
+- Revisar el PDF final generado con la plantilla oficial y el DOCX editable; no inventar datos personales.
+- Informe PDF generado; video MP4 de 5–7 minutos pendiente de grabación y verificación.
 
 ## Validación por cambio
 
@@ -138,8 +138,12 @@ Informe informe-etapa-6-escalabilidad.md, auditoría auditoria-etapa-6-escalabil
 
 Inventario completo, matriz C1–C8 sin puntajes inventados, readme.md/instrucciones.md/despliegue.md raíz, borrador de 23 secciones, tres diagramas Mermaid, selección de 20 evidencias y guion ~6 min. README Semana 8 preservado íntegro como README-semana-8.md por colisión de mayúsculas/minúsculas en Windows. Contratos actualizados a publisher Etapa 6 sin modificar APIs/código/configuración.
 
-mvn verify vía helper: BUILD SUCCESS, 256 tests actuales, 0 fallos/errores/skipped; seis PostgreSQL habilitados. Evidencia etapa7-01-mvn-verify.txt. No repetición de 2+2+2 ni detenciones funcionales. Sin push/merge/PDF/cloud. Ese cierre se corrige en Etapa 7.1: pauta/puntajes conocidos; localizar plantilla y ejecutar posteriormente laboratorio cloud antes de completar PDF/video/publicación autorizada y acceso al dataset.
+mvn verify vía helper: BUILD SUCCESS, 256 tests actuales, 0 fallos/errores/skipped; seis PostgreSQL habilitados. Evidencia etapa7-01-mvn-verify.txt. No repetición de 2+2+2 ni detenciones funcionales. Sin push/merge/PDF/cloud. Ese cierre se corrige en Etapa 7.1: pauta/puntajes conocidos; la plantilla oficial ya está identificada y disponible según actualización vigente; revisar el PDF ya generado y su DOCX editable. El laboratorio cloud se ejecutó posteriormente según el cierre AWS siguiente. El PDF/DOCX ya está generado; video y cierre/publicación autorizado pendientes. El dataset conserva su condición de reproducción documentada.
 
 ## Corrección documental Etapa 7.1
 
-Pauta e instrucciones (forma A) leídas: C1–C8 = 10/15/15/15/15/10/10/10, máximo 100. C1: Batch a Spring Batch, división monolito en microservicios, BFF, seguridad distribuida Spring Cloud Security y Kafka. C6 local completo, cloud PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE. C7 entregables preparados/parciales y PDF pendiente de plantilla; C8 guion conocido, video MP4 5–7 min con webcam/evidencias pendiente. Cuatro componentes y video juntos en una carpeta. Corrección de fences Mermaid segundo y tercero. Sin código/configuración, escalado, cloud, PDF, push ni merge.
+Pauta e instrucciones (forma A) leídas: C1–C8 = 10/15/15/15/15/10/10/10, máximo 100. C1: Batch a Spring Batch, división monolito en microservicios, BFF, seguridad distribuida Spring Cloud Security y Kafka. C6 local completo, cloud ejecutado y documentado en AWS EC2 según actualización vigente. C7 entregables preparados/parciales y PDF final generado y listo para revisión, con versión DOCX editable; plantilla oficial identificada y disponible según actualización vigente; C8 guion conocido, video MP4 5–7 min con webcam/evidencias pendiente. Cuatro componentes y video juntos en una carpeta. Corrección de fences Mermaid segundo y tercero. Sin código/configuración, escalado, cloud, PDF, push ni merge.
+
+## Incorporación de evidencia AWS EC2
+
+Capturas revisadas el 8 de octubre de 2026: [despliegue base](../evidence/eft/capturas/1_despliegue_contenedores_nube.png), [smoke](../evidence/eft/capturas/3_smoke_test_funcional_200_201_201.png), [2+2+2](../evidence/eft/capturas/aws-escalabilidad-horizontal-2x2x2.png), [Eureka](../evidence/eft/capturas/aws-eureka-2x2x2-up.png), tres failovers y recuperación (índice). Ejecución cloud ya completada; usuario confirma retorno final 1+1+1, sin captura consolidada de ese cierre. Las capturas HTTP usan curl -k y no acreditan verificación estricta TLS AWS. Solo se actualizó documentación; sin ejecución de despliegue, código/configuración o cambios a imágenes. Siguiente paso: revisar el PDF/DOCX generado, grabar el video y completar el paquete y publicar únicamente cuando se autorice.

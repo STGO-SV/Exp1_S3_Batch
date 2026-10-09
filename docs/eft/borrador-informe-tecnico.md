@@ -1,22 +1,22 @@
 # Banco XYZ — borrador del informe técnico EFT
 
-**Markdown preparatorio. No PDF final, no plantilla inventada.** Fecha de consolidación: 5 de octubre de 2026; corrección contra pauta oficial: 6 de octubre de 2026. Basado en código y evidencia Etapas 1–6; ver [matriz](matriz-rubrica-evidencias.md), [índice principal](indice-evidencias-finales.md) y [gaps](gaps-entrega.md).
+**Fuente Markdown de trabajo conservada: informe final PDF generado con la plantilla oficial y DOCX editable existente, según confirmación del usuario.** Fecha de consolidación: 5 de octubre de 2026; corrección contra pauta oficial: 6 de octubre de 2026; evidencia AWS incorporada: 8 de octubre de 2026. Basado en código y evidencia Etapas 1–6; ver [matriz](matriz-rubrica-evidencias.md), [índice principal](indice-evidencias-finales.md) y [gaps](gaps-entrega.md).
 
 ## 1. Portada placeholder
 
-[ADAPTAR A PLANTILLA DOCENTE CUANDO SEA ENTREGADA]. Banco XYZ — Evaluación Final Transversal, Desarrollo Backend III. [Autor/es, sección y docente: completar con datos oficiales]. No inventar formato, institución de portada o datos personales.
+Banco XYZ — Evaluación Final Transversal, Desarrollo Backend III. La portada definitiva forma parte del PDF/DOCX generado con la plantilla oficial. Este Markdown conserva el contenido de trabajo sin inventar datos personales no proporcionados.
 
 ## 2. Resumen ejecutivo
 
 Se modernizó el dominio operativo sobre la base Batch validada de Semana 8. Los tres BFF conservan contratos y datos históricos; Customer registra identidades declaradas, Account mantiene cuentas/saldos y Payment coordina depósito, transferencia y pago académico. PostgreSQL aporta transacciones locales; OAuth2/HTTPS protegen el acceso técnico; outbox/Kafka permiten auditoría y reconciliación.
 
-La validación real cubrió Docker, TLS, OAuth, datos, idempotencia, fallback, DLT y seis réplicas de negocio simultáneas. El entorno volvió a 13 servicios healthy con Customer/Account/Payment 1+1+1. Etapa 7 añade documentación y verify, no una nueva demostración funcional. Pauta e instrucciones oficiales disponibles; cloud pendiente de ejecución en laboratorio docente y PDF pendiente de localizar plantilla oficial.
+La validación real cubrió Docker, TLS, OAuth, datos, idempotencia, fallback, DLT y seis réplicas de negocio simultáneas. El entorno volvió a 13 servicios healthy con Customer/Account/Payment 1+1+1. Etapa 7 añade documentación y verify, no una nueva demostración funcional. Pauta e instrucciones oficiales disponibles; despliegue AWS EC2 ejecutado con Docker Compose, 13 healthy y prueba 2+2+2/16 contenedores; Plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx identificada y disponible; borrador preparado e informe PDF final generado y listo para revisión, con versión DOCX editable.
 
 ## 3. Contexto legacy
 
 Los CSV contienen intereses, movimientos anuales y transacciones. No proporcionan identidad inequívoca de clientes, moneda, comercio ni contrapartes de transferencia. Nombres contradictorios impiden inferir titulares. La última salida de intereses sostiene el saldo legacy; ATM mantiene su retiro transaccional sobre ese dominio. Modernizar no permite reinterpretar automáticamente esos resultados como maestros operacionales.
 
-Los procesos funcionales/dominios modernizados se agrupan en transacciones, intereses, movimientos anuales, cuentas/pagos y clientes/titularidad. Esta clasificación contextual no es la lista oficial de C1.
+Los procesos funcionales/dominios modernizados se agrupan en transacciones, intereses, movimientos anuales, cuentas/pagos y clientes/titularidad. Esta clasificación contextual se distingue de los cinco procesos de modernización de la pauta.
 
 Fuente: [modelo de dominio](modelo-dominio.md). El job anual persiste movimientos; no genera por sí mismo un documento anual final.
 
@@ -24,9 +24,9 @@ Fuente: [modelo de dominio](modelo-dominio.md). El job anual persiste movimiento
 
 Preservar tres jobs y tres canales; separar gestión Customer/Account/Payment; ejecutar finanzas sin duplicar efectos; configurar/descubrir servicios; probar degradación honesta y publicación durable; demostrar escala horizontal de tres negocios sin perder datos; preparar una entrega trazable.
 
-No se incluyen login de personas, autorización por titularidad, migración automática de legacy, adquirente externo o cloud ejecutado.
+No se incluyen login de personas, autorización por titularidad, migración automática de legacy, adquirente externo. El alcance cloud ejecutado es Compose sobre una única EC2.
 
-## 5. Cinco procesos críticos oficiales de migración — C1 (10 puntos)
+## 5. Cinco procesos críticos oficiales de migración
 
 | Proceso oficial | Implementación y evidencia del proyecto |
 |---|---|
@@ -36,9 +36,9 @@ No se incluyen login de personas, autorización por titularidad, migración auto
 | Implementación de Seguridad Distribuida con Spring Cloud Security | OAuth2/Spring Security, JWT verificado, HTTPS, roles por canal y scopes operacionales; no equivale a autorización de personas por titularidad |
 | Integración de Mensajería Asíncrona con Apache Kafka | Anomalías Batch/Anomaly y eventos financieros: outbox Account, auditoría/reconciliación Payment, deduplicación, retry y DLT |
 
-Corresponde a los cinco procesos nombrados por la pauta oficial. La clasificación funcional del contexto (§3) no sustituye C1. Evidencias concretas: [matriz](matriz-rubrica-evidencias.md) e [índice](indice-evidencias-finales.md).
+Corresponde a los cinco procesos nombrados por la pauta oficial. La clasificación funcional del contexto (§3) se distingue de esos procesos de modernización. Evidencias concretas: [matriz](matriz-rubrica-evidencias.md) e [índice](indice-evidencias-finales.md).
 
-## 6. Tres requerimientos clave — C2
+## 6. Tres requerimientos clave
 
 **R1 Integridad y trazabilidad:** una transferencia debe debitar/acreditar de manera indivisible y un retry no debe repetir fondos. Account bloquea balances en orden y confirma saldo/posting/outbox en una transacción; Payment conserva operationId/key/hash y comprobantes.
 
@@ -54,7 +54,7 @@ La BD física PostgreSQL compartida simplifica el laboratorio, no materializa ba
 
 [DIAGRAMA ARQUITECTURA GENERAL] Fuente disponible: [diagramas.md §1](diagramas.md#1-arquitectura-general).
 
-## 8. Spring Batch — C3
+## 8. Spring Batch
 
 Tres jobs: transaccionesDiariasJob, interesesMensualesJob y estadosCuentaAnualesJob. Readers CSV `StepScope` con checkpoint ItemStream, processors de validación/dominio y writers JDBC; transacciones añade outbox mediante writer compuesto.
 
@@ -64,13 +64,13 @@ Partitioner por rangos + ThreadPoolTaskExecutor permiten cuatro workers en tests
 
 Límites: cada worker relee el CSV; prelectura falla antes del skip; límite de rechazo por worker; timestamp genera instancia nueva capaz de duplicar salidas. Restart probado con H2 aislado/worker único, no como recuperación PostgreSQL multiworker runtime. Batch no se escaló por Compose. Fuentes: [auditoría](auditoria-inicial.md), [validación](validacion.txt) y evidencia Batch del [índice](indice-evidencias-finales.md).
 
-## 9. BFF — C4
+## 9. BFF
 
 Web entrega dashboard con titular, saldos/tasa, hasta 20 movimientos y 10 anomalías; estas son globales. Mobile ofrece resumen y cinco movimientos sin descripción. ATM expone saldo y tres movimientos esenciales; retiro continúa en lógica/BD legacy.
 
 JWT/roles por canal, HTTPS, token relay, discovery, timeouts y fallback 503. Etapa 5 demostró los tres 200/401/403 y Mobile 200→503→200; Etapa 6 comprobó respuestas completas iguales tras recreación/escala. Las cuentas maestras modernas no fueron forzadas en estos contratos.
 
-## 10. Microservicios — C5
+## 10. Microservicios
 
 Customer: UUID/name/version, alta/consulta/actualización con concurrencia optimista y consulta remota de cuentas. Sin identidad inferida desde nombres.
 
@@ -106,19 +106,21 @@ Topic financiero: tres particiones/RF1 local; group financial-payment-audit; rep
 
 Lease/fencing: PostgreSQL SKIP LOCKED, owner/token nuevos, PROCESSING, lease/retry y updates condicionados. Recuperación de claims vencidos y rechazo de token viejo cubiertos por tests PostgreSQL reales. At-least-once: caída entre ack y update DB puede repetir evento; dedup lógica, no exactly-once físico. No hay ACID entre Account y Payment.
 
-## 15. Docker y escalabilidad horizontal — C6
+## 15. Docker y escalabilidad horizontal
 
 Dockerfile parametrizado construye módulos; base 13 servicios. Override escala Customer/Account/Payment 2+2+2, elimina binding host Account y mantiene infraestructura/BFF singleton. Certificados vigentes; seis UP; requests en ambas réplicas; ambos publishers contribuyen; dos consumidores repartieron tres particiones y lag 0.
 
 Failover individual mantuvo GET 200 y operación financiera 200/201. Se restauró cada contenedor y finalmente base 1+1+1 con host Account 8085. Datos/volumen/IDs de infraestructura preservados.
 
-[DIAGRAMA ESCALABILIDAD] Fuente: [diagramas.md §3](diagramas.md#3-escalado-local-222). Procedimiento: [despliegue raíz](../../despliegue.md). Cloud queda PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE; la escala local no acredita despliegue cloud.
+[DIAGRAMA ESCALABILIDAD] Fuente: [diagramas.md §3](diagramas.md#3-escalado-local-222). Procedimiento: [despliegue raíz](../../despliegue.md). La documentación incorpora ahora la escala AWS EC2 documentada en §20; la escala local y sus logs se conservan como evidencia distinta.
 
 ## 16. Validación real
 
 Etapa 4: APIs modernas, PostgreSQL real, OAuth/TLS, pagos/idempotencia, cierre/rollback, caída/recuperación y Kafka/DLT. Etapa 5: BFF certificado vigente, contratos y resiliencia. Etapa 6: réplicas/routing/claims/group/failover/preservación, retorno y verify.
 
 Etapa 7: mvn verify BUILD SUCCESS, 256 tests actuales, cero fallos/errores/skipped; seis PostgreSQL habilitados. Cuatro KafkaReal heredados retornan sin flag externo: broker real acreditado por runners previos. Conteo desde suites del log actual para excluir un XML residual antiguo; no falsear total.
+
+Evidencia AWS posterior: smoke, discovery, escala y failover ejecutados en EC2; detalle §20. Esta actualización revisó capturas, sin volver a ejecutar tests funcionales o despliegue.
 
 ## 17. Resultados y comparación con legacy
 
@@ -138,26 +140,32 @@ Imagen Account antigua no incluía SQL nuevo: reconstrucción dirigida. BFF aún
 
 ## 19. Limitaciones
 
-Pauta e instrucciones oficiales conocidas, con máximo 100 puntos. Plantilla PDF pendiente de localizar; laboratorio cloud disponible pero sin ejecutar; PDF/video/publicación pendientes. Batch local con idempotencia de nuevos lotes pendiente. BFF/ATM permanecen legacy sin autorización por titularidad; DB compartida y servicios de infraestructura singleton. Ningún benchmark limitado prueba capacidad ilimitada. Claims abandonados comprobados en tests reales, no captura runtime de la ventana exacta de muerte.
+Pauta e instrucciones oficiales conocidas, con máximo 100 puntos. Plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx identificada y disponible; AWS EC2 ejecutado y documentado; PDF/DOCX generados; video y publicación/cierre pendientes. Batch local con idempotencia de nuevos lotes pendiente. BFF/ATM permanecen legacy sin autorización por titularidad; DB compartida y servicios de infraestructura singleton. Ningún benchmark limitado prueba capacidad ilimitada. Claims abandonados comprobados en tests reales, no captura runtime de la ventana exacta de muerte.
 
-## 20. Preparación cloud
+## 20. Despliegue AWS EC2 ejecutado
 
-**Despliegue cloud — pendiente de ejecución en laboratorio docente. Procedimiento conceptual propuesto; no ejecutado todavía.**
+El sistema se desplegó en **una instancia EC2 Amazon Linux 2023 con Docker Compose**. [Base](../evidence/eft/capturas/1_despliegue_contenedores_nube.png): 13 servicios saludables. [OAuth](../evidence/eft/capturas/2_oauth_200_ec2.png) y [smoke registral](../evidence/eft/capturas/3_smoke_test_funcional_200_201_201.png): token HTTP 200, Customer 201 y Account 201. [Web BFF](../evidence/eft/capturas/aws-smoke-web-bff-200-dashboard.png): dashboard HTTP 200 con contrato legacy.
 
-Imágenes/registry, orquestación, secretos/PKI, PostgreSQL y Kafka gestionados, Config/discovery, ingress, health, logs, migraciones exclusivas, variables, escala, backups/rollback y red se detallan en [despliegue.md B](../../despliegue.md). Existe una invitación a laboratorio docente para despliegue real. Los pasos conceptuales AWS se conservarán como referencia y se sustituirán/complementarán con el procedimiento efectivamente ejecutado. No hay recursos, IDs o resultados inventados; no se diseña ni ejecuta cloud en Etapa 7.1. No extrapolar el inicializador local a arranques concurrentes productivos.
+[Escala](../evidence/eft/capturas/aws-escalabilidad-horizontal-2x2x2.png): Customer=2, Account=2, Payment=2, 16 contenedores; [Eureka](../evidence/eft/capturas/aws-eureka-2x2x2-up.png): dos UP por cada servicio. Es escalabilidad horizontal de contenedores/microservicios en nube sobre una EC2, no HA multi-host/multi-AZ ni Kubernetes.
+
+Failover funcional: [Account](../evidence/eft/capturas/aws-failover-account-service-bff-200.png), Web BFF 200 con Account-1 detenido; [Customer](../evidence/eft/capturas/aws-customer-service-failover.png), alta 201 con Customer-1 detenido; [Payment](../evidence/eft/capturas/aws-payment-service-failover-completed-201.png), depósito COMPLETED/201 durante el failover informado por el usuario. La última imagen no contiene el comando de parada Payment.
+
+[Recuperación conjunta](../evidence/eft/capturas/aws-2x2x2-restaurado-healthy.png): 2+2+2/16 healthy. Account, Customer y Payment recuperados se documentan individualmente en [índice](indice-evidencias-finales.md). El usuario confirma retorno final a una réplica por negocio; no se aportó captura consolidada del cierre 1+1+1.
+
+Las requests capturadas usan curl -k: acreditan resultados HTTPS, no validación CA/hostname en AWS. No trasladar al cloud la evidencia TLS estricta local ni deducir DNS público/SLA/HA. Procedimiento y 13 capturas: [despliegue.md B](../../despliegue.md). Servicios gestionados AWS de la tabla conceptual siguen siendo propuestas, no recursos ejecutados.
 
 ## 21. Mejoras futuras
 
-Localizar plantilla, ejecutar laboratorio cloud en una etapa autorizada y completar procedimiento/evidencias reales; preparar PDF/video y publicación autorizada. Integración BFF moderna, identidad por titularidad, identidad natural de lotes y HA/benchmark requieren alcance propio; no añadirlos para inflar la evaluación.
+El informe final PDF y el DOCX editable ya están generados. Grabar el video de 5–7 minutos y completar posteriormente el cierre/publicación autorizado; conservar la evidencia AWS. Integración BFF moderna, identidad por titularidad, identidad natural de lotes y HA/benchmark requieren alcance propio.
 
 ## 22. Conclusiones
 
-La modernización preserva el funcionamiento legacy y añade un dominio financiero trazable. Evidencia real y tests sustentan APIs, TLS/OAuth, degradación controlada, eventos y escala de tres negocios. Se distinguen implementación demostrada, límites técnicos y entrega pendiente. La preparación no equivale a publicación ni a cloud realizado.
+La modernización preserva el funcionamiento legacy y añade un dominio financiero trazable. Evidencia real y tests sustentan APIs, TLS/OAuth, degradación controlada, eventos y escala de tres negocios. Se distinguen implementación demostrada, límites técnicos y entrega pendiente. El despliegue cloud acreditado es EC2 con Compose en un único host; no equivale a HA multi-host ni a publicación final del proyecto.
 
 ## 23. Evidencias y referencias
 
-[20 evidencias principales](indice-evidencias-finales.md); [matriz C1–C8](matriz-rubrica-evidencias.md); [auditoría documental](auditoria-documental-final.md); [gaps](gaps-entrega.md); [diagramas](diagramas.md); [guion video](guion-video.md). Informes de etapas conservan detalles y fechas, no se copian íntegros.
+[20 evidencias principales](indice-evidencias-finales.md); [matriz interna de trazabilidad](matriz-rubrica-evidencias.md); [auditoría documental](auditoria-documental-final.md); [gaps](gaps-entrega.md); [diagramas](diagramas.md); [guion video](guion-video.md). Informes de etapas conservan detalles y fechas, no se copian íntegros.
 
-Fuentes técnicas primarias para claims, TLS, retries y preparación cloud se citan en los informes de escala y despliegue. Fuentes oficiales leídas: PBY2203_EFT_S9_Pauta_de_evaluación_EFT y PBY2203_EFT_S9_Instrucciones_específicas (forma A). Plantilla PBY2203_EFT_S9_plantilla_PDF pendiente de localizar; adaptar/exportar después.
+Las fuentes técnicas se citan en los informes de escala y despliegue. Las fuentes oficiales incluyen la pauta, las instrucciones específicas (forma A) y la plantilla PBY2203_EFT_S9_plantilla_PDF.docx, ya utilizada para generar el PDF final y el DOCX editable. El informe está listo para revisión según confirmación del usuario; resta el video y luego el cierre/publicación autorizado.
 
-Requisitos C7/C8 conocidos: readme.md, informe PDF, instrucciones.md y despliegue.md junto al video **MP4, 5–7 minutos, webcam y evidencias, cuatro puntos**, en una misma carpeta. No se han generado ni grabado las piezas finales.
+Entregables: readme.md, informe PDF, instrucciones.md y despliegue.md junto al video MP4 de 5–7 minutos, webcam/evidencias y cuatro puntos, en una misma carpeta. El PDF y el DOCX editable ya están generados; el video sigue pendiente.

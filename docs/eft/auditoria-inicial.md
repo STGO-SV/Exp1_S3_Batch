@@ -1,4 +1,4 @@
-> Nota documental Etapa 7.1 (2026-10-06): este diagnóstico conserva el estado inicial. La clasificación funcional siguiente no responde a C1; la lista oficial y los puntajes están en [matriz vigente](matriz-rubrica-evidencias.md). Pauta/instrucciones disponibles; laboratorio cloud pendiente de ejecución y plantilla PDF pendiente de localizar.
+> Nota documental Etapa 7.1 (2026-10-06): este diagnóstico conserva el estado inicial. La clasificación funcional siguiente no responde a C1; la lista oficial y los puntajes están en [matriz vigente](matriz-rubrica-evidencias.md). Pauta/instrucciones disponibles; AWS EC2 ejecutado y documentado según actualización vigente y plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx identificada y disponible según actualización vigente; borrador preparado y PDF final generado y listo para revisión, con versión DOCX editable.
 
 # EFT — auditoría técnica inicial
 
@@ -12,7 +12,7 @@ Rama de trabajo: eft. Sin push, merge ni despliegue cloud.
 Auditoría del código, configuración, esquema SQL, tests, documentación/evidencia de semanas anteriores y encabezados de los nueve CSV de bank_legacy_data/data/semana_1..3.
 No se inspeccionaron filas de una base productiva ni se atribuye a esta ejecución la evidencia histórica de Semana 8.
 La matriz inicial se elaboró usando la transcripción de requisitos; queda como diagnóstico histórico, sustituido para evaluación por la matriz vigente alineada con la pauta oficial.
-AWS/despliegue real y plantilla PDF son dos consultas independientes pendientes. Ninguna bloquea esta auditoría ni el scaffolding. No se creó PDF ni video.
+AWS/despliegue real y formato del PDF se registraron como consultas independientes en esta auditoría inicial. Actualización vigente: plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx identificada y disponible, borrador preparado y PDF final generado y listo para revisión, con versión DOCX editable. Ninguna bloquea esta auditoría ni el scaffolding. La auditoría inicial no generó entregables; posteriormente se generaron PDF y DOCX editable. El video sigue pendiente.
 
 ## Cinco procesos funcionales y dominios modernizados — clasificación histórica
 
@@ -48,8 +48,8 @@ Son una clasificación funcional de las capacidades existentes; no corresponden 
 | Kafka | Productores/consumidores reales | Implementado en Batch/Anomaly | Outbox transaccional, producer idempotente, consumer dedup, retry/DLT | No prueba todavía integración de los tres dominios exigidos | Eventos posteriores al commit y consumidores con propósito | Medio |
 | Docker | Compose | Conservado y extendido opcionalmente | Base 11 servicios; Dockerfile MODULE; perfil EFT añade dos | Nuevas imágenes y arranque del perfil no comprobados aquí | Build y smoke test local tras revisión | Bajo/medio |
 | Escalado | ≥3 microservicios horizontales | Preparado, no demostrado | Override puertos efímeros e IDs únicos | Falta prueba runtime y reparto por instancia; shells nuevos sin negocio | Demostrar réplicas, salud, registry y carga | Medio |
-| Cloud | Preparación/despliegue | Diseño pendiente; sin desplegar | Contenedores, variables, health y servicios independientes | Persistencia/HA/TLS/secretos/observabilidad cloud | Preparar alternativas; esperar respuesta para despliegue real | Medio |
-| Entrega | PDF/video/plantilla | Diferido expresamente | Documentos de trabajo Markdown | Plantilla ausente y aclaración docente | Esperar respuesta; no inventar formato | Bajo |
+| Cloud | Preparación/despliegue | Estado inicial de diseño; AWS EC2 ejecutado posteriormente | Contenedores, variables, health y servicios independientes | Persistencia/HA/TLS/secretos/observabilidad cloud | Consultar AWS documentado; alternativas gestionadas como evolución futura | Medio |
+| Entrega | PDF/video/plantilla | Diferido expresamente | Documentos de trabajo Markdown | Plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx identificada y disponible; PDF final generado y listo para revisión, con versión DOCX editable | Revisar PDF/DOCX generados; grabar video y cerrar/publicar después | Bajo |
 
 ## Batch: revisión individual
 
@@ -182,4 +182,4 @@ Propuesta: contenedores stateless en servicio administrado u orquestador; Postgr
 
 Resultados exactos del reactor y lista completa de archivos: informe-etapa-1.md y validacion.txt.
 Pruebas locales de H2/broker embebido no sustituyen PostgreSQL real, arranque Docker ni certificados/concurrencia entre contenedores.
-Decisiones detenidas: esquema maestro de cuenta, identidad de cliente/titularidad, ledger/atomicidad/idempotencia de pagos, claves naturales/periodos de lotes, estrategia TLS/balanceo por réplica, AWS y plantilla PDF.
+Decisiones detenidas en el diagnóstico inicial (históricas, no pendientes actuales): esquema maestro de cuenta, identidad de cliente/titularidad, ledger/atomicidad/idempotencia de pagos, claves naturales/periodos de lotes, estrategia TLS/balanceo por réplica, AWS (estado histórico) y formato del PDF (resuelto: plantilla oficial utilizada, PDF/DOCX ya generados).

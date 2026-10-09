@@ -15,7 +15,6 @@ Las evidencias describen ese árbol de trabajo, no un nuevo commit publicado.
 | bff-benchmark-https-h2.csv | 20 muestras HTTPS por endpoint, 3 calentamientos, cero errores | Rendimiento final PostgreSQL o bajo concurrencia |
 | verification-internal-h2.json | Evidencia histórica HTTP anterior a TLS | TLS o PostgreSQL |
 | bff-benchmark-internal-h2.csv | Evidencia histórica HTTP anterior a TLS | TLS o PostgreSQL |
-| files-changed.txt | Inventario de archivos modificados/nuevos del bloque | No es un commit |
 | certificate-metadata.txt | Metadatos públicos inspeccionados con keytool | No contiene clave privada ni contraseña |
 | implementation-report.md | Informe técnico de 44 puntos y pendientes | No certifica PostgreSQL |
 

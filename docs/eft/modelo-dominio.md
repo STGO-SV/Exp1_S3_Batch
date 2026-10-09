@@ -135,7 +135,7 @@ Time-outs 2s/3s y circuit breaker. No reintentos automáticos de escritura. No l
 4. Alcance financiero de apertura/mantenimiento/cierre, préstamos y efecto sobre ATM.
 5. Aceptar interpretación académica de pago y ledger/estados/reconciliación; moneda si se exige.
 6. Identidad de usuarios finales y autorización por titularidad.
-7. AWS y plantilla PDF siguen pendientes por separado.
+7. AWS conserva su seguimiento en los documentos de despliegue; la plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx ya está identificada y disponible. El PDF final y el DOCX editable ya están generados con la plantilla oficial. El video y el cierre/publicación son los pendientes de entrega.
 
 No se desplegará, escalará ni modificará destructivamente el esquema en esta etapa.
 ## Etapa 3 — decisiones aprobadas y ejecución operacional

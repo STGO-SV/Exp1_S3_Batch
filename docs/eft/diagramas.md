@@ -1,7 +1,5 @@
 # Diagramas EFT
 
-Tres diagramas funcionales Mermaid. Fuente editable para render posterior; no son imágenes ni PDF. La exportación y el tamaño se ajustarán a la plantilla docente cuando esté disponible.
-
 ## 1. Arquitectura general
 
 ```mermaid
@@ -51,25 +49,25 @@ sequenceDiagram
     participant D as PostgreSQL
     participant W as Publisher Account
     participant K as Kafka
+
     O->>P: POST + JWT + Idempotency-Key
     P->>D: Crear/leer operación PENDING por actor/key/hash
-    P->>A: Posting con operationId y key; JWT relay
+    P->>A: Posting con operationId y key, JWT relay
     A->>D: Tx: locks ordenados + saldo(s) + posting + outbox
     D-->>A: COMMIT
     A-->>P: Comprobante o replay inmutable
     P->>D: COMPLETED con comprobante
     P-->>O: 201 nuevo / 200 replay
     W->>D: Claim SKIP LOCKED + owner/token/lease
-    D-->>W: Evento reclamado; sin lock durante red
+    D-->>W: Evento reclamado, sin lock durante red
     W->>K: Publicar evento con eventId
     K-->>W: Ack
     W->>D: PUBLISHED solo si ownership y lease válidos
     K->>P: Consumer group financial-payment-audit
     P->>D: Tx: audit dedup por eventId + reconciliar PENDING
     Note over P,A: Sin transacción ACID entre servicios
-    Note over W,K: At-least-once; dedup lógica, no exactly-once físico
+    Note over W,K: At-least-once, dedup lógica, no exactly-once físico
 ```
-
 La respuesta HTTP y el evento pueden competir. Si se pierde la respuesta, Payment puede seguir PENDING; replay exacto o evento válido reconcilian sin mover fondos otra vez. Los mensajes inválidos se derivan a DLT.
 
 ## 3. Escalado local 2+2+2

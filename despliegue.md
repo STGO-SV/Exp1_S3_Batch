@@ -1,6 +1,6 @@
 # Despliegue EFT
 
-Entregable de raíz para el evaluador. La guía interna [docs/eft/despliegue.md](docs/eft/despliegue.md) conserva el procedimiento técnico validado; esta versión lo consolida y añade preparación cloud sin afirmar ejecución.
+Entregable de raíz para el evaluador. La guía interna [docs/eft/despliegue.md](docs/eft/despliegue.md) conserva el procedimiento técnico validado; esta versión lo consolida el procedimiento local e incorpora el despliegue AWS EC2 realmente ejecutado y sus capturas.
 
 ## A. Despliegue local validado
 
@@ -52,9 +52,62 @@ Se restaura host 8085, defaults y singleton. final requiere state/snapshot de su
 
 Resultado ejecutado Etapa 6: seis registros Eureka UP, routing en dos réplicas por servicio, failover individual, publishers coordinados, grupo de dos consumidores/3 particiones/lag 0 y retorno a 13 healthy. Ver [informe](docs/eft/informe-etapa-6-escalabilidad.md) y [estado final](docs/evidence/eft/etapa6-12-compose-final.json). Etapa 7 no volvió a ejecutar escalado.
 
-## B. Despliegue cloud — pendiente de ejecución en laboratorio docente
+## B. Despliegue AWS EC2 ejecutado y validado
 
-**Procedimiento conceptual propuesto; no ejecutado todavía.** Despliegue cloud: **PENDIENTE DE EJECUCIÓN EN LABORATORIO DOCENTE**. Se recibió invitación a un laboratorio nuevo para despliegue real de contenedores. La sección conceptual AWS se conserva como referencia; será sustituida/complementada con el procedimiento efectivamente ejecutado y sus evidencias. No se han creado recursos, publicado imágenes cloud ni validado DNS externo. Esta corrección documental no diseña ni ejecuta recursos.
+El despliegue real se realizó en **una instancia AWS EC2 con Amazon Linux 2023 y Docker Compose**. Las capturas suministradas se incorporaron a la documentación el 8 de octubre de 2026. La plataforma/OS y el cierre de la prueba fueron informados por el usuario; las salidas capturadas corroboran contenedores, HTTP y discovery. Esta actualización documental no volvió a ejecutar el despliegue.
+
+### Despliegue base y smoke test
+
+La captura de `docker compose ps` muestra **13 servicios saludables**, incluidos Customer, Account y Payment con una réplica cada uno, tres BFF y plataforma/infraestructura. PostgreSQL y Kafka corren como contenedores del mismo Compose, no como servicios gestionados AWS acreditados.
+
+| Prueba | Endpoint visible | Resultado |
+|---|---|---|
+| OAuth token | https://localhost:8084/oauth2/token | HTTP 200 |
+| Customer | PUT https://customer-service:8087/api/customers/{UUID} | HTTP 201 |
+| Account | PUT https://account-service:8085/api/accounts/101 | HTTP 201 |
+| Web BFF dashboard | GET https://localhost:8081/api/web/accounts/101/dashboard | HTTP 200 y respuesta JSON legacy |
+
+Las URLs localhost corresponden al host EC2; los nombres de servicio corresponden a su red Docker. Estas capturas no prueban acceso mediante un DNS público externo ni integración del dashboard legacy con la cuenta maestra moderna.
+
+### Escalabilidad horizontal en nube y Eureka
+
+Customer=2, Account=2 y Payment=2: **2+2+2**, seis contenedores de negocio y **16 contenedores totales**. Eureka muestra dos instancias **UP,UP** para cada servicio. Se trata de **escalabilidad horizontal a nivel de contenedores/microservicios en nube sobre una única EC2**. No acredita distribución multi-host/multi-AZ, Kubernetes, HA de infraestructura ni tolerancia a la pérdida de EC2.
+
+### Failover, recuperación y cierre
+
+- **Account:** se detiene Account-1, Account-2 permanece healthy y Web BFF responde **HTTP 200**. La recuperación muestra Account-1 healthy.
+- **Customer:** se detiene Customer-1, Customer-2 permanece healthy y la operación de alta responde **HTTP 201**. Customer-1 se restaura y pasa a healthy.
+- **Payment:** el usuario informa el failover de una réplica; la captura funcional muestra depósito **HTTP 201**, `status: COMPLETED` y comprobante. Esa captura no incluye el comando de detención; se complementa con Payment-1 healthy y la recuperación conjunta.
+- **Restauración:** la vista conjunta acredita nuevamente **2+2+2/16 healthy** después de las pruebas.
+- **Retorno final:** el usuario confirma el regreso a **una réplica por servicio de negocio (1+1+1)**. Las capturas disponibles muestran recuperación individual/conjunta, pero no una vista consolidada del estado final 1+1+1. No presentar `aws-2x2x2-restaurado-healthy.png` como prueba de reducción a 13 contenedores.
+
+### Evidencias AWS
+
+| Prueba | Captura | Alcance visible |
+|---|---|---|
+| Despliegue base en EC2 | [1_despliegue_contenedores_nube.png](docs/evidence/eft/capturas/1_despliegue_contenedores_nube.png) | docker compose ps: 13 servicios healthy. |
+| OAuth en EC2 | [2_oauth_200_ec2.png](docs/evidence/eft/capturas/2_oauth_200_ec2.png) | Endpoint /oauth2/token: HTTP 200. |
+| Smoke registral | [3_smoke_test_funcional_200_201_201.png](docs/evidence/eft/capturas/3_smoke_test_funcional_200_201_201.png) | OAuth 200; PUT Customer 201; PUT Account 201. |
+| Smoke Web BFF | [aws-smoke-web-bff-200-dashboard.png](docs/evidence/eft/capturas/aws-smoke-web-bff-200-dashboard.png) | GET /api/web/accounts/101/dashboard: HTTP 200 y dashboard legacy. |
+| Escala en nube | [aws-escalabilidad-horizontal-2x2x2.png](docs/evidence/eft/capturas/aws-escalabilidad-horizontal-2x2x2.png) | Customer=2, Account=2, Payment=2; 16 contenedores healthy sobre una única EC2. |
+| Discovery en nube | [aws-eureka-2x2x2-up.png](docs/evidence/eft/capturas/aws-eureka-2x2x2-up.png) | Dos instancias UP,UP por cada uno de los tres servicios; seis registros. |
+| Failover Account | [aws-failover-account-service-bff-200.png](docs/evidence/eft/capturas/aws-failover-account-service-bff-200.png) | Account-1 detenido, Account-2 healthy; Web BFF HTTP 200. |
+| Failover Customer | [aws-customer-service-failover.png](docs/evidence/eft/capturas/aws-customer-service-failover.png) | Customer-1 detenido, Customer-2 healthy; creación Customer HTTP 201. |
+| Failover Payment | [aws-payment-service-failover-completed-201.png](docs/evidence/eft/capturas/aws-payment-service-failover-completed-201.png) | Depósito HTTP 201 con status COMPLETED; detención de réplica indicada por el usuario. |
+| Recuperación Account | [aws-recuperacion-failover.png](docs/evidence/eft/capturas/aws-recuperacion-failover.png) | Inicio de Account-1 y estado healthy tras Web BFF 200. |
+| Recuperación Customer | [aws-customer-service-recuperacion-healthy.png](docs/evidence/eft/capturas/aws-customer-service-recuperacion-healthy.png) | Customer-1 pasa de health: starting a healthy. |
+| Recuperación Payment | [aws-payment-service-recuperacion-healthy.png](docs/evidence/eft/capturas/aws-payment-service-recuperacion-healthy.png) | Payment-1 healthy. |
+| Recuperación conjunta | [aws-2x2x2-restaurado-healthy.png](docs/evidence/eft/capturas/aws-2x2x2-restaurado-healthy.png) | Dos réplicas por negocio restauradas; 16 contenedores healthy. |
+
+### Alcance de seguridad y reproducibilidad
+
+Las requests capturadas usan `curl -k`: demuestran respuestas sobre HTTPS, **no validación de CA/hostname** en AWS. La verificación estricta TLS de Etapas 4–6 conserva su alcance local; no se extrapola a EC2. Las imágenes no muestran secretos/JWT en claro, sino referencias a variables; no trasladar sus valores a documentación.
+
+Se documentan acciones/salidas observadas (listado Compose, OAuth, PUT registrales, GET dashboard, depósito, parada/inicio de réplicas y Eureka). No se inventan instrucciones de aprovisionamiento EC2, AMI/instancia, security groups, comandos de instalación o parámetros cloud ausentes de las capturas. El código, arquitectura, configuración y capturas permanecen intactos.
+
+### Evolución cloud conceptual — no ejecutada
+
+La tabla siguiente se conserva como propuesta futura; **ECR/ECS/EKS/RDS/MSK/ALB y otros servicios gestionados no son el despliegue EC2 acreditado**.
 
 | Área | Preparación necesaria | Mapeo AWS conceptual, sin recursos existentes |
 |---|---|---|
@@ -75,6 +128,6 @@ Resultado ejecutado Etapa 6: seis registros Eureka UP, routing en dos réplicas 
 | Rollback | Volver al digest previo compatible, preservar datos; no deshacer columnas aditivas mientras consumidores las requieran | Revisión previa de servicio/pipeline |
 | Red | Subredes privadas, security groups mínimos, salida controlada, auth de broker/DB, acceso de administración auditado | VPC / security groups / IAM |
 
-Antes de una ejecución posterior autorizada: revisar las instrucciones/recursos del laboratorio docente, sus restricciones y parámetros reales. No se fijan aquí recursos, región, IDs, ARNs, dominio o costos. La guía de laboratorio y los resultados reales determinarán el procedimiento final; esta sección no contiene comandos AWS ejecutados.
+Para evolucionar a servicios gestionados se requiere un alcance posterior. No se fijan aquí recursos, región, IDs, ARNs, dominio ni costos. La evidencia actual corresponde a EC2 con Compose; la tabla conceptual no afirma ejecución de sus alternativas.
 
-La inyección de secretos desde Secrets Manager/Parameter Store se documenta en [Amazon ECS: datos sensibles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html). La separación de seguridad de red, certificados del listener y cifrado hacia contenedores se apoya en [Amazon ECS: seguridad de red](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-network.html). Estas referencias sustentan la preparación conceptual, no una validación del proyecto en AWS.
+La inyección de secretos desde Secrets Manager/Parameter Store se documenta en [Amazon ECS: datos sensibles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html). La separación de seguridad de red, certificados del listener y cifrado hacia contenedores se apoya en [Amazon ECS: seguridad de red](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-network.html). Estas referencias sustentan únicamente las alternativas conceptuales de servicios gestionados; la validación del proyecto en AWS EC2 se documenta con las capturas anteriores.

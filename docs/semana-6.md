@@ -44,7 +44,7 @@ de 3 s. La configuración común vive en Config Server. Un fallo de lectura devu
    reinicia Account Service y comprueba 200/CLOSED. No toca ATM POST. Guarda observaciones saneadas bajo
    `docs/evidence/semana-6/live/<timestamp>/`, sin tokens ni saldos.
 
-La ejecución live del piloto Mobile anterior pasó y quedó en `docs/evidence/semana-6/live/20260919-182710`.
+La ejecución live del piloto Mobile anterior pasó y quedó en `docs/evidence/historico/semana-6/live/20260919-182710`.
 Esa carpeta no demuestra todavía el estado live de Web ni ATM. La colección
 `docs/postman/semana-6.postman_collection.json` contiene solicitudes para las consultas y la matriz JWT.
 El verificador de resiliencia sólo debe ejecutarse cuando las variables y servicios requeridos estén presentes;

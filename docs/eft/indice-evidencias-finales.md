@@ -1,6 +1,8 @@
-# Índice de evidencias finales
+# Índice interno de evidencias finales
 
-**20 evidencias principales** seleccionadas. Fechas/alcances distintos; no presentar todo como captura nueva o cloud. JSON/TXT EFT contienen resultados reproducibles, no capturas gráficas. Ver timestamps; no incluir secretos/logs completos.
+> Estado documental vigente (2026-10-09): La plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx fue localizada y utilizada. El informe técnico final PDF está generado y listo para revisión; existe una versión DOCX editable, según confirmación del usuario. AWS está ejecutado y documentado, con sus capturas incorporadas. El único entregable principal pendiente es el video MP4 de 5–7 minutos; después corresponde el cierre/publicación autorizado del repositorio.
+
+**20 evidencias principales previas** seleccionadas, complementadas por las **13 capturas AWS** clasificadas abajo. Fechas/alcances distintos; no presentar todo como captura nueva o cloud. JSON/TXT EFT contienen resultados reproducibles, no capturas gráficas. Ver timestamps; no incluir secretos/logs completos.
 
 ## A. Evidencias principales
 
@@ -21,11 +23,33 @@
 | 13 | Kafka/outbox/audit | [13-kafka-outbox-audit.json](../evidence/eft/13-kafka-outbox-audit.json) | Publicación, consumo real, lag y deduplicación. | C5 |
 | 14 | Kafka DLT | [14-kafka-dlt.json](../evidence/eft/14-kafka-dlt.json) | JSON inválido controlado en DLT, sin caída ficticia de broker. | C5 |
 | 15 | Reconciliación | [12b-kafka-reconciliacion-pending.json](../evidence/eft/12b-kafka-reconciliacion-pending.json) | Evento completa PENDING sin duplicar posting. | C2/C5 |
-| 16 | Eureka 2+2+2 | [etapa6-04-eureka-2-2-2.json](../evidence/eft/etapa6-04-eureka-2-2-2.json) | Seis UP con IDs/IPs distintos y puertos seguros. | C6 |
+| 16 | Eureka 2+2+2 local | [etapa6-04-eureka-2-2-2.json](../evidence/eft/etapa6-04-eureka-2-2-2.json) | Seis UP con IDs/IPs distintos y puertos seguros. | C6 |
 | 17 | Routing efectivo | [etapa6-08b-routing-interservicios-loadbalancer.json](../evidence/eft/etapa6-08b-routing-interservicios-loadbalancer.json) | Ambos Account atendieron llamadas Payment, sin alterar payload. | C5/C6 |
-| 18 | Failover Account | [etapa6-10-failover-account-service.json](../evidence/eft/etapa6-10-failover-account-service.json) | GET/operación con una réplica detenida; operación recuperada. | C6 |
+| 18 | Failover Account local | [etapa6-10-failover-account-service.json](../evidence/eft/etapa6-10-failover-account-service.json) | GET/operación con una réplica detenida; operación recuperada. | C6 |
 | 19 | Preservación PostgreSQL | [etapa6-11-postgresql-final.json](../evidence/eft/etapa6-11-postgresql-final.json) | Filas previas de once tablas y 25 operaciones del run. | C2/C6 |
-| 20 | Estado final healthy | [etapa6-12-compose-final.json](../evidence/eft/etapa6-12-compose-final.json) | 1+1+1, 13 servicios, infraestructura/volumen y lag final. | C6/C7 |
+| 20 | Estado final local healthy | [etapa6-12-compose-final.json](../evidence/eft/etapa6-12-compose-final.json) | 1+1+1, 13 servicios, infraestructura/volumen y lag final. | C6/C7 |
+
+### Capturas AWS EC2 — evidencia real incorporada el 8 de octubre de 2026
+
+Amazon Linux 2023 con Docker Compose en una única EC2. Para C6, priorizar base, escala/Eureka y tres resultados de failover; las vistas de recuperación complementan la secuencia. No convertir capturas locales anteriores en evidencia AWS.
+
+| Prueba | Captura | Qué demuestra / límite |
+|---|---|---|
+| Despliegue base en EC2 | [1_despliegue_contenedores_nube.png](../evidence/eft/capturas/1_despliegue_contenedores_nube.png) | docker compose ps: 13 servicios healthy. |
+| OAuth en EC2 | [2_oauth_200_ec2.png](../evidence/eft/capturas/2_oauth_200_ec2.png) | Endpoint /oauth2/token: HTTP 200. |
+| Smoke registral | [3_smoke_test_funcional_200_201_201.png](../evidence/eft/capturas/3_smoke_test_funcional_200_201_201.png) | OAuth 200; PUT Customer 201; PUT Account 201. |
+| Smoke Web BFF | [aws-smoke-web-bff-200-dashboard.png](../evidence/eft/capturas/aws-smoke-web-bff-200-dashboard.png) | GET /api/web/accounts/101/dashboard: HTTP 200 y dashboard legacy. |
+| Escala en nube | [aws-escalabilidad-horizontal-2x2x2.png](../evidence/eft/capturas/aws-escalabilidad-horizontal-2x2x2.png) | Customer=2, Account=2, Payment=2; 16 contenedores healthy sobre una única EC2. |
+| Discovery en nube | [aws-eureka-2x2x2-up.png](../evidence/eft/capturas/aws-eureka-2x2x2-up.png) | Dos instancias UP,UP por cada uno de los tres servicios; seis registros. |
+| Failover Account | [aws-failover-account-service-bff-200.png](../evidence/eft/capturas/aws-failover-account-service-bff-200.png) | Account-1 detenido, Account-2 healthy; Web BFF HTTP 200. |
+| Failover Customer | [aws-customer-service-failover.png](../evidence/eft/capturas/aws-customer-service-failover.png) | Customer-1 detenido, Customer-2 healthy; creación Customer HTTP 201. |
+| Failover Payment | [aws-payment-service-failover-completed-201.png](../evidence/eft/capturas/aws-payment-service-failover-completed-201.png) | Depósito HTTP 201 con status COMPLETED; detención de réplica indicada por el usuario. |
+| Recuperación Account | [aws-recuperacion-failover.png](../evidence/eft/capturas/aws-recuperacion-failover.png) | Inicio de Account-1 y estado healthy tras Web BFF 200. |
+| Recuperación Customer | [aws-customer-service-recuperacion-healthy.png](../evidence/eft/capturas/aws-customer-service-recuperacion-healthy.png) | Customer-1 pasa de health: starting a healthy. |
+| Recuperación Payment | [aws-payment-service-recuperacion-healthy.png](../evidence/eft/capturas/aws-payment-service-recuperacion-healthy.png) | Payment-1 healthy. |
+| Recuperación conjunta | [aws-2x2x2-restaurado-healthy.png](../evidence/eft/capturas/aws-2x2x2-restaurado-healthy.png) | Dos réplicas por negocio restauradas; 16 contenedores healthy. |
+
+Retorno final 1+1+1 confirmado por el usuario, sin captura consolidada de ese estado entre los 13 archivos. Payment COMPLETED/201 visible; el comando de parada Payment no aparece en esa captura. Las requests AWS usan curl -k, por lo que no prueban confianza CA/hostname. No afirmar HA multi-host/multi-AZ ni Kubernetes. Véase [despliegue raíz](../../despliegue.md).
 
 ## B. Evidencias complementarias
 

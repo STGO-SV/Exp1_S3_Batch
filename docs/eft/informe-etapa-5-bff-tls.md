@@ -122,7 +122,7 @@ Todas en `docs/evidence/eft/`:
 - [etapa5-06-mobile-recuperacion-200.json](../evidence/eft/etapa5-06-mobile-recuperacion-200.json)
 - [etapa5-07-reconstruccion-bff.json](../evidence/eft/etapa5-07-reconstruccion-bff.json)
 - [etapa5-08-tests-focalizados.txt](../evidence/eft/etapa5-08-tests-focalizados.txt)
-- [etapa5-09-mvn-verify.txt](../evidence/eft/etapa5-09-mvn-verify.txt)
+- [etapa5-09-mvn-verify.txt](../evidence/historico/eft/etapa5-09-mvn-verify.txt)
 - [etapa5-10-contratos-legacy-consistencia.json](../evidence/eft/etapa5-10-contratos-legacy-consistencia.json)
 - [etapa5-11-compose-final-saludable.json](../evidence/eft/etapa5-11-compose-final-saludable.json)
 
