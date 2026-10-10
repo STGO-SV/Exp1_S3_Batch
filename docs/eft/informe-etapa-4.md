@@ -1,5 +1,7 @@
 # Informe Etapa 4 — validación operacional real
 
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
 Fecha: 4 de octubre de 2026. Base d046500, rama eft.
 Validación ejecutada con Docker Compose, PostgreSQL, HTTPS verificado, OAuth real y Kafka Compose. Sin push, merge, cloud ni escalado.
 
@@ -203,4 +205,4 @@ Versionados solo runner, informe/evidencias y actualización del plan. .env, cla
 ## Siguiente etapa recomendada
 
 Recargar TLS de BFF y verificar primero sus contratos existentes. Después, definir la integración de canales con los maestros modernos y su autorización sin inferir identidades desde legacy.
-Preparar escalado coordinando outbox y puertos solamente cuando se autorice. Cloud/entregables finales permanecen posteriores.
+Preparar escalado coordinando outbox y puertos como actividad independiente del alcance evaluado. Cloud/entregables finales permanecen posteriores.

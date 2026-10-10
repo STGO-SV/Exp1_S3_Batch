@@ -1,5 +1,7 @@
 # Informe Etapa 3 — dominio operacional
 
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
 Fecha: 4 de octubre de 2026. Rama eft, base be36d83; main permanece en 76b9773.
 Trabajo local autorizado; sin push, merge, cloud ni demostración de escalado.
 
@@ -183,6 +185,5 @@ La validación real pendiente es trabajo técnico; no exige reinterpretar el sal
 - docs/eft/contratos-servicios.md
 - docs/eft/informe-etapa-3.md
 - docs/eft/modelo-dominio.md
-- docs/eft/plan-implementacion.md
 - docs/eft/validacion-etapa3.txt
 - scripts/initialize-compose-environment.ps1

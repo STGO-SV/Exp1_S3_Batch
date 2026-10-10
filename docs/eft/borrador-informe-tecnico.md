@@ -1,6 +1,8 @@
 # Banco XYZ — borrador del informe técnico EFT
 
-**Fuente Markdown de trabajo conservada: informe final PDF generado con la plantilla oficial y DOCX editable existente, según confirmación del usuario.** Fecha de consolidación: 5 de octubre de 2026; corrección contra pauta oficial: 6 de octubre de 2026; evidencia AWS incorporada: 8 de octubre de 2026. Basado en código y evidencia Etapas 1–6; ver [matriz](matriz-rubrica-evidencias.md), [índice principal](indice-evidencias-finales.md) y [gaps](gaps-entrega.md).
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
+**Fuente Markdown de trabajo conservada: informe final PDF generado con la plantilla oficial y DOCX editable existente, .** Fecha de consolidación: 5 de octubre de 2026; corrección contra pauta oficial: 6 de octubre de 2026; evidencia AWS incorporada: 8 de octubre de 2026. Basado en la implementación y las evidencias registradas; documento Markdown de trabajo conservado como antecedente del informe final.
 
 ## 1. Portada placeholder
 
@@ -36,7 +38,7 @@ No se incluyen login de personas, autorización por titularidad, migración auto
 | Implementación de Seguridad Distribuida con Spring Cloud Security | OAuth2/Spring Security, JWT verificado, HTTPS, roles por canal y scopes operacionales; no equivale a autorización de personas por titularidad |
 | Integración de Mensajería Asíncrona con Apache Kafka | Anomalías Batch/Anomaly y eventos financieros: outbox Account, auditoría/reconciliación Payment, deduplicación, retry y DLT |
 
-Corresponde a los cinco procesos nombrados por la pauta oficial. La clasificación funcional del contexto (§3) se distingue de esos procesos de modernización. Evidencias concretas: [matriz](matriz-rubrica-evidencias.md) e [índice](indice-evidencias-finales.md).
+Corresponde a los cinco procesos nombrados por la pauta oficial. La clasificación funcional del contexto (§3) se distingue de esos procesos de modernización. Evidencias técnicas conservadas en docs/evidence/eft/.
 
 ## 6. Tres requerimientos clave
 
@@ -62,7 +64,7 @@ Chunk transaccional; skip de errores de parsing/dominio hasta 1000 por worker y 
 
 Partitioner por rangos + ThreadPoolTaskExecutor permiten cuatro workers en tests de Semana 3. Validaciones de configuración y tests de restart de los tres jobs acreditan rollback de chunk, checkpoint, misma JobInstance y rechazo de ejecución completa repetida. Captura histórica muestra tres COMPLETED; verify vigente vuelve a ejecutar las pruebas.
 
-Límites: cada worker relee el CSV; prelectura falla antes del skip; límite de rechazo por worker; timestamp genera instancia nueva capaz de duplicar salidas. Restart probado con H2 aislado/worker único, no como recuperación PostgreSQL multiworker runtime. Batch no se escaló por Compose. Fuentes: [auditoría](auditoria-inicial.md), [validación](validacion.txt) y evidencia Batch del [índice](indice-evidencias-finales.md).
+Límites: cada worker relee el CSV; prelectura falla antes del skip; límite de rechazo por worker; timestamp genera instancia nueva capaz de duplicar salidas. Restart probado con H2 aislado/worker único, no como recuperación PostgreSQL multiworker runtime. Batch no se escaló por Compose. Fuentes: [detalle técnico Batch](informe-etapa-1.md#batch), [validación](validacion.txt) y evidencia Batch del [índice](indice-evidencias-finales.md).
 
 ## 9. BFF
 
@@ -148,15 +150,15 @@ El sistema se desplegó en **una instancia EC2 Amazon Linux 2023 con Docker Comp
 
 [Escala](../evidence/eft/capturas/aws-escalabilidad-horizontal-2x2x2.png): Customer=2, Account=2, Payment=2, 16 contenedores; [Eureka](../evidence/eft/capturas/aws-eureka-2x2x2-up.png): dos UP por cada servicio. Es escalabilidad horizontal de contenedores/microservicios en nube sobre una EC2, no HA multi-host/multi-AZ ni Kubernetes.
 
-Failover funcional: [Account](../evidence/eft/capturas/aws-failover-account-service-bff-200.png), Web BFF 200 con Account-1 detenido; [Customer](../evidence/eft/capturas/aws-customer-service-failover.png), alta 201 con Customer-1 detenido; [Payment](../evidence/eft/capturas/aws-payment-service-failover-completed-201.png), depósito COMPLETED/201 durante el failover informado por el usuario. La última imagen no contiene el comando de parada Payment.
+Failover funcional: [Account](../evidence/eft/capturas/aws-failover-account-service-bff-200.png), Web BFF 200 con Account-1 detenido; [Customer](../evidence/eft/capturas/aws-customer-service-failover.png), alta 201 con Customer-1 detenido; [Payment](../evidence/eft/capturas/aws-payment-service-failover-completed-201.png), depósito COMPLETED/201 durante el failover registrado al cierre de la prueba. La última imagen no contiene el comando de parada Payment.
 
-[Recuperación conjunta](../evidence/eft/capturas/aws-2x2x2-restaurado-healthy.png): 2+2+2/16 healthy. Account, Customer y Payment recuperados se documentan individualmente en [índice](indice-evidencias-finales.md). El usuario confirma retorno final a una réplica por negocio; no se aportó captura consolidada del cierre 1+1+1.
+[Recuperación conjunta](../evidence/eft/capturas/aws-2x2x2-restaurado-healthy.png): 2+2+2/16 healthy. Account, Customer y Payment recuperados se documentan individualmente en [índice](indice-evidencias-finales.md). Al finalizar la prueba, el entorno fue restaurado a una réplica por negocio; no se aportó captura consolidada del cierre 1+1+1.
 
 Las requests capturadas usan curl -k: acreditan resultados HTTPS, no validación CA/hostname en AWS. No trasladar al cloud la evidencia TLS estricta local ni deducir DNS público/SLA/HA. Procedimiento y 13 capturas: [despliegue.md B](../../despliegue.md). Servicios gestionados AWS de la tabla conceptual siguen siendo propuestas, no recursos ejecutados.
 
 ## 21. Mejoras futuras
 
-El informe final PDF y el DOCX editable ya están generados. Grabar el video de 5–7 minutos y completar posteriormente el cierre/publicación autorizado; conservar la evidencia AWS. Integración BFF moderna, identidad por titularidad, identidad natural de lotes y HA/benchmark requieren alcance propio.
+El informe PDF y el DOCX editable están generados, el video está grabado y se entrega fuera del repositorio, y main contiene la EFT integrada y publicada. Las ampliaciones técnicas citadas son límites de alcance, no tareas de entrega.
 
 ## 22. Conclusiones
 
@@ -164,8 +166,8 @@ La modernización preserva el funcionamiento legacy y añade un dominio financie
 
 ## 23. Evidencias y referencias
 
-[20 evidencias principales](indice-evidencias-finales.md); [matriz interna de trazabilidad](matriz-rubrica-evidencias.md); [auditoría documental](auditoria-documental-final.md); [gaps](gaps-entrega.md); [diagramas](diagramas.md); [guion video](guion-video.md). Informes de etapas conservan detalles y fechas, no se copian íntegros.
+[Índice de evidencias principales y complementarias](indice-evidencias-finales.md); [diagramas](diagramas.md); [contratos vigentes](contratos-servicios.md); [despliegue local y AWS](../../despliegue.md). Los informes técnicos de etapas conservan detalles, fechas y límites de cada ejecución, sin copiarse íntegros.
 
-Las fuentes técnicas se citan en los informes de escala y despliegue. Las fuentes oficiales incluyen la pauta, las instrucciones específicas (forma A) y la plantilla PBY2203_EFT_S9_plantilla_PDF.docx, ya utilizada para generar el PDF final y el DOCX editable. El informe está listo para revisión según confirmación del usuario; resta el video y luego el cierre/publicación autorizado.
+La pauta, las instrucciones específicas y la plantilla PBY2203_EFT_S9_plantilla_PDF.docx sustentan el formato del informe PDF/DOCX generado. El video se entrega fuera del repositorio.
 
-Entregables: readme.md, informe PDF, instrucciones.md y despliegue.md junto al video MP4 de 5–7 minutos, webcam/evidencias y cuatro puntos, en una misma carpeta. El PDF y el DOCX editable ya están generados; el video sigue pendiente.
+Entregables: readme.md, informe PDF, instrucciones.md y despliegue.md junto al video MP4 de 5–7 minutos, webcam/evidencias y cuatro puntos, en una misma carpeta. El PDF y el DOCX editable ya están generados; el video está grabado y se entrega fuera del repositorio.

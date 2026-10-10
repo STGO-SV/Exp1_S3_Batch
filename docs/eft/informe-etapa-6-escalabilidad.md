@@ -1,5 +1,7 @@
 # Etapa 6: escalabilidad horizontal real
 
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
 Fecha local: 2026-10-04, America/Santiago. Rama `eft`; base `bacd0ba`.
 Auditoría previa: [auditoria-etapa-6-escalabilidad.md](auditoria-etapa-6-escalabilidad.md).
 
@@ -230,4 +232,4 @@ Sin pendientes bloqueantes de Etapa 6. Límites:
 - Mantener ledger idempotente y deduplicación ante redelivery; no prometer exactly-once físico.
 - BFF siguen legacy; integración moderna/titularidad necesitan alcance propio.
 
-Siguiente etapa recomendada: preparar infraestructura cloud real, observabilidad, PKI/secretos y pipeline de migración sobre estos servicios escalables; desplegar cuando se autorice. No se creó evidencia ficticia AWS ni se desplegó en esta etapa.
+Siguiente etapa recomendada: preparar infraestructura cloud real, observabilidad, PKI/secretos y pipeline de migración sobre estos servicios escalables; desplegar con los controles operativos correspondientes. No se creó evidencia ficticia AWS ni se desplegó en esta etapa.

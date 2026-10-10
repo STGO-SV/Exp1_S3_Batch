@@ -1,5 +1,7 @@
 # Evidencia real — Semana 5
 
+> Documento histórico del escenario indicado; sus estados y comandos corresponden a esa validación. El estado final EFT se describe en los documentos de raíz.
+
 > Evidencia histórica de la entrega original, anterior a la corrección transaccional ATM realizada después de la
 > retroalimentación docente. Las referencias a `SIMULATED` y saldo sin cambios describen fielmente aquella entrega y no
 > se reescriben. La evidencia nueva vive en `docs/evidence/atm-transactional-fix/`.

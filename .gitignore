@@ -59,3 +59,12 @@ infra/nginx-proxy-manager/letsencrypt/
 
 # Semana 8 : propiedades para pruebas locales
 **/application-local.properties
+
+# Documentación interna de trabajo EFT
+/docs/eft/auditoria-documental-final.md
+/docs/eft/auditoria-inicial.md
+/docs/eft/correccion-documental-*.md
+/docs/eft/gaps-entrega.md
+/docs/eft/matriz-rubrica-evidencias.md
+/docs/eft/plan-implementacion.md
+/docs/eft/guion-video.md

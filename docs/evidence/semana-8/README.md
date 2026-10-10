@@ -1,5 +1,7 @@
 # Evidencias — Semana 8
 
+> Documento histórico del escenario indicado; sus estados y comandos corresponden a esa validación. El estado final EFT se describe en los documentos de raíz.
+
 Estas capturas corresponden al estado final validado del despliegue local. No contienen secretos reales.
 
 | Evidencia | Archivo |

@@ -1,5 +1,7 @@
 # EFT — cierre de Etapa 2
 
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
 ## Resultado y alcance
 
 Diseño basado en los nueve CSV y código/esquema reales; Account y Customer registrales implementados, sin seeding ni saldos/titulares inventados. Payment financiero se detuvo en diseño por decisiones que requieren revisión humana.
@@ -156,7 +158,6 @@ Lista completa respecto de 9c19005, incluyendo este informe:
 - docs/eft/informe-etapa-2.md
 - docs/eft/modelo-dominio.md
 - docs/eft/persistencia-operacion-etapa2.md
-- docs/eft/plan-implementacion.md
 - docs/eft/validacion-etapa2.txt
 - scripts/initialize-compose-environment.ps1
 
@@ -169,9 +170,9 @@ Lista completa respecto de 9c19005, incluyendo este informe:
 5. Interpretación de pago como débito académico, ledger y comprobante/reconciliación; moneda solo si se define.
 6. Autenticación final/delegación y autorización por titularidad; actual OAuth es técnico.
 7. Consumidor/proyección que justifique eventos nuevos.
-8. AWS según seguimiento de despliegue; plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx ya identificada y disponible. El PDF final y el DOCX editable ya están generados con la plantilla oficial. El video y el cierre/publicación son los pendientes de entrega.
+8. AWS según seguimiento de despliegue; plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx ya identificada y disponible. El PDF final y el DOCX editable ya están generados con la plantilla oficial. El video está grabado y se entrega fuera del repositorio; main está publicada.
 
 ## Siguiente etapa recomendada
 
 Revisar 1–6 antes de implementar Payment o migrar saldo; después validar migraciones y nuevos contratos con PostgreSQL/Docker local. Solo entonces implementar posting financiero/idempotencia/outbox y probar transferencia/rollback/insuficiencia.
-Este cierre describe Etapa 2. Posteriormente se validó el escalado, se ejecutó AWS y se generó el PDF/DOCX; video y cierre/publicación siguen pendientes.
+Este cierre describe Etapa 2. Posteriormente se validó el escalado, se ejecutó AWS y se generó el PDF/DOCX; video grabado con entrega externa y main publicada.

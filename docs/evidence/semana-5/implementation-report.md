@@ -1,5 +1,7 @@
 # Informe técnico final — Semana 5 HTTPS directo
 
+> Documento histórico del escenario indicado; sus estados y comandos corresponden a esa validación. El estado final EFT se describe en los documentos de raíz.
+
 Alcance verificado el 10-09-2026 sobre el árbol de trabajo local. La comprobación funcional usa H2 sintético y no PostgreSQL.
 
 1. **Rama activa:** semana-5, siguiendo origin/semana-5.
@@ -40,7 +42,7 @@ Alcance verificado el 10-09-2026 sobre el árbol de trabajo local. La comprobaci
 36. **Benchmark:** usa HTTPS por defecto, registra trustMode y certificateValidated y separa confianza explícita del skip de laboratorio. La corrida H2 hizo 20 muestras y 3 calentamientos por endpoint, sin errores.
 37. **Documentación:** README y docs/semana-5.md explican TLS directo, scripts, JWT, puertos, confianza y límites.
 38. **NPM:** se conserva como alternativa experimental. No se inició, configuró ni usó.
-39. **PostgreSQL pendiente:** la automatización final está preparada, pero debe ejecutarse desde la sesión PowerShell 7 del usuario, que contiene DB_URL, DB_USER y DB_PASSWORD. No se inventaron resultados.
+39. **PostgreSQL pendiente:** la automatización final está preparada, pero debe ejecutarse desde la entorno PowerShell 7 de validación, que contiene DB_URL, DB_USER y DB_PASSWORD. No se inventaron resultados.
 40. **Confianza pendiente:** el sistema no confía por defecto en el certificado autofirmado. La evidencia automatizada fijó localhost.crt y mantuvo la validación de nombre; falta la ejecución manual Postman con confianza habilitada.
 41. **Riesgos:** changeit y el certificado son de laboratorio; los JAR locales pueden incorporar el keystore y no deben distribuirse. JWT no aporta revocación, refresh, MFA ni rate limiting, y el rol no prueba titularidad de cuenta.
 42. **Batch:** la aplicación Batch no se inició. Maven sí ejecutó sus tests aislados, parte de los 113 requeridos.
@@ -69,4 +71,4 @@ clean verify. Sólo detiene procesos que él mismo inició.
 
 El script realiza una comprobación de secretos comparando los valores sensibles en memoria con los archivos
 versionables sin imprimirlos, comprueba staging vacío y los cuatro keystores ignorados. El resultado PostgreSQL
-seguirá pendiente hasta obtener OVERALL: PASS en la consola del usuario.
+seguirá pendiente hasta obtener OVERALL: PASS en la consola de validación.

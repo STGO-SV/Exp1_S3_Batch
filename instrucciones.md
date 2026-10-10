@@ -1,6 +1,6 @@
 # Instrucciones de ejecución y evaluación EFT
 
-Guía del estado `eft` al 5 de octubre de 2026; alineación documental con fuentes oficiales el 6 de octubre de 2026. Comandos reutilizados de Etapas 4–6 o de Semana 8; no se ejecutaron nuevamente los escenarios funcionales durante la auditoría documental. Los endpoints modernos se prueban desde la red Compose: Customer y Payment no publican puertos al host. Ejecutar desde la raíz del repositorio en PowerShell 7.
+Guía de preparación, ejecución y pruebas del estado final publicado en main. Los endpoints modernos se prueban desde la red Docker Compose: Customer Service y Payment Service no publican puertos al host. Ejecutar desde la raíz del repositorio en PowerShell 7.
 
 ## 1. Requisitos previos
 
@@ -44,7 +44,23 @@ docker compose -f docker-compose.yaml ps
 
 Base: 13 servicios, Customer/Account/Payment 1+1+1; tres BFF singleton. No añadir los overrides históricos `compose.eft.yaml` o `compose.scale-local.yaml` a esta secuencia.
 
-Batch estable usa `BATCH_RUN_ON_STARTUP=false`. Los BFF necesitan resultados legacy cargados: la cuenta 101 estaba disponible en la instancia validada, pero no existe por defecto en una BD vacía. Para una BD nueva, seguir **una sola vez** la carga Batch controlada de [Semana 8](docs/semana-8-docker.md#construcción-y-arranque). Esa carga tiene evidencia histórica; no repetirla sobre el volumen evaluado ni eliminar el contenedor importador existente.
+Batch estable usa `BATCH_RUN_ON_STARTUP=false`. Los BFF necesitan resultados legacy cargados: la cuenta 101 estaba disponible en la instancia validada, pero no existe por defecto en una BD vacía. Para una BD nueva, ejecutar una sola importación controlada. Detener el servicio Batch estable, crear el importador y esperar los tres jobs COMPLETED:
+
+```powershell
+docker compose stop batch
+docker compose run -d --no-deps -e BATCH_RUN_ON_STARTUP=true --name banco-legacy-batch-import batch
+docker logs -f banco-legacy-batch-import
+```
+
+Cuando transaccionesDiariasJob, interesesMensualesJob y estadosCuentaAnualesJob estén COMPLETED, salir del seguimiento con Ctrl+C, detener y retirar únicamente el importador creado y restaurar Batch:
+
+```powershell
+docker stop banco-legacy-batch-import
+docker rm banco-legacy-batch-import
+docker compose up -d batch
+```
+
+La carga lee /data según BATCH_DATA_DIR. Sobre una base poblada, repetir la importación puede duplicar salidas; conservar el volumen existente.
 
 ## 5. Health checks
 
@@ -82,7 +98,7 @@ La función `token` de [validate-eft-compose.py](scripts/validate-eft-compose.py
 
 Usar token del canal correspondiente en `Authorization: Bearer` conservado en memoria. La función `request` de [validate-bff-tls.py](scripts/validate-bff-tls.py) permite repetir esas lecturas con TLS verificado; no volcar tokens en terminal. Sin token 401 y otro canal 403.
 
-**No ejecutar automáticamente la fase regression histórica:** compara IDs de infraestructura contra la captura previa Etapa 5, que ya no coincide con el ciclo de recreaciones Etapa 6; además sobrescribe evidencias. Esa es una precondición del runner, no un fallo de los contratos. En el estado local Etapa 6, la fase `final` del runner scale verifica la regresión vigente, si se conserva su state/snapshot. Consultar las evidencias existentes antes de repetir.
+**Precondición de la fase regression:** compara IDs de infraestructura contra la captura previa Etapa 5, que ya no coincide con el ciclo de recreaciones Etapa 6; además sobrescribe evidencias. Esa es una precondición del runner, no un fallo de los contratos. Para la validación registrada, la fase `final` del runner scale verifica la regresión vigente, si se conserva su state/snapshot. Consultar las evidencias existentes antes de repetir.
 
 ## 8–10. Customer, Account y Payment
 
@@ -114,7 +130,7 @@ python -B scripts/validate-eft-compose.py resilience
 python -B scripts/validate-eft-compose.py kafka
 ```
 
-Esta secuencia escribe fixtures, detiene temporalmente Account y envía un JSON inválido controlado al topic financiero. No ejecutarla en una instancia compartida durante uso normal. `baseline` sobrescribe su state y evidencias: **no repetirla en el entorno actual** ni borrar state para aparentar una nueva ejecución. Para revisar sin crear dinero, consultar los JSON registrados y conservar los IDs/keys de sus comprobantes; repetir un POST exacto es idempotente, usar una key nueva no lo es.
+Esta secuencia escribe fixtures, detiene temporalmente Account y envía un JSON inválido controlado al topic financiero. No ejecutarla en una instancia compartida durante uso normal. `baseline` sobrescribe su state y evidencias: requiere una copia aislada sin ejecución previa; conservar el state para mantener la trazabilidad. Para revisar sin crear dinero, consultar los JSON registrados y conservar los IDs/keys de sus comprobantes; repetir un POST exacto es idempotente, usar una key nueva no lo es.
 
 ## 11. Kafka, outbox y audit
 
@@ -135,7 +151,7 @@ Prueba recomendada para el base y los datos legacy existentes, usada en Etapa 5:
 python -B scripts/validate-bff-tls.py resilience
 ```
 
-Comprueba Mobile 200, detiene **solo Account**, espera 503 controlado, restaura Account en finally y comprueba recuperación 200. Genera/sobrescribe evidencias Etapa 5 y requiere los mismos contenedores durante la prueba; revisar/archivar las capturas antes de reproducir. No se ejecutó nuevamente en Etapa 7.
+Comprueba Mobile 200, detiene **solo Account**, espera 503 controlado, restaura Account en finally y comprueba recuperación 200. Genera/sobrescribe evidencias Etapa 5 y requiere los mismos contenedores durante la prueba; revisar/archivar las capturas antes de reproducir.
 
 ## 13. Escalabilidad horizontal
 
@@ -158,7 +174,7 @@ Esto restaura réplicas/configuración, **no borra fixtures**. Conservar `banco-
 |---|---|
 | Docker pipe/daemon inaccesible | Habilitar Docker Desktop Linux Engine y repetir lectura de estado |
 | TLS no confiable | Comparar certificado servido con .local/compose; comprobar SAN/validez y CA usada, no desactivar TLS |
-| Imagen vieja/SQL ausente | Reconstruir/recrear exclusivamente servicios afectados; diagnóstico Etapas 4/5 |
+| Imagen vieja/SQL ausente | Reconstruir/recrear exclusivamente los servicios afectados y comprobar esquema y health |
 | Puerto 8085 ocupado al escalar | Aplicar override scale, que elimina binding host Account; no cambiar el base |
 | .env ausente/incompleto | Ejecutar inicializador sin rotación y comprobar nombres de variables sin mostrar valores |
 | Tests Batch no encuentran CSV | Revisar árbol académico sibling y BATCH_DATA_DIR; no confundir ruta de tests con montaje Docker |
@@ -166,12 +182,6 @@ Esto restaura réplicas/configuración, **no borra fixtures**. Conservar `banco-
 | Circuito todavía abierto tras restaurar | Esperar health y ventana de recuperación; repetir la misma key/request, no crear operaciones nuevas |
 | Runner no satisface precondiciones | Consultar su state/captura y evidencia histórica; no eliminar artefactos para saltar guards |
 
-Para alcance, límites y entregas pendientes, consultar [auditoría final](docs/eft/auditoria-documental-final.md).
+## Datos y alcance de ejecución
 
-## Entrega oficial conocida — corrección Etapa 7.1
-
-La entrega reúne readme.md con enlace GitHub, informe PDF, instrucciones.md y despliegue.md, junto al video MP4 de 5–7 minutos con webcam/evidencias y cuatro puntos, en una misma carpeta. La plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx fue localizada y utilizada. El informe técnico final PDF está generado y listo para revisión; existe una versión DOCX editable, según confirmación del usuario. AWS está ejecutado y documentado, con sus capturas incorporadas. El único entregable principal pendiente es el video MP4 de 5–7 minutos; después corresponde el cierre/publicación autorizado del repositorio.
-
-Actualización AWS (2026-10-08): despliegue ejecutado en una EC2 Amazon Linux 2023 con Docker Compose; 13 servicios base healthy y Customer/Account/Payment 2+2+2, 16 contenedores, Eureka dos UP por servicio y failover funcional. [Procedimiento/resultados y capturas](despliegue.md#b-despliegue-aws-ec2-ejecutado-y-validado). Las capturas de requests usan curl -k y no prueban verificación CA/hostname; mantener la distinción con las instrucciones de TLS verificado local. Retorno final 1+1+1 confirmado por el usuario, sin captura consolidada de ese cierre.
-
-La fuente académica de datos indicada en las instrucciones oficiales es el repositorio KariVillagran/fin_legacy_data. El proyecto validado utiliza el árbol sibling bank_legacy_data; comprobar acceso/correspondencia al preparar la entrega, sin descargar, reemplazar ni reimportar datos durante Etapa 7.1.
+Los CSV académicos se obtienen del conjunto indicado por el curso (KariVillagran/fin_legacy_data); este proyecto utiliza el árbol sibling bank_legacy_data. Verificar rutas y correspondencia antes de importar. El despliegue AWS ejecutado se describe en [despliegue.md](despliegue.md); sus capturas con curl -k no sustituyen la verificación TLS local indicada en esta guía.

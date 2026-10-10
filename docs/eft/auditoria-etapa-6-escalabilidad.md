@@ -1,4 +1,6 @@
 # Auditoría previa Etapa 6
+
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
 Fecha 2026-10-04. Base bacd0ba, rama eft limpia. Auditoría realizada antes de cambiar código o escalar.
 
 | Componente | Estado observado | Bloqueo / decisión mínima |

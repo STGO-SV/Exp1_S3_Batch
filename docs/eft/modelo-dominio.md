@@ -1,3 +1,5 @@
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
 > Lectura final: las propuestas de Etapas 1/2 son históricas. El dominio operacional se consolidó en Etapa 3; validación real y coordinación de publishers se acreditan en Etapas 4–6. APIs vigentes: [contratos-servicios.md](contratos-servicios.md); síntesis: [borrador técnico](borrador-informe-tecnico.md).
 
 > Documento evolutivo: Etapas 1/2 describen estado histórico. Las decisiones vigentes de Etapa 3 al final sustituyen las propuestas pendientes de saldo y Payment.
@@ -135,7 +137,7 @@ Time-outs 2s/3s y circuit breaker. No reintentos automáticos de escritura. No l
 4. Alcance financiero de apertura/mantenimiento/cierre, préstamos y efecto sobre ATM.
 5. Aceptar interpretación académica de pago y ledger/estados/reconciliación; moneda si se exige.
 6. Identidad de usuarios finales y autorización por titularidad.
-7. AWS conserva su seguimiento en los documentos de despliegue; la plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx ya está identificada y disponible. El PDF final y el DOCX editable ya están generados con la plantilla oficial. El video y el cierre/publicación son los pendientes de entrega.
+7. AWS conserva su seguimiento en los documentos de despliegue; la plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx ya está identificada y disponible. El PDF final y el DOCX editable ya están generados con la plantilla oficial. El video está grabado y se entrega fuera del repositorio; main está publicada.
 
 No se desplegará, escalará ni modificará destructivamente el esquema en esta etapa.
 ## Etapa 3 — decisiones aprobadas y ejecución operacional

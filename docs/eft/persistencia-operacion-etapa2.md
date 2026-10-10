@@ -1,5 +1,7 @@
 # Etapa 2 — persistencia y operación local
 
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
 ## Qué se aplicará
 
 Account arranca con SQL init always y schema-locations=classpath:schema-eft-account.sql; Customer con schema-eft-customer.sql.

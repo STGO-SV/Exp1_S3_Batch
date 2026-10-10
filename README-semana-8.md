@@ -1,5 +1,7 @@
 # Banco Legacy — Desarrollo Backend III, Semana 8
 
+> Documento histórico del escenario indicado; sus estados y comandos corresponden a esa validación. El estado final EFT se describe en los documentos de raíz.
+
 Monorepo Maven de 10 módulos que integra procesamiento batch, microservicios, OAuth 2.0, tolerancia a fallos,
 mensajería Kafka y un despliegue local reproducible con Docker Compose.
 

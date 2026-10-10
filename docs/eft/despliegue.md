@@ -1,5 +1,7 @@
 # Procedimiento técnico interno: despliegue local EFT
 
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
 Procedimiento demostrado en Etapa 6. Docker Desktop activo y .env/.local/compose existentes. PostgreSQL usa volumen persistente banco-legacy_postgres-data. Conservar datos y state local del runner.
 
 ## Validación antes de escalar
@@ -48,4 +50,4 @@ No ejecutar down -v, borrar volúmenes ni resetear datos. No push/merge/cloud en
 
 ## Entregable consolidado
 
-La versión para evaluación está en [despliegue.md de raíz](../../despliegue.md), con despliegue real AWS EC2 Amazon Linux 2023 + Docker Compose incorporado: [13 servicios base healthy](../evidence/eft/capturas/1_despliegue_contenedores_nube.png), [2+2+2/16 contenedores](../evidence/eft/capturas/aws-escalabilidad-horizontal-2x2x2.png) y [Eureka dos UP por negocio](../evidence/eft/capturas/aws-eureka-2x2x2-up.png). Failovers y recuperación se enlazan en el índice. Una única EC2; no HA multi-host/multi-AZ. Retorno final 1+1+1 informado por el usuario; sin captura consolidada de ese cierre. Este procedimiento interno conserva los comandos probados de Etapa 6. Las fases flow/outbox tienen precondiciones de state y escenario inicial: consultar la guía de raíz antes de reproducir sobre la instancia ya validada.
+La versión para evaluación está en [despliegue.md de raíz](../../despliegue.md), con despliegue real AWS EC2 Amazon Linux 2023 + Docker Compose incorporado: [13 servicios base healthy](../evidence/eft/capturas/1_despliegue_contenedores_nube.png), [2+2+2/16 contenedores](../evidence/eft/capturas/aws-escalabilidad-horizontal-2x2x2.png) y [Eureka dos UP por negocio](../evidence/eft/capturas/aws-eureka-2x2x2-up.png). Failovers y recuperación se enlazan en el índice. Una única EC2; no HA multi-host/multi-AZ. Retorno final 1+1+1 registrado al cierre de la prueba; sin captura consolidada de ese cierre. Este procedimiento interno conserva los comandos probados de Etapa 6. Las fases flow/outbox tienen precondiciones de state y escenario inicial: consultar la guía de raíz antes de reproducir sobre la instancia ya validada.

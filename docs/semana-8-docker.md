@@ -1,5 +1,7 @@
 # Semana 8: despliegue local con Docker Compose
 
+> Documento histórico del escenario indicado; sus estados y comandos corresponden a esa validación. El estado final EFT se describe en los documentos de raíz.
+
 La topología Docker es autocontenida y no modifica el PostgreSQL instalado en el host. Compose crea la base
 `banco_legacy_batch` en el volumen nombrado `postgres-data` y publica PostgreSQL en el puerto local `5433` para evitar
 colisiones con el puerto `5432` del host.

@@ -1,5 +1,7 @@
 # Evidencia Semana 6 — cadena piloto Mobile
 
+> Documento histórico del escenario indicado; sus estados y comandos corresponden a esa validación. El estado final EFT se describe en los documentos de raíz.
+
 Esta carpeta recibirá evidencia saneada de Config Server, Eureka, descubrimiento, JWT y Circuit Breaker.
 No se deben guardar tokens, claves, contraseñas, keystores ni payloads bancarios completos.
 

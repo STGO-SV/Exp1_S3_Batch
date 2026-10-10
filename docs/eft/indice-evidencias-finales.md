@@ -1,6 +1,6 @@
 # Índice interno de evidencias finales
 
-> Estado documental vigente (2026-10-09): La plantilla oficial PBY2203_EFT_S9_plantilla_PDF.docx fue localizada y utilizada. El informe técnico final PDF está generado y listo para revisión; existe una versión DOCX editable, según confirmación del usuario. AWS está ejecutado y documentado, con sus capturas incorporadas. El único entregable principal pendiente es el video MP4 de 5–7 minutos; después corresponde el cierre/publicación autorizado del repositorio.
+> Índice interno de trazabilidad. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
 
 **20 evidencias principales previas** seleccionadas, complementadas por las **13 capturas AWS** clasificadas abajo. Fechas/alcances distintos; no presentar todo como captura nueva o cloud. JSON/TXT EFT contienen resultados reproducibles, no capturas gráficas. Ver timestamps; no incluir secretos/logs completos.
 
@@ -43,17 +43,17 @@ Amazon Linux 2023 con Docker Compose en una única EC2. Para C6, priorizar base,
 | Discovery en nube | [aws-eureka-2x2x2-up.png](../evidence/eft/capturas/aws-eureka-2x2x2-up.png) | Dos instancias UP,UP por cada uno de los tres servicios; seis registros. |
 | Failover Account | [aws-failover-account-service-bff-200.png](../evidence/eft/capturas/aws-failover-account-service-bff-200.png) | Account-1 detenido, Account-2 healthy; Web BFF HTTP 200. |
 | Failover Customer | [aws-customer-service-failover.png](../evidence/eft/capturas/aws-customer-service-failover.png) | Customer-1 detenido, Customer-2 healthy; creación Customer HTTP 201. |
-| Failover Payment | [aws-payment-service-failover-completed-201.png](../evidence/eft/capturas/aws-payment-service-failover-completed-201.png) | Depósito HTTP 201 con status COMPLETED; detención de réplica indicada por el usuario. |
+| Failover Payment | [aws-payment-service-failover-completed-201.png](../evidence/eft/capturas/aws-payment-service-failover-completed-201.png) | Depósito HTTP 201 con status COMPLETED; detención de réplica registrada en el escenario. |
 | Recuperación Account | [aws-recuperacion-failover.png](../evidence/eft/capturas/aws-recuperacion-failover.png) | Inicio de Account-1 y estado healthy tras Web BFF 200. |
 | Recuperación Customer | [aws-customer-service-recuperacion-healthy.png](../evidence/eft/capturas/aws-customer-service-recuperacion-healthy.png) | Customer-1 pasa de health: starting a healthy. |
 | Recuperación Payment | [aws-payment-service-recuperacion-healthy.png](../evidence/eft/capturas/aws-payment-service-recuperacion-healthy.png) | Payment-1 healthy. |
 | Recuperación conjunta | [aws-2x2x2-restaurado-healthy.png](../evidence/eft/capturas/aws-2x2x2-restaurado-healthy.png) | Dos réplicas por negocio restauradas; 16 contenedores healthy. |
 
-Retorno final 1+1+1 confirmado por el usuario, sin captura consolidada de ese estado entre los 13 archivos. Payment COMPLETED/201 visible; el comando de parada Payment no aparece en esa captura. Las requests AWS usan curl -k, por lo que no prueban confianza CA/hostname. No afirmar HA multi-host/multi-AZ ni Kubernetes. Véase [despliegue raíz](../../despliegue.md).
+Retorno final 1+1+1 registrado al cierre de la prueba, sin captura consolidada de ese estado entre los 13 archivos. Payment COMPLETED/201 visible; el comando de parada Payment no aparece en esa captura. Las requests AWS usan curl -k, por lo que no prueban confianza CA/hostname. No afirmar HA multi-host/multi-AZ ni Kubernetes. Véase [despliegue raíz](../../despliegue.md).
 
 ## B. Evidencias complementarias
 
-- Batch: [validacion.txt](validacion.txt), [auditoría](auditoria-inicial.md), BatchJobsRestartIntegrationTests, Week3PartitionedJobsIntegrationTests y PartitionReaderRestartTests. H2 aislado no es restart runtime PostgreSQL multiworker.
+- Batch: [validacion.txt](validacion.txt), [detalle técnico Batch](informe-etapa-1.md#batch), BatchJobsRestartIntegrationTests, Week3PartitionedJobsIntegrationTests y PartitionReaderRestartTests. H2 aislado no es restart runtime PostgreSQL multiworker.
 - [Outbox coordinada](../evidence/eft/etapa6-08-outbox-coordinada.json), [grupo Kafka](../evidence/eft/etapa6-09-consumer-group-payment.json) y FinancialOutboxPostgresTests: dos owners, claims/lease/stale token, PostgreSQL real.
 - [Failover Customer](../evidence/eft/etapa6-10-failover-customer-service.json), [Payment](../evidence/eft/etapa6-10-failover-payment-service.json) y [recuperación única](../evidence/eft/etapa6-10c-pending-recuperado-sin-duplicacion.json).
 - [Web](../evidence/eft/etapa5-03-web-200.json), [Mobile](../evidence/eft/etapa5-03-mobile-200.json), [ATM](../evidence/eft/etapa5-03-atm-200.json).
@@ -66,4 +66,4 @@ Diagnóstico TLS anterior Etapa 5 y BFF fuera de alcance Etapa 4: causas corregi
 
 Semanas 5–8/benchmarks: antecedentes y datasets acotados, no nuevo runtime EFT. Etapas 1–2 y README-semana-8.md: evolución; pendientes antiguos pueden estar resueltos.
 
-Inventario exhaustivo: [auditoría final](auditoria-documental-final.md). Las 20 principales son un banco de selección: extraer resultados legibles con referencia, no insertar archivos completos en informe/video.
+Este índice reúne 20 evidencias principales, 13 capturas AWS y las fuentes complementarias indicadas arriba, con sus fechas y límites. Los informes técnicos de etapas conservan el contexto de cada ejecución; para Batch, consultar [Etapa 1](informe-etapa-1.md#batch), y para routing, outbox y failover local, [Etapa 6](informe-etapa-6-escalabilidad.md). Extraer resultados legibles con referencia, sin insertar archivos completos en informe/video.

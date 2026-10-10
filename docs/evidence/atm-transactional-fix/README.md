@@ -1,5 +1,7 @@
 # Evidencia — corrección transaccional ATM
 
+> Documento histórico del escenario indicado; sus estados y comandos corresponden a esa validación. El estado final EFT se describe en los documentos de raíz.
+
 Esta carpeta corresponde a la corrección posterior a la entrega de Semana 5 basada en retroalimentación docente.
 No sustituye ni reescribe la evidencia histórica de `docs/evidence/semana-5/`.
 

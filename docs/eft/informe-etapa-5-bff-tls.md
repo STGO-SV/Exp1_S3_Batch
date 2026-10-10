@@ -1,5 +1,7 @@
 # Etapa 5: TLS vigente y regresión de BFF legacy
 
+> Documento histórico de trazabilidad interna. Estado final (2026-10-10): desarrollo técnico completo; EFT integrada en main y publicada en GitHub. Despliegue en entorno AWS EC2 ejecutado y documentado; capturas finales incorporadas. Informe PDF generado con la plantilla oficial y DOCX editable disponible. Video grabado y entregado fuera del repositorio, sin enlace alojado en este árbol.
+
 Fecha: 2026-10-04. Rama: `eft`. Base: `fbcc2d2`.
 
 ## Resultado y alcance
